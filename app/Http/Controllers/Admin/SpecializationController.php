@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Specialization;
 use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Session;
 class SpecializationController extends Controller
 {
     use UploadTrait;
@@ -42,6 +42,7 @@ class SpecializationController extends Controller
             "description" => $request->description, 
             "status" => $request->status,
         ]); 
+        Session::flash("status","Create Specialization Successfully");
         return redirect()->route("admin.specialization.index");
     }
 
@@ -68,8 +69,22 @@ class SpecializationController extends Controller
     public function update(Request $request, string $id)
     {
         $specialization = Specialization::findOrFail($id);
-        dd($specialization);
-        
+        $request->validate([
+            "name" => ["required"], 
+            "image" => ["image"],
+            "description" => ["required"], 
+            "status" => ["required"],
+        ]); 
+        $path = $this->updateImage($request,$specialization->image,"uploads","image");
+        $specialization->update([
+            "name" => $request->name, 
+            "description" => $request->description, 
+            "status" => $request->status, 
+            "image" => $path ? $path : $specialization->image,
+        ]);
+        Session::flash("status","Update Specialization Successfully");
+
+        return redirect()->route("admin.specialization.index");
     }
 
     /**
@@ -79,7 +94,7 @@ class SpecializationController extends Controller
     {
         $specialization = Specialization::findOrFail($id);
         $specialization->delete();
-        return response(["status" => "success"]);
+        return response(["status" => "success","message"=>"Delete Specialization Successfully"]);
     }
 
     // Change Status 
@@ -87,6 +102,6 @@ class SpecializationController extends Controller
         $specialization = Specialization::findOrFail($id);
         $newStatus = !$specialization->status; 
         $specialization->update(["status" =>$newStatus]);
-        return response(["status" => "success"]);
+        return response(["status" => "success","message"=>"Change Specialization Status Successfully"]);
     }
 }

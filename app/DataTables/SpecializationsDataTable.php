@@ -48,7 +48,7 @@ class SpecializationsDataTable extends DataTable
                         </label>';
                 }
             })
-            ->rawColumns(["banner","action","status"])
+            ->rawColumns(["banner","action","status","description"])
             ->setRowId('id');
     }
 
@@ -98,7 +98,7 @@ class SpecializationsDataTable extends DataTable
             ->printable(false)
             ->width(200)
             ->addClass('text-center'),
-         
+            
         ];
     }
 

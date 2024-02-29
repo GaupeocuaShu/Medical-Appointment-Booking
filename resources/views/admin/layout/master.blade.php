@@ -6,7 +6,8 @@
   <meta name="csrf-token" content="{{ csrf_token() }}" />
   
   <title>General Dashboard &mdash; Stisla</title>
-
+  {{-- Toastify --}}
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <!-- General CSS Files -->
   <link rel="stylesheet" href="{{asset("admin/modules/bootstrap/css/bootstrap.min.css")}}">
   <link rel="stylesheet" href="{{asset("admin/modules/fontawesome/css/all.min.css")}}">
@@ -78,7 +79,11 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-</script>
+  </script>
+  {{-- Toastify --}}
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  {{-- Sweat Alert  --}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   {{-- Fontawesom Icon --}}
   <script src="https://kit.fontawesome.com/1027857984.js" crossorigin="anonymous"></script>
   <!-- JS Libraies -->
@@ -99,33 +104,102 @@
   <script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
   <script>
+    @if ($errors->any())
+        @foreach ($errors->all() as $err)
+       
+                Toastify({
+                text: "{{ $err }}",
+                duration: 3000,
+                className: "info",
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                }
+                }).showToast();
+       
+        @endforeach
+    @endif
+    @if (Session::has('status'))
+        Toastify({
+            text: "{{ session('status') }}",
+            duration: 3000,
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+        }).showToast();
+    @endif
+  </script>
+  <script>
+    
     // ------------------------------ Change Status --------------------------------- 
     $("body").on("click",".status",function(){
       const URL = $(this).data("url");
-
       $.ajax({
         type: "PUT",
         url: URL ,
         dataType: "JSON",
-        success: function (data) {
-          alert(data.status);
+        success: function (data) {       
+          if(data.status == 'success'){
+            Toastify({
+            text: data.message,
+            className:"info",  
+            style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+            }).showToast();
+          }
+          else {
+            Toastify({
+            text: data.message,
+            className:"info",  
+            style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+            }).showToast();
+          }
         },
       });
     }) 
     // ------------------------------ Delete Items --------------------------------- 
     $("body").on("click",".delete",function(){
       const URL = $(this).data("url");
-      $.ajax({
-        type:"DELETE",
-        url: URL ,
-        dataType: "JSON",
-        success:(data) => {
-          if(data.status == "success"){
-            alert($(this));
-            $(this).parent().parent().hide();
-          }
-        },
+      Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            type:"DELETE",
+            url: URL ,
+            dataType: "JSON",
+            success:(data) => {
+              if(data.status == "success"){
+                Swal.fire({
+                title: "Deleted!",
+                text: data.message,
+                icon: "success"
+                });
+                $(this).parent().parent().hide();
+              }
+              else{ 
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Something went wrong!",
+                  footer: '<a href="#">Why do I have this issue?</a>'
+                });
+              }
+            },
+          });
+
+        }
       });
+
     })
   </script> 
   @stack('scripts')

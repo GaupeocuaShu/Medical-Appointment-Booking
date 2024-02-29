@@ -16,9 +16,9 @@
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-12">
                     <div class="card">
-                      <form enctype="multipart/form-data" action="{{route("admin.specialization.update",$specialization->id)}}"> 
-                        @csrf
+                      <form method="POST" enctype="multipart/form-data" action="{{route("admin.specialization.update",$specialization->id)}}"> 
                         @method("PUT")
+                        @csrf
                         <div class="card-body">
                             <div>
                                 <label>Specialization Image</label>
