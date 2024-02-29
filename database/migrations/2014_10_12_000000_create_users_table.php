@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('first_name')->nullable();
+            $table->string('middle_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->text("address")->nullable(); 
+            $table->string("phone")->nullable(); 
+            $table->string("avatar")->nullable();
+            $table->tinyInteger("gender")->nullable();
+            $table->text("description")->nullable();
+            $table->enum("role",['user','doctor','admin'])->default('user');
+            $table->boolean("status")->default(true);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -21,7 +30,6 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */
