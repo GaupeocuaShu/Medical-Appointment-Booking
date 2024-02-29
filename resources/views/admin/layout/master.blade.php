@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
+  
   <title>General Dashboard &mdash; Stisla</title>
 
   <!-- General CSS Files -->
@@ -70,6 +72,13 @@
   <script src="{{asset("admin/modules/nicescroll/jquery.nicescroll.min.js")}}"></script>
   <script src="{{asset("admin/modules/moment.min.js")}}"></script>
   <script src="{{asset("admin/js/stisla.js")}}"></script>
+  <script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
   {{-- Fontawesom Icon --}}
   <script src="https://kit.fontawesome.com/1027857984.js" crossorigin="anonymous"></script>
   <!-- JS Libraies -->
@@ -89,7 +98,36 @@
   {{-- Datatable --}}
   <script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <script>
+    // ------------------------------ Change Status --------------------------------- 
+    $("body").on("click",".status",function(){
+      const URL = $(this).data("url");
 
+      $.ajax({
+        type: "PUT",
+        url: URL ,
+        dataType: "JSON",
+        success: function (data) {
+          alert(data.status);
+        },
+      });
+    }) 
+    // ------------------------------ Delete Items --------------------------------- 
+    $("body").on("click",".delete",function(){
+      const URL = $(this).data("url");
+      $.ajax({
+        type:"DELETE",
+        url: URL ,
+        dataType: "JSON",
+        success:(data) => {
+          if(data.status == "success"){
+            alert($(this));
+            $(this).parent().parent().hide();
+          }
+        },
+      });
+    })
+  </script> 
   @stack('scripts')
 </body>
 </html>

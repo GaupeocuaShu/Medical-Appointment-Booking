@@ -23,12 +23,32 @@ class SpecializationsDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
      
+            ->addColumn('banner',function($query){
+                $image = "<img class='rounded' width='200' src = '".asset($query->image)."' alt='$query->name'/>";
+                return $image;
+            })
             ->addColumn('action', function($query){
-                $updateBtn = "<button class='btn btn-primary'><i class='fa-solid fa-pen-to-square'></i> </button> &emsp;"; 
-                $deleteBtn = "<button class='btn btn-danger'><i class='fa-solid fa-trash-can-arrow-up'></i></button>"; 
+                $updateBtn = "<a class='btn btn-primary' href='".route("admin.specialization.edit",$query->id)."'><i class='fa-solid fa-pen-to-square'></i> </a> &emsp;"; 
+                $deleteBtn = "<button class='delete btn btn-danger' data-url='".route("admin.specialization.destroy", $query->id) ."'><i class='fa-solid fa-trash-can-arrow-up'></i></button>"; 
 
                 return $updateBtn.$deleteBtn;
             })
+            ->addColumn("status", function ($query) {
+                if ($query->status == 1) {
+                    return
+                        '<label class="custom-switch mt-2">
+                            <input type="checkbox" checked data-url=" ' . route("admin.specialization.change-status", $query->id) . '" class="status custom-switch-input">
+                            <span class="custom-switch-indicator"></span>
+                        </label>';
+                } else {
+                    return
+                        '<label class="custom-switch mt-2">
+                            <input type="checkbox" data-url=" ' . route("admin.specialization.change-status", $query->id) . '"  class="status custom-switch-input">
+                            <span class="custom-switch-indicator"></span>
+                        </label>';
+                }
+            })
+            ->rawColumns(["banner","action","status"])
             ->setRowId('id');
     }
 
@@ -68,10 +88,11 @@ class SpecializationsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make("image"),
+            Column::make('id')->width(10),
+            Column::computed("banner")->width(200),
             Column::make("name"),
             Column::make("description"),
+            Column::make("status"),
             Column::computed('action')
             ->exportable(false)
             ->printable(false)

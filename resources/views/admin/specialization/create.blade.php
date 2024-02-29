@@ -12,24 +12,25 @@
           </div>
 
         <div class="section-body">
-            <h2 class="section-title">Specialization Forms</h2>
+            <h2 class="section-title">Specialization Create Forms</h2>
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-12">
                     <div class="card">
                   
-                      <form action="">
+                      <form enctype="multipart/form-data" action="{{route("admin.specialization.store")}}" method="POST"> 
+                        @csrf
                         <div class="card-body">
                           <div class="form-group">
                             <label>Image</label>
-                            <input type="file" class="form-control">
+                            <input name="image" type="file" class="form-control">
                           </div>
                           <div class="form-group">
                             <label>Name</label>
-                            <input type="text" class="form-control">
+                            <input name="name" type="text" class="form-control">
                           </div>
                           <div class="form-group ">
                             <label>Description</label>
-                            <textarea name="description" class="form-control summernote-simple">
+                            <textarea name="description" name="description" class="form-control summernote-simple">
                                
                             </textarea>
                           </div>
@@ -41,7 +42,7 @@
                             </select>   
                         </div>
                         <button class="btn btn-primary"><i class="fa-solid fa-circle-check"></i></button>&emsp;
-                        <a href="{{route("admin.dashboard")}}"><button class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i></button></a>
+                        <a href="{{route("admin.specialization.index")}}" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i></a>
                       </form>
                      
                     </div>

@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\SpecializationsDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Specialization;
+use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
 
 class SpecializationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use UploadTrait;
     public function index(SpecializationsDataTable $datatable)
     {
         return $datatable->render("admin.specialization.index"); 
@@ -29,7 +29,20 @@ class SpecializationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "name" => ["required"], 
+            "image" => ["image"],
+            "description" => ["required"], 
+            "status" => ["required"],
+        ]); 
+        $path = $this->uploadImage($request,"uploads","image"); 
+        Specialization::create([
+            "image" => $path,
+            "name" => $request->name, 
+            "description" => $request->description, 
+            "status" => $request->status,
+        ]); 
+        return redirect()->route("admin.specialization.index");
     }
 
     /**
@@ -45,7 +58,8 @@ class SpecializationController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $specialization = Specialization::findOrFail($id);
+        return view("admin.specialization.edit",compact("specialization"));
     }
 
     /**
@@ -53,7 +67,9 @@ class SpecializationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $specialization = Specialization::findOrFail($id);
+        dd($specialization);
+        
     }
 
     /**
@@ -61,6 +77,16 @@ class SpecializationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $specialization = Specialization::findOrFail($id);
+        $specialization->delete();
+        return response(["status" => "success"]);
+    }
+
+    // Change Status 
+    public function changeStatus(string $id){
+        $specialization = Specialization::findOrFail($id);
+        $newStatus = !$specialization->status; 
+        $specialization->update(["status" =>$newStatus]);
+        return response(["status" => "success"]);
     }
 }

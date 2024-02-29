@@ -19,5 +19,6 @@ Route::post("profile/password-update",[ProfileController::class,'passwordUpdate'
 
 
 // Specialization  --------------------------------------
+Route::put("specialization/{id}/change-status",[SpecializationController::class,'changeStatus'])->name("specialization.change-status");
 Route::resource("specialization",SpecializationController::class);
 // Specialization  --------------------------------------
