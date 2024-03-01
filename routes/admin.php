@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\admin\DoctorController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SpecializationController;
 use Illuminate\Support\Facades\Route;
@@ -22,3 +23,10 @@ Route::post("profile/password-update",[ProfileController::class,'passwordUpdate'
 Route::put("specialization/{id}/change-status",[SpecializationController::class,'changeStatus'])->name("specialization.change-status");
 Route::resource("specialization",SpecializationController::class);
 // Specialization  --------------------------------------
+
+
+// Doctor  --------------------------------------
+Route::resource("doctor",DoctorController::class);
+// Doctor  --------------------------------------
+
+

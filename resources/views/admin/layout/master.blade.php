@@ -11,13 +11,13 @@
   <!-- General CSS Files -->
   <link rel="stylesheet" href="{{asset("admin/modules/bootstrap/css/bootstrap.min.css")}}">
   <link rel="stylesheet" href="{{asset("admin/modules/fontawesome/css/all.min.css")}}">
-
+  
   <!-- CSS Libraries -->
   <link rel="stylesheet" href="{{asset("admin/modules/jqvmap/dist/jqvmap.min.css")}}">
   <link rel="stylesheet" href="{{asset("admin/modules/weather-icon/css/weather-icons.min.css")}}">
   <link rel="stylesheet" href="{{asset("admin/modules/weather-icon/css/weather-icons-wind.min.css")}}">
   <link rel="stylesheet" href="{{asset("admin/modules/summernote/summernote-bs4.css")}}">
-
+  
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{asset("admin/css/style.css")}}">
   <link rel="stylesheet" href="{{asset("admin/css/components.css")}}">
@@ -25,14 +25,17 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
   <!-- Start GA -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+  {{-- Selectric --}}
+  <link rel="stylesheet" href="{{asset("admin/modules/select2/dist/css/select2.min.css")}}">
+  <link rel="stylesheet" href="{{asset("admin/modules/jquery-selectric/selectric.css")}}">
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'UA-94034622-3');
-</script>
+    gtag('config', 'UA-94034622-3');
+  </script>
 <!-- /END GA -->
 </head>
 
@@ -93,7 +96,6 @@
   <script src="{{asset("admin/modules/jqvmap/dist/maps/jquery.vmap.world.js")}}"></script>
   <script src="{{asset("admin/modules/summernote/summernote-bs4.js")}}"></script>
   <script src="{{asset("admin/modules/chocolat/dist/js/jquery.chocolat.min.js")}}"></script>
-
   <!-- Page Specific JS File -->
   <script src="{{asset("admin/js/page/index-0.js")}}"></script>
   
@@ -103,10 +105,14 @@
   {{-- Datatable --}}
   <script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  {{-- Selectric --}}
+  <script src="{{asset("admin/modules/select2/dist/js/select2.full.min.js")}}"></script>
+  <script src="{{asset("admin/modules/jquery-selectric/jquery.selectric.min.js")}}"></script>
+
   <script>
     @if ($errors->any())
-        @foreach ($errors->all() as $err)
-       
+    @foreach ($errors->all() as $err)
+    
                 Toastify({
                 text: "{{ $err }}",
                 duration: 3000,
