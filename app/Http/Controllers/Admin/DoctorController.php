@@ -49,10 +49,9 @@ class DoctorController extends Controller
             "experience_list"=>$request->experience_list, 
             "prize_and_research"=>$request->prize_and_research, 
         ]);
-        Doctor_Specialization::create([
-            "doctor_id" => $doctor->id, 
-            "specialization_id" => $request->specialization_id,
-        ]); 
+        foreach($request->specialization_id as $id){
+            $doctor->specializations()->attach($id); 
+        }
         Session::flash("status","Create Doctor Successfully");
         return redirect()->route("admin.doctor.index");
     }   
@@ -62,13 +61,16 @@ class DoctorController extends Controller
     {   
         $doctor = Doctor::with("specializations","user")->findOrFail($id);
     
-        return view("admin.doctor.show",compact());
+        return view("admin.doctor.show");
     }
 
   
     public function edit(string $id)
     {
-        //
+        $users = User::get();
+        $specializations = Specialization::get();
+        $doctor = Doctor::findOrFail($id); 
+        return view("admin.doctor.edit",compact("doctor","users","specializations"));
     }
 
     /**
@@ -84,6 +86,8 @@ class DoctorController extends Controller
      */
     public function destroy(string $id)
     {
-        
+        $doctor = Doctor::findOrFail($id); 
+        $doctor->delete();
+        return response(["status"=>"success","message"=>"Delete Doctor successfully"]);
     }
 }

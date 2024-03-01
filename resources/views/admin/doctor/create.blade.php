@@ -20,7 +20,6 @@
                       <form enctype="multipart/form-data" action="{{route("admin.doctor.store")}}" method="POST"> 
                         @csrf
                         <div class="card-body">
-
                             <div class="form-group">
                                 <label>Academic Degree</label>
                                 <input name="academic_degree" type="text" class="form-control">
@@ -74,16 +73,12 @@
                                 </select>  
                             </div> 
                             <div class="form-group">
-                                <label>Select2 Multiple</label>
-                                <select class="form-control select2 select2-hidden-accessible" multiple="" tabindex="-1" aria-hidden="true">
-                                  <option>Option 1</option>
-                                  <option>Option 2</option>
-                                  <option>Option 3</option>
-                                  <option>Option 4</option>
-                                  <option>Option 5</option>
-                                  <option>Option 6</option>
+                                <label>Specialization</label>
+                                <select name="specialization_id[]" class="form-control select2" multiple="multiple" >
+                                  @foreach ($specializations as $s)
+                                      <option value="{{$s->id}}">{{$s->name}}</option>
+                                  @endforeach
                                 </select>
-                                <span class="select2 select2-container select2-container--default select2-container--above select2-container--focus" dir="ltr" style="width: 548px;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li class="select2-selection__choice" title="Option 1"><span class="select2-selection__choice__remove" role="presentation">×</span>Option 1</li><li class="select2-selection__choice" title="Option 3"><span class="select2-selection__choice__remove" role="presentation">×</span>Option 3</li><li class="select2-selection__choice" title="Option 4"><span class="select2-selection__choice__remove" role="presentation">×</span>Option 4</li><li class="select2-selection__choice" title="Option 5"><span class="select2-selection__choice__remove" role="presentation">×</span>Option 5</li><li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                               </div>
 
                             <button class="btn btn-primary"><i class="fa-solid fa-circle-check"></i></button>&emsp;

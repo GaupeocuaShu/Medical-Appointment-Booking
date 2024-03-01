@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="{{asset("admin/modules/weather-icon/css/weather-icons.min.css")}}">
   <link rel="stylesheet" href="{{asset("admin/modules/weather-icon/css/weather-icons-wind.min.css")}}">
   <link rel="stylesheet" href="{{asset("admin/modules/summernote/summernote-bs4.css")}}">
+  {{-- Selectric --}}
+  <link rel="stylesheet" href="{{asset("admin/modules/select2/dist/css/select2.min.css")}}">
+  <link rel="stylesheet" href="{{asset("admin/modules/jquery-selectric/selectric.css")}}">
   
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{asset("admin/css/style.css")}}">
@@ -26,9 +29,6 @@
   <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
   <!-- Start GA -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
-  {{-- Selectric --}}
-  <link rel="stylesheet" href="{{asset("admin/modules/select2/dist/css/select2.min.css")}}">
-  <link rel="stylesheet" href="{{asset("admin/modules/jquery-selectric/selectric.css")}}">
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -58,6 +58,7 @@
 
       {{-- Footer --}}
       <footer class="main-footer">
+   
         <div class="footer-left">
           Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
         </div>
@@ -96,6 +97,9 @@
   <script src="{{asset("admin/modules/jqvmap/dist/maps/jquery.vmap.world.js")}}"></script>
   <script src="{{asset("admin/modules/summernote/summernote-bs4.js")}}"></script>
   <script src="{{asset("admin/modules/chocolat/dist/js/jquery.chocolat.min.js")}}"></script>
+  {{-- Selectric --}}
+  <script src="{{asset("admin/modules/select2/dist/js/select2.full.min.js")}}"></script>
+  <script src="{{asset("admin/modules/jquery-selectric/jquery.selectric.min.js")}}"></script>
   <!-- Page Specific JS File -->
   <script src="{{asset("admin/js/page/index-0.js")}}"></script>
   
@@ -105,9 +109,6 @@
   {{-- Datatable --}}
   <script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-  {{-- Selectric --}}
-  <script src="{{asset("admin/modules/select2/dist/js/select2.full.min.js")}}"></script>
-  <script src="{{asset("admin/modules/jquery-selectric/jquery.selectric.min.js")}}"></script>
 
   <script>
     @if ($errors->any())

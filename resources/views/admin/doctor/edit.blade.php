@@ -16,37 +16,71 @@
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-12">
                     <div class="card">
-                      <form method="POST" enctype="multipart/form-data" action="{{route("admin.doctor.update",$doctor->id)}}"> 
-                        @method("PUT")
+                  
+                      <form enctype="multipart/form-data" action="{{route("admin.doctor.update",$doctor->id)}}" method="POST"> 
                         @csrf
                         <div class="card-body">
-                            <div>
-                                <label>Doctor Image</label>
-                                <br/>
-                                <img width="300" src="{{asset("$doctor->image")}}"
-                                alt="{{$doctor->name}}"/>
+                            <div class="form-group">
+                                <label>Academic Degree</label>
+                                <input value="{{$doctor->academic_degree}}" name="academic_degree" type="text" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label>Image</label>
-                                <input name="image" type="file" class="form-control">
-                             </div>
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input value="{{$doctor->name}}" name="name" type="text" class="form-control">
+                                <label>Experience Year</label>
+                                <input  value="{{$doctor->experience_year}}" name="experience_year" type="text" class="form-control">
                             </div>
                             <div class="form-group ">
-                                <label>Description</label>
-                                <textarea name="description" name="description" class="form-control summernote-simple">
-                                    {{$doctor->description}}
+                                <label>Title</label>
+                                <textarea name="title"  class="form-control summernote">
+                                   {{$doctor->title}}
+                                </textarea>
+                            </div>
+                            <div class="form-group ">
+                                <label>Note</label>
+                                <textarea name="note"  class="form-control summernote">
+                                    {{$doctor->note}}
+                                </textarea>
+                            </div>
+                            <div class="form-group ">
+                                <label>Introduction</label>
+                                <textarea name="introduction"  class="form-control summernote">
+                                    {{$doctor->introduction}}
+                                </textarea>
+                            </div>
+                            <div class="form-group ">
+                                <label>Training Process</label>
+                                <textarea name="training_process"  class="form-control summernote">
+                                    {{$doctor->training_process}}
+                                </textarea>
+                            </div>
+                            <div class="form-group ">
+                                <label>Experience List</label>
+                                <textarea name="experience_list"  class="form-control summernote">
+                                    {{$doctor->experience_list}}
+                                </textarea>
+                            </div>
+                            <div class="form-group ">
+                                <label>Prize And Research</label>
+                                <textarea name="prize_and_research"  class="form-control summernote">
+                                    {{$doctor->prize_and_research}}
                                 </textarea>
                             </div>
                             <div class="form-group">
-                                <label>Status</label>
-                                <select  name="status" class="form-control">
-                                    <option value="1" {{$doctor->status==1 ? "selected" : " "}}>Active</option>
-                                    <option value="0" {{$doctor->status==0 ? "selected" : " "}}>Inactive</option>
-                                </select>   
-                            </div>
+                                <label>User</label>
+                                <select name="user_id" class="form-control">
+                                    @foreach ($users as $u)
+                                        <option {{$doctor->user_id == $u->id ? "selected" : " "}} value="{{$u->id}}">{{$u->email}}</option>
+                                    @endforeach
+                                </select>  
+                            </div> 
+                            <div class="form-group">
+                                <label>Specialization</label>
+                                <select name="specialization_id[]" class="form-control select2" multiple="multiple" >
+                                  @foreach ($specializations as $s)
+                                      <option  value="{{$s->id}}">{{$s->name}}</option>
+                                  @endforeach
+                                </select>
+                              </div>
+
                             <button class="btn btn-primary"><i class="fa-solid fa-circle-check"></i></button>&emsp;
                             <a href="{{route("admin.doctor.index")}}" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i></a>
                         </div>
@@ -60,3 +94,7 @@
   </section>
     
 @endsection
+
+@push("scripts")
+
+@endpush

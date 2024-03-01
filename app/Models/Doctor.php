@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Doctor extends Model
 {
     use HasFactory;
+    
     protected $fillable = [
         "academic_degree", 
         "experience_year",
@@ -25,5 +26,4 @@ class Doctor extends Model
     public function specializations(){
         return $this->belongsToMany(Specialization::class);
     }
-
 }

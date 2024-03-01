@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
-            $table->integer("specialization_id");
             $table->integer("user_id");
             $table->string("academic_degree")->nullable(); 
             $table->integer("experience_year")->nullable(); 
@@ -34,5 +33,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('doctors');
     }
-
 };
