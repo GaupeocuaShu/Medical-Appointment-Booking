@@ -9,6 +9,7 @@ use App\Models\Doctor_Specialization;
 use App\Models\Specialization;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 
 class DoctorController extends Controller
@@ -120,5 +121,9 @@ class DoctorController extends Controller
             $specializationIDs[] = $s->id;
         };
         return response($specializationIDs);
+    }
+    public function workingTime(){
+        $today = Carbon::today();    
+        return view("admin.doctor.working-time",compact("today"));
     }
 }

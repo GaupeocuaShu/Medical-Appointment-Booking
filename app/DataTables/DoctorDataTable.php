@@ -23,10 +23,11 @@ class DoctorDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
+                $workingTimeBtn = "<a class='btn btn-info' href='".route("admin.doctor.working-time",$query->id)."'><i class='fa-solid fa-circle-info'></i> </a> &emsp;"; 
                 $showBtn = "<a class='btn btn-info' href='".route("admin.doctor.show",$query->id)."'><i class='fa-solid fa-circle-info'></i> </a> &emsp;"; 
                 $updateBtn = "<a class='btn btn-primary' href='".route("admin.doctor.edit",$query->id)."'><i class='fa-solid fa-pen-to-square'></i> </a> &emsp;"; 
                 $deleteBtn = "<button class='delete btn btn-danger' data-url='".route("admin.doctor.destroy", $query->id) ."'><i class='fa-solid fa-trash-can-arrow-up'></i></button>"; 
-                return $showBtn.$updateBtn.$deleteBtn;
+                return  $workingTimeBtn.$showBtn.$updateBtn.$deleteBtn;
             })
             ->addColumn('title',function($query){
                 return $query->academic_degree." ".getFullName($query->user);
@@ -81,7 +82,7 @@ class DoctorDataTable extends DataTable
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(200)
+                  ->width(300)
                   ->addClass('text-center'),
         ];
     }

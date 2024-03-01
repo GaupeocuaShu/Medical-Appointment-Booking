@@ -28,6 +28,7 @@ Route::resource("specialization",SpecializationController::class);
 // Doctor  --------------------------------------
 
 // Get Specialization belongs to doctor 
+Route::get("doctor/{id}/working-time",[DoctorController::class,"workingTime"])->name("doctor.working-time");
 Route::get("doctor/{id}/get-specialization",[DoctorController::class,"getSpecialization"])->name("doctor.get-specialization");
 Route::resource("doctor",DoctorController::class);
 // Doctor  --------------------------------------
