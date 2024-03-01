@@ -28,7 +28,13 @@ class DoctorDataTable extends DataTable
                 $deleteBtn = "<button class='delete btn btn-danger' data-url='".route("admin.doctor.destroy", $query->id) ."'><i class='fa-solid fa-trash-can-arrow-up'></i></button>"; 
                 return $showBtn.$updateBtn.$deleteBtn;
             })
-            ->rawColumns(["action"])
+            ->addColumn('title',function($query){
+                return $query->academic_degree." ".getFullName($query->user);
+            })
+            ->addColumn('experienceYear',function($query){
+                return $query->experience_year." Experience Years";
+            })
+            ->rawColumns(["action","title"])
             ->setRowId('id');
     }
 
@@ -69,8 +75,9 @@ class DoctorDataTable extends DataTable
     {
         return [
             Column::make('id'),
-
-
+            Column::make('title'),
+            Column::make('experienceYear'),
+       
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)

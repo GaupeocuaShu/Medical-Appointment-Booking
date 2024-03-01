@@ -20,7 +20,6 @@
   {{-- Selectric --}}
   <link rel="stylesheet" href="{{asset("admin/modules/select2/dist/css/select2.min.css")}}">
   <link rel="stylesheet" href="{{asset("admin/modules/jquery-selectric/selectric.css")}}">
-  
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{asset("admin/css/style.css")}}">
   <link rel="stylesheet" href="{{asset("admin/css/components.css")}}">

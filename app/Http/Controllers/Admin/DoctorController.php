@@ -29,6 +29,7 @@ class DoctorController extends Controller
 
     public function store(Request $request)
     {
+   
         $request->validate([
             "academic_degree" => ["required"],
             "experience_year" => ["required"], 
@@ -60,16 +61,17 @@ class DoctorController extends Controller
     public function show(string $id)
     {   
         $doctor = Doctor::with("specializations","user")->findOrFail($id);
-    
-        return view("admin.doctor.show");
+        return view("admin.doctor.show",compact("doctor"));
     }
 
   
     public function edit(string $id)
     {
+     
         $users = User::get();
         $specializations = Specialization::get();
-        $doctor = Doctor::findOrFail($id); 
+        $doctor = Doctor::with("specializations")->findOrFail($id); 
+
         return view("admin.doctor.edit",compact("doctor","users","specializations"));
     }
 
@@ -77,8 +79,28 @@ class DoctorController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        //
+    { 
+        $request->validate([
+            "academic_degree" => ["required"],
+            "experience_year" => ["required"], 
+            "title" => ["required"], 
+            "user_id" => ["required"], 
+        ]); 
+        
+        $doctor = Doctor::findOrFail($id);
+        $doctor->update([
+            "academic_degree"=>$request->academic_degree, 
+            "experience_year"=>$request->experience_year,
+            "user_id"=>$request->user_id,
+            "title"=>$request->title,
+            "note"=>$request->note,
+            "introduction"=>$request->introduction,
+            "training_process"=>$request->training_process,
+            "experience_list"=>$request->experience_list,
+            "prize_and_research"=>$request->prize_and_research,
+        ]);
+        $doctor->specializations()->sync($request->specialization_id);
+        return redirect()->route("admin.doctor.index");
     }
 
     /**
@@ -89,5 +111,14 @@ class DoctorController extends Controller
         $doctor = Doctor::findOrFail($id); 
         $doctor->delete();
         return response(["status"=>"success","message"=>"Delete Doctor successfully"]);
+    }
+    // Get Specialization ID
+    public function getSpecialization(string $id){
+        $doctor = Doctor::with("specializations")->findOrFail($id); 
+        $specializationIDs = array();
+        foreach($doctor->specializations as $s){
+            $specializationIDs[] = $s->id;
+        };
+        return response($specializationIDs);
     }
 }

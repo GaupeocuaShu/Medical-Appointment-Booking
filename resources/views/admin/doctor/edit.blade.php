@@ -18,6 +18,7 @@
                     <div class="card">
                   
                       <form enctype="multipart/form-data" action="{{route("admin.doctor.update",$doctor->id)}}" method="POST"> 
+                        @method("PUT")
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
@@ -74,12 +75,17 @@
                             </div> 
                             <div class="form-group">
                                 <label>Specialization</label>
+                                <ul>
+                                    @foreach ($doctor->specializations as $s)
+                                        <li>{{$s->name}}</li>
+                                    @endforeach
+                                </ul>
                                 <select name="specialization_id[]" class="form-control select2" multiple="multiple" >
-                                  @foreach ($specializations as $s)
-                                      <option  value="{{$s->id}}">{{$s->name}}</option>
+                                  @foreach ($specializations as $s)                           
+                                        <option value="{{$s->id}}">{{$s->name}}</option>
                                   @endforeach
                                 </select>
-                              </div>
+                            </div>
 
                             <button class="btn btn-primary"><i class="fa-solid fa-circle-check"></i></button>&emsp;
                             <a href="{{route("admin.doctor.index")}}" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i></a>
@@ -96,5 +102,16 @@
 @endsection
 
 @push("scripts")
-
+    <script> 
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                url: "{{route('admin.doctor.get-specialization',$doctor->id)}}",
+                dataType: "JSON",
+                success: function (data) {
+                    $('.select2').select2().val(data).trigger('change')
+                },
+            });
+        })
+    </script>
 @endpush

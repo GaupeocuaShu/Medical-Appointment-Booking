@@ -104,4 +104,6 @@ class SpecializationController extends Controller
         $specialization->update(["status" =>$newStatus]);
         return response(["status" => "success","message"=>"Change Specialization Status Successfully"]);
     }
+
+
 }

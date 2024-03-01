@@ -17,12 +17,62 @@
                 <div class="col-12 col-md-12 col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <div>
-                                <img src=""/>
+                            <div class="d-flex align-items-center">
+                                <img width="200" alt="{{getFullName($doctor->user)}}" src="{{asset($doctor->user->avatar)}}"/>
+                                <div> 
+                                    <h3 class="font-weight-bold">{{$doctor->academic_degree." ".getFullName($doctor->user)}}</h3>
+                                    <p><span class="font-weight-bold text-primary">Doctor</span> | <span class="font-weight-bold">{{$doctor->experience_year}}</span> experiences year</p>
+                          
+                                    <p><span>Speciality</span> &emsp;
+                                        @foreach ($doctor->specializations as $s)
+                                            <span class="text-primary font-weight-bold">
+                                                    {{$s->name}} &emsp13;
+                                            </span>
+                                        @endforeach
+                                    </p>
+
+                                    <p>
+                                        <span>Title</span> &emsp;
+                                            <span class="text-primary font-weight-bold">
+                                                    {{$s->name}} &emsp13;
+                                            </span>
+                                    </p>
+                                </div>
                             </div>
+                            @if ($doctor->note)             
+                                <div>
+                                    <h5>Note</h5>
+                                    <p>{!!$doctor->note!!}</p>
+                                </div>
+                            @endif
+                            @if ($doctor->introduction)                      
+                                <div>
+                                    <h5>Introduction</h5>
+                                    <p>{!!$doctor->introduction!!}</p>
+                                </div>
+                            @endif
+                            @if ($doctor->training_process)
+                                <div>
+                                    <h5>Training Process</h5>
+                                    <p>{!!$doctor->training_process!!}</p>
+                                </div>
+                            @endif
+                            @if ($doctor->experience_list)
+                                <div>
+                                    <h5>Experience List</h5>
+                                    <p>{!!$doctor->experience_list!!}</p>
+                                </div>
+                            @endif
+                            @if ($doctor->prize_and_research)                     
+                                <div>
+                                    <h5>Prizes & Research</h5>
+                                    {{Str::length($doctor->prize_and_research)}}
+                                    <p>{!!$doctor->prize_and_research!!}</p>
+                                </div>
+                            @endif
                             <a href="{{route("admin.doctor.index")}}" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i></a>
                         </div>
-              
+                        
                      
                     </div>
 
