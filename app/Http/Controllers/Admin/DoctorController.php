@@ -62,8 +62,23 @@ class DoctorController extends Controller
     public function show(string $id)
     {   
         $doctor = Doctor::with("specializations","user")->findOrFail($id);
-        return view("admin.doctor.show",compact("doctor"));
-    }
+        $datesFrWTime = array();
+        $timesFrWTime = array();
+        $flag = " ";
+        foreach($doctor->working_times as $wTime){
+            $carbonWTime = Carbon::create($wTime->working_time);
+            if($flag != $carbonWTime->toDateString() && $flag != " ") {
+                $datesFrWTime[$flag] = $timesFrWTime;
+                $timesFrWTime = array();
+            }
+            $timesFrWTime[] = $carbonWTime->isoFormat("HH:mm");
+            $flag = $carbonWTime->toDateString();
+            if(!next($doctor->working_times)){
+                $datesFrWTime[$flag] = $timesFrWTime;
+            }
+        }
+        return view("admin.doctor.show",compact("doctor","datesFrWTime"));
+    } 
 
   
     public function edit(string $id)

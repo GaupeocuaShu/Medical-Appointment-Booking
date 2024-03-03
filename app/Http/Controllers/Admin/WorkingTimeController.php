@@ -11,15 +11,40 @@ class WorkingTimeController extends Controller
 {
     // Get working time
     public function getWorkingTime(){
-        
+        $workingTimes = array();
+        $timeStrings = array();
+        for($i = 1 ; $i <= 7 ; $i++){
+            $workingTimesFromDB = WorkingTime::where("select_id",$i)->get(); 
+            if($workingTimesFromDB->count() > 0){
+                foreach ($workingTimesFromDB as $key => $wTime) {
+                    $time = Carbon::create($wTime->working_time);
+                    $hour = $time->hour;
+                    $minute = $time->minute; 
+                    $timeStrings[] = $hour."-".$minute;
+                }
+            }
+            if(!empty($timeStrings)) $workingTimes[$i]= $timeStrings;
+            $timeStrings=[];
+        }
+        return response($workingTimes);
     } 
+    // Delete working time
+    public function deleteWorkingTime($oldWTimes){
+        foreach($oldWTimes as $oTime){
+            $oTime->delete();
+        };
+    }
     // Update working time 
     public function updateWorkingTime(Request $request){
         $dateFromRes = Carbon::createFromDate(null,$request->month,$request->day);
         $oldWTimes= WorkingTime::whereDate("working_time",$dateFromRes->toDateString())->get();
-        if($oldWTimes->count() > 0) foreach($oldWTimes as $oTime){
-            $oTime->delete();
-        };
+        if($oldWTimes->count() > 0 || empty($request->working_time)) self::deleteWorkingTime($oldWTimes);
+        
+        if(empty($request->working_time)) {
+            return response(["status" => "success","message" => "Update Working Time Successfully"]);
+        }
+
+        // Add working time into DB 
         foreach($request->working_time as $time){
             $hour = explode("-",$time)[0]; 
             $minute = explode("-",$time)[1]; 

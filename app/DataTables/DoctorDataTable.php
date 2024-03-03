@@ -23,7 +23,7 @@ class DoctorDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
-                $workingTimeBtn = "<a class='btn btn-info' href='".route("admin.doctor.working-time",$query->id)."'><i class='fa-solid fa-circle-info'></i> </a> &emsp;"; 
+                $workingTimeBtn = "<a class='btn btn-success' href='".route("admin.doctor.working-time",$query->id)."'><i class='fa-regular fa-calendar-check'></i></a> &emsp;"; 
                 $showBtn = "<a class='btn btn-info' href='".route("admin.doctor.show",$query->id)."'><i class='fa-solid fa-circle-info'></i> </a> &emsp;"; 
                 $updateBtn = "<a class='btn btn-primary' href='".route("admin.doctor.edit",$query->id)."'><i class='fa-solid fa-pen-to-square'></i> </a> &emsp;"; 
                 $deleteBtn = "<button class='delete btn btn-danger' data-url='".route("admin.doctor.destroy", $query->id) ."'><i class='fa-solid fa-trash-can-arrow-up'></i></button>"; 

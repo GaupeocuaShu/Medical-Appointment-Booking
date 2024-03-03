@@ -73,12 +73,14 @@
                 dataType: "JSON",
                 success: function (datas) {
                     $.each(datas, function (i,v) {             
-                        $('.select2-'+k).select2().val(v).trigger('change');
+                        console.log(v);
+                        $('.select2-'+i).select2().val(v).trigger('change');
                     });
+                    // Hide update working time button 
+                    $(".update-working-time").hide();
                 },
             });
-            // Hide update working time button 
-            $(".update-working-time").hide();
+
             // Show update working time button when changing
             $(".select2").on("change",function(){
                 const id = $(this).data("id");
@@ -101,7 +103,7 @@
                     success:function(data){
                         if(data.status == "success") { 
                             $(".loading-"+id).html(text);
-                            $(".update-working-time").hide();
+                            $(".update-working-time-"+id).hide();
                             Toastify({
                             text: data.message,
                             className:"info",  
