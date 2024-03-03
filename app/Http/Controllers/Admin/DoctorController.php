@@ -122,8 +122,8 @@ class DoctorController extends Controller
         };
         return response($specializationIDs);
     }
-    public function workingTime(){
+    public function workingTime(string $id){
         $today = Carbon::today();    
-        return view("admin.doctor.working-time",compact("today"));
+        return view("admin.doctor.working-time",compact("today","id"));
     }
 }

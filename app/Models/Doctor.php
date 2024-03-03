@@ -26,4 +26,7 @@ class Doctor extends Model
     public function specializations(){
         return $this->belongsToMany(Specialization::class);
     }
+    public function working_times(){
+        return $this->hasMany(WorkingTime::class);
+    }
 }

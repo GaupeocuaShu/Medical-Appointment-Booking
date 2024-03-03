@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\admin\DoctorController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SpecializationController;
+use App\Http\Controllers\admin\WorkingTimeController;
 use Illuminate\Support\Facades\Route;
 
 // Dashboard  ------------------------------------
@@ -33,4 +34,9 @@ Route::get("doctor/{id}/get-specialization",[DoctorController::class,"getSpecial
 Route::resource("doctor",DoctorController::class);
 // Doctor  --------------------------------------
 
+
+
+// Update Working Time Table 
+Route::get("working-time/get-working-time",[WorkingTimeController::class,"getWorkingTime"])->name("working-time.get-working-time");
+Route::put("working-time/update",[WorkingTimeController::class,"updateWorkingTime"])->name("working-time.update");
 
