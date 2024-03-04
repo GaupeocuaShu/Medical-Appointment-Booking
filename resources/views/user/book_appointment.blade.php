@@ -33,17 +33,36 @@
                 @if ($loop->index == 0)
                     <div class="tab-pane tab-pane-{{$key}} fade show active " id="{{$key}}" role="tabpanel" aria-labelledby="{{$key}}-tab">
                         @foreach ($wTimes as $time)
-                            @php
-                                $endTime = Carbon\Carbon::create($time);
-                                $endTime->addMinutes(30);
-                            @endphp
-                            <button class="mb-3 time-choosing-btn btn btn-lg btn-outline-primary">{{$time}}-{{$endTime->isoFormat("HH-mm")}}</button>&emsp;
+                            <form method="POST" action="{{route("create-appointment")}}" style="display: inline-block">
+                                @csrf
+                                @php
+                                    $endTime = Carbon\Carbon::create($time);
+                                    $endTime->addMinutes(30);
+                                    $dateTime = Carbon\Carbon::create($key.$time);
+                                @endphp
+                                <input type="hidden" name="user_id" value="{{Auth::user()->id}}"/>
+                                <input type="hidden" name="patient_id" value="{{Auth::user()->patient->patient_id}}"/>
+                                <input type="hidden" name="doctor_id" value="{{$doctor->id}}"/>
+                                <input type="hidden" name="appointment" value="{{$dateTime}}"/>
+                                <button class="mb-3 time-choosing-btn btn btn-lg btn-outline-primary">{{$time}}-{{$endTime->isoFormat("HH-mm")}}</button>&emsp;
+                            </form>
+                                
                         @endforeach
                     </div>
                 @else 
                     <div class="tab-pane tab-pane-{{$key}} fade" id="{{$key}}" role="tabpanel" aria-labelledby="{{$key}}-tab">
                         @foreach ($wTimes as $time)
-                            <button class="mb-3 time-choosing-btn btn btn-lg btn-outline-primary">{{$time}}-{{$endTime->isoFormat("HH-mm")}}</button>&emsp;
+                        <form style="display: inline-block">
+                            @csrf
+                                @php
+                                    $dateTime = Carbon\Carbon::create($key.$time);
+                                @endphp
+                                <input type="hidden" name="user_id" value="{{Auth::user()->id}}"/>
+                                <input type="hidden" name="patient_id" value="{{Auth::user()->patient->patient_id}}"/>
+                                <input type="hidden" name="doctor_id" value="{{$doctor->id}}"/>
+                                <input type="hidden" name="appointment" value="{{$dateTime}}"/>
+                                <button class="mb-3 time-choosing-btn btn btn-lg btn-outline-primary">{{$time}}-{{$endTime->isoFormat("HH-mm")}}</button>&emsp;
+                            </form>
                         @endforeach
                     </div>
                 @endif
@@ -64,9 +83,19 @@
                 $(".tab-pane-"+tabID).addClass("show active");
 
             });
-            $(".time-choosing-btn").on("click",function(){
-               
-            })
+            // $("form").on("submit",function(e){
+            //     e.preventDefault();
+            //     const data = $(this).serialize();
+            //     $.ajax({
+            //         type: "POST",
+            //         url: "{{route('create-appointment')}}",
+            //         data: data,
+            //         dataType: "JSON",
+            //         success: function (response) {
+            //             console.log(response);
+            //         },
+            //     });
+            // })
         });
     </script>
 @endpush

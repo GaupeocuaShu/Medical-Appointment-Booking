@@ -23,6 +23,16 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get("/book-appointment",[BookingAppointmentController::class,"bookAppointment"]);
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get("booking-appointment",[BookingAppointmentController::class,"bookAppointment"]);
+
+    Route::post("create-appointment",[BookingAppointmentController::class,"createAppointment"])->name("create-appointment");
+
+});
 
 require __DIR__.'/auth.php';
