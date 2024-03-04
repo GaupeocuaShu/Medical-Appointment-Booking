@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string("patient_id");
             $table->integer("doctor_id");
             $table->dateTime("appointment"); 
+            $table->enum("status",["canceled","pending","confirmed","completed"])->default("pending"); 
+            $table->text("note")->nullable();
             $table->timestamps();
         });
     }

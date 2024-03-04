@@ -195,8 +195,8 @@
       </div>
     </li>
     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-      <img alt="image" src="{{!empty(Auth::user()->avatar) && asset(Auth::user()->avatar)}}" class="rounded-circle mr-1">
-      <div class="d-sm-none d-lg-inline-block">Hi, {{!empty(Auth::user()->first_name) && Auth::user()->first_name}}</div></a>
+      <img alt="image" src="{{!empty(Auth::user()->avatar) ? asset(Auth::user()->avatar) : " "}}" class="rounded-circle mr-1">
+      <div class="d-sm-none d-lg-inline-block">Hi, {{!empty(Auth::user()->first_name) ? Auth::user()->first_name : " "}}</div></a>
       <div class="dropdown-menu dropdown-menu-right">
         <div class="dropdown-title">Logged in 5 min ago</div>
         <a href="{{route("admin.profile")}}" class="dropdown-item has-icon">

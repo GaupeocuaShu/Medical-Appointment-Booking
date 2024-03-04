@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\admin\DoctorController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\SpecializationController;
 use App\Http\Controllers\admin\WorkingTimeController;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +40,23 @@ Route::resource("doctor",DoctorController::class);
 // Update Working Time Table 
 Route::get("working-time/get-working-time",[WorkingTimeController::class,"getWorkingTime"])->name("working-time.get-working-time");
 Route::put("working-time/update",[WorkingTimeController::class,"updateWorkingTime"])->name("working-time.update");
+
+
+
+// Schedule -------------------------------------------
+// Pending Schedule  
+Route::get("schedule/pending-schedule",[ScheduleController::class,"pending"])->name("schedule.pending-schedule");
+
+// Confirmed Schedule  
+Route::get("schedule/confirmed-schedule",[ScheduleController::class,"confirmed"])->name("schedule.confirmed-schedule");
+
+// completed Schedule  
+Route::get("schedule/completed-schedule",[ScheduleController::class,"completed"])->name("schedule.completed-schedule");
+
+// canceled Schedule  
+Route::get("schedule/canceled-schedule",[ScheduleController::class,"canceled"])->name("schedule.canceled-schedule");
+
+
+
+// Schedule ------------------------------------------- 
 

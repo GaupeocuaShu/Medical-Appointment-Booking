@@ -9,6 +9,6 @@ class Schedule extends Model
 {
     use HasFactory;
     public $fillable = [
-        "user_id","patient_id","doctor_id","appointment"
+        "user_id","patient_id","doctor_id","appointment","note","status"
     ];
 }
