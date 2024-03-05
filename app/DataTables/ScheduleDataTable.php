@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Schedule;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -22,6 +23,15 @@ class ScheduleDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addColumn('appointment_time',function($query){
+                $date = Carbon::create($query->appointment); 
+                return $date->isoFormat("HH:mm");
+            })
+            ->addColumn('appointment_date',function($query){
+                $date = Carbon::create($query->appointment); 
+                return $date->isoFormat("DD-MM-YY");
+            })
+
             ->addColumn('action', function($query){
                 $showBtn = "<a class='btn btn-info' href='".route("admin.doctor.show",$query->id)."'><i class='fa-solid fa-circle-info'></i> </a> &emsp;"; 
                 $updateBtn = "<a class='btn btn-primary' href='".route("admin.doctor.edit",$query->id)."'><i class='fa-solid fa-pen-to-square'></i> </a> &emsp;"; 
@@ -60,7 +70,7 @@ class ScheduleDataTable extends DataTable
                 return "<div class=' form-group'><select data-status='$query->status' data-user-phone='".$query->user->phone."'data-name='schedule-status' data-url='".route("admin.schedule.update-status",[$query->id])."' data-id='$query->id' class='status  select-status select-status-$query->id form-control'>" . $typesHTML . "</select> </div>";
             })
             ->setRowId('id')
-            ->rawColumns(["action","status"]);
+            ->rawColumns(["action","status","appointment_time","appointment_date"]);
     }
 
     /**
@@ -102,7 +112,8 @@ class ScheduleDataTable extends DataTable
             Column::make('id'),
             Column::make('patient_id'),
             Column::make('doctor_id'),
-            Column::make('appointment'),
+            Column::make('appointment_time'),
+            Column::make('appointment_date'),
             Column::computed('status'),
             Column::computed('action')
                   ->exportable(false)
