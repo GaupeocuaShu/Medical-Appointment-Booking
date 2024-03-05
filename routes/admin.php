@@ -44,6 +44,8 @@ Route::put("working-time/update",[WorkingTimeController::class,"updateWorkingTim
 
 
 // Schedule -------------------------------------------
+// Update schedule status 
+Route::put("schedule/{id}/update-status",[ScheduleController::class,"updateStatus"])->name("schedule.update-status");
 // Pending Schedule  
 Route::get("schedule/pending-schedule",[ScheduleController::class,"pending"])->name("schedule.pending-schedule");
 

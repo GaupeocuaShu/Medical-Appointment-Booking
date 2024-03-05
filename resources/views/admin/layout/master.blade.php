@@ -137,76 +137,187 @@
   </script>
   <script>
     
-    // ------------------------------ Change Status --------------------------------- 
-    $("body").on("click",".status",function(){
-      const URL = $(this).data("url");
-      $.ajax({
-        type: "PUT",
-        url: URL ,
-        dataType: "JSON",
-        success: function (data) {       
-          if(data.status == 'success'){
-            Toastify({
-            text: data.message,
-            className:"info",  
-            style: {
-              background: "linear-gradient(to right, #00b09b, #96c93d)",
-            }
-            }).showToast();
+    $(document).ready(function() {
+      // Do anything
+      
+      // ------------------------------ Change Status --------------------------------- 
+      $("body").on("change",".status",function(){
+
+        const currentStatus = $(this).data("status");
+        const phone = $(this).data('user-phone');
+        const URL = $(this).data("url");
+        const status = $(this).val()
+        const id = $(this).data("id");
+        const selectName = $(this).data("name");
+        const data = {key : status};
+        let text = ""; 
+        let confirmButtonText="";
+
+        // Set up button text for schedule status select
+        if(selectName == "schedule-status") { 
+          [text,confirmButtonText] = setUpScheduleStatusText();
+        }
+        function setUpScheduleStatusText(){
+          let text ="";
+          let confirmButtonText="Agree!";
+          if(status == "confirmed"){
+            text = `You should call this number <b><u>${phone}</u></b> to confirm the schedule`;
+            confirmButtonText = "Yes, I've already called the patient!";
+          } 
+          else if(status == "canceled") {
+            text = "Give the reason to the patient why you cancel this schedule"; 
+          }
+          else if(status == "completed") {
+            text = "Give some notes to the patient after schedule"; 
           }
           else {
-            Toastify({
-            text: data.message,
-            className:"info",  
-            style: {
-              background: "linear-gradient(to right, #00b09b, #96c93d)",
-            }
-            }).showToast();
+            text = "Give some notes to the patient to prepare for the schedule"; 
           }
-        },
-      });
-    }) 
-    // ------------------------------ Delete Items --------------------------------- 
-    $("body").on("click",".delete",function(){
-      const URL = $(this).data("url");
-      Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          $.ajax({
-            type:"DELETE",
-            url: URL ,
-            dataType: "JSON",
-            success:(data) => {
-              if(data.status == "success"){
-                Swal.fire({
-                title: "Deleted!",
-                text: data.message,
-                icon: "success"
-                });
-                $(this).parent().parent().hide();
-              }
-              else{ 
-                Swal.fire({
-                  icon: "error",
-                  title: "Oops...",
-                  text: "Something went wrong!",
-                  footer: '<a href="#">Why do I have this issue?</a>'
-                });
-              }
-            },
-          });
+          return [text,confirmButtonText];
+        } 
 
+        // Reset Status if  canceling the request
+        resetStatus= () => {
+          $(`.select-status-${id} option[value=${currentStatus}]`).prop("selected",'true');
         }
-      });
 
-    })
+        // Chang status by send AJAX 
+        function changeStatus(data = null,text = null){
+          $.ajax({
+          type: "PUT",
+          async:false,
+          url: URL ,
+          data: data,
+          dataType: "JSON",
+          success: function (data) {       
+            
+            if(data.status == 'success'){
+              Toastify({
+              text: data.message,
+              className:"info",  
+              style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+              }
+              }).showToast();
+            }
+
+            if(data.status == 'hide'){
+              Swal.fire({
+                  title: "Updated!",
+                  text: "The status has changed.",
+                  icon: "success"
+                });
+              $(`.select-status-${data.id}`).parents().eq(2).hide(3000);
+            }
+            
+            if(data.is_empty == true) {
+              const html = '<td valign="top" colspan="6" class="dataTables_empty">No data available in table</td>';
+              $("tbody").html(html);
+            } 
+
+            else {
+              Toastify({
+              text: data.message,
+              className:"info",  
+              style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+              }
+              }).showToast();
+            }
+          },
+          });
+        }
+
+
+        if(selectName == "schedule-status") {
+          Swal.fire({
+          title: "Are you sure?",
+          html: text,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: confirmButtonText,
+          }).then((result) => {
+            if (!result.isConfirmed) {
+              resetStatus();
+            }
+            else {
+              if(status != "confirmed") {
+                async function writeNote(){
+                  const { value: text } = await Swal.fire({
+                  input: "textarea",
+                  inputLabel: "Message",
+                  inputPlaceholder: "Type your message here...",
+                  inputAttributes: {
+                    "aria-label": "Type your message here"
+                  },
+                  showCancelButton: true
+                  });
+                  if (text) {
+                    Swal.fire({
+                      title:text ,
+                      confirmButtonText: "Send",
+                    }); 
+                    changeStatus({...data,text});
+                  }
+                  else resetStatus();
+                }
+                writeNote();
+              }
+              else{
+                changeStatus(data);
+
+              }
+            }
+          });
+        }
+        else changeStatus();
+      }) 
+      // ------------------------------ Delete Items --------------------------------- 
+      $("body").on("click",".delete",function(){
+        const URL = $(this).data("url");
+        Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              type:"DELETE",
+              url: URL ,
+              dataType: "JSON",
+              success:(data) => {
+                if(data.status == "success"){
+                  Swal.fire({
+                  title: "Deleted!",
+                  text: data.message,
+                  icon: "success"
+                  });
+                  $(this).parent().parent().hide();
+                }
+                else{ 
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                    footer: '<a href="#">Why do I have this issue?</a>'
+                  });
+                }
+              },
+            });
+  
+          }
+        });
+  
+      })
+    });
+
+
   </script> 
   @stack('scripts')
 </body>

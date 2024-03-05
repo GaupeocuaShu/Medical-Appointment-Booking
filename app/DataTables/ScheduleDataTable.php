@@ -28,18 +28,36 @@ class ScheduleDataTable extends DataTable
                 return $showBtn.$updateBtn;
             })
             ->addColumn('status', function ($query) {
-                $types = [
-                    "canceled" => "Canceled",
-                    "pending" => "Pending",
-                    "confirmed" => "Confirmed",
+                $types = array();
+                if($query->status == "pending") {
+                    $types = [
+                        "canceled" => "Canceled",
+                        "pending" => "Pending",
+                        "confirmed" => "Confirmed",
+                    ];
+                }
+                else if($query->status == "canceled"){
+                    $types = [
+                        "canceled" => "Canceled",
+                        "pending" => "Pending",
+                    ];
+                } 
+                else if($query->status == "confirmed"){
+                    $types = [
+                        "confirmed" => "Confirmed",
+                        "completed" => "Completed",
+                        "canceled" => "Canceled",
+                    ];
+                }
+                else $types = [
                     "completed" => "Completed",
-                ];
+                ]; ;
                 $typesHTML = "";
                 foreach ($types as $key => $value) {
                     if ($key == $query->status) $typesHTML .= "<option selected value='$key'> $value </option>";
                     else $typesHTML .= "<option  value='$key'> $value </option>";
                 };
-                return "<div class=' form-group'><select data-id='$query->id' class='status form-control'>" . $typesHTML . "</select> </div>";
+                return "<div class=' form-group'><select data-status='$query->status' data-user-phone='".$query->user->phone."'data-name='schedule-status' data-url='".route("admin.schedule.update-status",[$query->id])."' data-id='$query->id' class='status  select-status select-status-$query->id form-control'>" . $typesHTML . "</select> </div>";
             })
             ->setRowId('id')
             ->rawColumns(["action","status"]);

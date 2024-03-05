@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ScheduleDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
@@ -31,4 +32,20 @@ class ScheduleController extends Controller
     public function completed(ScheduleDataTable $dataTable){
         return $dataTable->with("status","completed")->render("admin.schedule.pending_table");
     } 
+
+    public function checkStatusTableEmpty($status){
+        return count(Schedule::where("status",$status)->get()) > 0 ? false : true;
+    } 
+    // Update schedule status 
+    public function updateStatus(Request $request,string $id){ 
+        $schedule = Schedule::findOrFail($id);
+        $currentStatus = $schedule->status;
+        $schedule->update([
+            "status" => $request->key,
+            "note" => $request->text,
+        ]);
+        
+        $isEmpty = self::checkStatusTableEmpty($currentStatus);
+        return response(["status" => "hide","id" => $id,"is_empty" => $isEmpty]);
+    }
 }

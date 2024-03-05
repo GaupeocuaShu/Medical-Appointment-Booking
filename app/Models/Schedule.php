@@ -11,4 +11,8 @@ class Schedule extends Model
     public $fillable = [
         "user_id","patient_id","doctor_id","appointment","note","status"
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
