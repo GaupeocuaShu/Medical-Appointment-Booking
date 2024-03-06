@@ -12,7 +12,7 @@
           </div>
 
         <div class="section-body">
-            <h2 class="section-title">Doctor Show Forms</h2>
+            <h2 class="section-title">Doctor Details</h2>
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-12">
                     <div class="card">
@@ -65,22 +65,36 @@
                                         @foreach ($datesFrWTime as $key => $wTimes)
                                             @if ($loop->index == 0)
                                                 <div class="tab-pane tab-pane-{{$key}} fade show active " id="{{$key}}" role="tabpanel" aria-labelledby="{{$key}}-tab">
-                                                    @foreach ($wTimes as $time)
+                                                    @foreach ($wTimes as $wtime)
                                                         @php
+                                                            $time = explode("/",$wtime)[0]; 
+                                                            $isBusy = !empty(explode("/",$wtime)[1]);
                                                             $endTime = Carbon\Carbon::create($time);
                                                             $endTime->addMinutes(30);
                                                         @endphp
-                                                        <button disabled class="mb-3 btn btn-lg btn-outline-primary">{{$time}}-{{$endTime->isoFormat("HH-mm")}}</button>&emsp;
+                                                        <span  class="working-time-button mb-3 btn btn-lg {{$isBusy ? 'btn-outline-warning' : 'btn-outline-primary'}}">{{$time}}-{{$endTime->isoFormat("HH-mm")}}</span>&emsp;
                                                     @endforeach
                                                 </div>
                                             @else 
                                                 <div class="tab-pane tab-pane-{{$key}} fade" id="{{$key}}" role="tabpanel" aria-labelledby="{{$key}}-tab">
-                                                    @foreach ($wTimes as $time)
-                                                        <button disabled class="mb-3 btn btn-lg btn-outline-primary">{{$time}}-{{$endTime->isoFormat("HH-mm")}}</button>&emsp;
+                                                    @foreach ($wTimes as $wtime)
+                                                        @php     
+                                                            $time = explode("/",$wtime)[0]; 
+                                                            $isBusy = !empty(explode("/",$wtime)[1]);
+                                                        @endphp
+                                                        <span  class="working-time-button mb-3 btn btn-lg {{$isBusy ? 'btn-outline-warning' : 'btn-outline-primary'}}">{{$time}}-{{$endTime->isoFormat("HH-mm")}}</span>&emsp;
                                                     @endforeach
                                                 </div>
                                             @endif
                                         @endforeach
+                                        <div class="card schedule-card ">
+                                            <div class="card-body">
+                                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo prov
+                                                ident eligendi modi impedit commodi natus vitae debitis odio error sint vo
+                                                luptates molestiae pariatur, neque laudantium. Atque eligendi eum d
+                                                olore nobis.''
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
                             @if ($doctor->note)             
@@ -114,7 +128,7 @@
                                     <p>{!!$doctor->prize_and_research!!}</p>
                                 </div>
                             @endif
-                            <a href="{{route("admin.doctor.index")}}" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i></a>
+                            <a href="{{route("admin.doctor.index")}}" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i>&emsp;Back</a>
                         </div>
                         
                      
@@ -131,12 +145,16 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $(".schedule-card").hide();
             $(".nav-link").on("click",  function () {
                 $(".tab-pane").removeClass("show active");
                 const id = $(this).attr("id");
                 const tabID = id.substring(0,id.length-4);
                 $(".tab-pane-"+tabID).addClass("show active");
-
+            });
+            $(".working-time-button").on("click", function () {
+                $(this).toggleClass("btn-warning");
+                $(".schedule-card").slideToggle(500);
             });
         });
     </script>

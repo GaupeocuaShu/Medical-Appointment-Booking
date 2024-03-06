@@ -23,25 +23,25 @@ class ScheduleDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('appointment_time',function($query){
-                $date = Carbon::create($query->appointment); 
-                return $date->isoFormat("HH:mm");
-            })
-            ->addColumn('appointment_date',function($query){
-                $date = Carbon::create($query->appointment); 
-                return $date->isoFormat("DD-MM-YY");
-            })
-
-            ->addColumn('action', function($query){
-                $showBtn = "<a class='btn btn-info' href='".route("admin.doctor.show",$query->id)."'><i class='fa-solid fa-circle-info'></i> </a> &emsp;"; 
-                $updateBtn = "<a class='btn btn-primary' href='".route("admin.doctor.edit",$query->id)."'><i class='fa-solid fa-pen-to-square'></i> </a> &emsp;"; 
-                return $showBtn.$updateBtn;
-            })
-            ->addColumn('status', function ($query) {
-                $types = array();
-                if($query->status == "pending") {
-                    $types = [
-                        "canceled" => "Canceled",
+        ->addColumn('appointment_time',function($query){
+            $date = Carbon::create($query->appointment); 
+            return $date->isoFormat("HH:mm");
+        })
+        ->addColumn('appointment_date',function($query){
+            $date = Carbon::create($query->appointment); 
+            return $date->isoFormat("DD-MM-YY");
+        })
+        
+        ->addColumn('action', function($query){
+            $showBtn = "<a class='btn btn-info' href='".route("admin.schedule.show",$query->id)."'><i class='fa-solid fa-circle-info'></i> </a> &emsp;"; 
+            $updateBtn = "<a class='btn btn-primary' href='".route("admin.doctor.edit",$query->id)."'><i class='fa-solid fa-pen-to-square'></i> </a> &emsp;"; 
+            return $showBtn.$updateBtn;
+        })
+        ->addColumn('status', function ($query) {
+            $types = array();
+            if($query->status == "pending") {
+                $types = [
+                    "canceled" => "Canceled",
                         "pending" => "Pending",
                         "confirmed" => "Confirmed",
                     ];
@@ -70,12 +70,16 @@ class ScheduleDataTable extends DataTable
                 return "<div class=' form-group'><select data-status='$query->status' data-user-phone='".$query->user->phone."'data-name='schedule-status' data-url='".route("admin.schedule.update-status",[$query->id])."' data-id='$query->id' class='status  select-status select-status-$query->id form-control'>" . $typesHTML . "</select> </div>";
             })
             ->setRowId('id')
+            ->filterColumn("appointment_date", function ($query, $keyWord) {
+                return $query->whereDate("appointment",$keyWord);
+            })
             ->rawColumns(["action","status","appointment_time","appointment_date"]);
-    }
-
-    /**
-     * Get the query source of dataTable.
-     */
+           
+        }
+        
+        /**
+         * Get the query source of dataTable.
+         */
     public function query(Schedule $model): QueryBuilder
     {
         return $model->where("status",$this->status)->newQuery();

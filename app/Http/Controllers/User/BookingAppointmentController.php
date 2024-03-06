@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Doctor;
 use App\Models\Schedule;
+use App\Models\WorkingTime;
 use Illuminate\Support\Carbon;
 
 class BookingAppointmentController extends Controller
@@ -33,12 +34,15 @@ class BookingAppointmentController extends Controller
 
     // Create appointment 
     public function createAppointment(Request $request){
-        Schedule::create([
+        $schedule = Schedule::create([
             "user_id" => $request->user_id, 
             "patient_id" => $request->patient_id, 
             "doctor_id" => $request->doctor_id, 
             "appointment" => $request->appointment, 
         ]);
+        $workingTime = WorkingTime::where("doctor_id",$schedule->doctor_id)
+        ->where("working_time",$schedule->appointment);
+        $workingTime->update(["is_selected" => true]);
         return redirect()->back();
     }
 }

@@ -25,20 +25,19 @@
                       </div>
                     </div>
                     <div class="card-body">
-                      <form>
-                        <input type="hidden" name="schedule" value="{{$schedule}}"/>
                         <div class="form-group">
                           <label>Filter By Date</label>
                           <div class="d-flex ">
-                            <select name="date_filter" class="form-control col-md-5"> 
+                            <select name="date_filter" class="filter form-control col-md-5"> 
                               @foreach ($uniqueBDates as $date)
                                 <option value="{{$date}}">{{Carbon\Carbon::create($date)->isoFormat("DD-MM-YYYY")}}</option>
                               @endforeach
                             </select>&emsp;
-                            <button class="btn btn-outline-primary btn-lg filter-date">Filter</button>
+                            <span class="btn btn-outline-primary btn-lg filter-date">Filter</span>&emsp;
+                            <span class="btn btn-outline-danger btn-lg reset-filter-date">Reset</span>
+
                           </div>
                         </div>
-                      </form>
                         {{ $dataTable->table() }}
                     </div>
                   </div>
@@ -50,22 +49,18 @@
 @endsection
 
 @push('scripts')
+    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
   <script> 
     $(document).ready(function() {
-      $("form").submit(function (e) {
-        e.preventDefault();
-        const data = $(this).serialize();
-        $.ajax({
-          type: "GET",
-          url: "{{route('admin.schedule.filter-schedule')}}",
-          data: data,
-          dataType: "JSON",
-          success: function (data) {
-            console.log(data);
-          },
-        });
+      $(".filter-date").on("click",function () {
+        const date =$(".filter").val();
+        const table = $("table").DataTable();
+        table.search(date).draw();
       });
+      $(".reset-filter-date").on("click",function(){
+        const table = $("table").DataTable();
+        table.search("").draw();
+      })
     });
   </script>
-    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush

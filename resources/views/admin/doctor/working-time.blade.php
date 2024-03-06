@@ -10,12 +10,14 @@
               <div class="breadcrumb-item">Create</div>
             </div>
           </div>
-
         <div class="section-body">
             <h2 class="section-title">Doctor Working Time </h2>
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-12">
                     <div class="card">
+                        <div class="card-header">
+                            <a href="{{route("admin.doctor.index")}}" class="text-white btn btn-danger"><i class="fa-solid fa-right-to-bracket"></i> Back</a>
+                        </div>
                         <div class="card-body">         
                             @for ($i=1 ; $i<=7 ; $i++)
                                 @php                        
@@ -51,7 +53,8 @@
                                         </button>
                                     </form>
                                 </div>
-                            @endfor                     
+                            @endfor    
+                            <a href="{{route("admin.doctor.index")}}" class="text-white btn btn-danger"><i class="fa-solid fa-right-to-bracket"></i> Back</a>
                         </div>
                     </div>
                   </div>

@@ -52,7 +52,7 @@
                 @else 
                     <div class="tab-pane tab-pane-{{$key}} fade" id="{{$key}}" role="tabpanel" aria-labelledby="{{$key}}-tab">
                         @foreach ($wTimes as $time)
-                        <form style="display: inline-block">
+                        <form method="POST"  action="{{route("create-appointment")}}" style="display: inline-block">
                             @csrf
                                 @php
                                     $dateTime = Carbon\Carbon::create($key.$time);

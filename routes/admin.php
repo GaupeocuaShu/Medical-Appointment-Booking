@@ -61,5 +61,6 @@ Route::get("schedule/canceled-schedule",[ScheduleController::class,"canceled"])-
 // Filter Date 
 Route::get("schedule/filter-schedule",[ScheduleController::class,"filterSchedule"])->name("schedule.filter-schedule");
 
+Route::get("schedule/{id}/show",[ScheduleController::class,"show"])->name("schedule.show");
 // Schedule ------------------------------------------- 
 

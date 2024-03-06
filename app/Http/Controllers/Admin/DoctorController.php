@@ -58,7 +58,6 @@ class DoctorController extends Controller
         return redirect()->route("admin.doctor.index");
     }   
 
-
     public function show(string $id)
     {   
         $doctor = Doctor::with("specializations","user")->findOrFail($id);
@@ -71,7 +70,10 @@ class DoctorController extends Controller
                 $datesFrWTime[$flag] = $timesFrWTime;
                 $timesFrWTime = array();
             }
-            $timesFrWTime[] = $carbonWTime->isoFormat("HH:mm");
+       
+            $timesFrWTime[] =$wTime->is_selected == true 
+                            ? $carbonWTime->isoFormat("HH:mm")."/b" 
+                            :  $carbonWTime->isoFormat("HH:mm");
             $flag = $carbonWTime->toDateString();
             if(!next($doctor->working_times)){
                 $datesFrWTime[$flag] = $timesFrWTime;
