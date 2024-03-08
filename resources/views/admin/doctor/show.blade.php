@@ -74,6 +74,7 @@
                                                                 $endTime->addMinutes(30);
                                                             @endphp
                                                             <input type="hidden" name="time" value="{{$time}}"/>
+                                                            <input type="hidden" name="is_busy" value="{{$isBusy}}"/>
                                                             <button  class="working-time-button  mb-3 btn btn-lg {{$isBusy ? 'btn-outline-warning' : 'btn-outline-primary'}}">{{$time}}-{{$endTime->isoFormat("HH-mm")}}</button>&emsp;
                                                         </form>
                                                     @endforeach
@@ -89,25 +90,41 @@
                                                                     $isBusy = !empty(explode("/",$wtime)[1]);
                                                                     @endphp
                                                                 <input type="hidden" name="time" value="{{$time}}"/>
+                                                                <input type="hidden" name="is_busy" value="{{$isBusy}}"/>
                                                                 <button class="working-time-button  mb-3 btn btn-lg {{$isBusy ? 'btn-outline-warning' : 'btn-outline-primary'}}">{{$time}}-{{$endTime->isoFormat("HH-mm")}}</button>&emsp;
                                                             </form>
                                                         @endforeach
                                                     </div>
                                                 @endif
                                         @endforeach
-                                        <div class="card schedule-card ">
+                                        <div class="card schedule-card busy-card">
                                             <div class="card-body">
-                                                <div class="busy">
-                                                    <ul>
-                                                        <li>Schedule: <span class="schedule"></span></li>
-                                                        <li>Patient: <span class="name"></span></li>
-                                                        <li>Date Of Birth: <span class="date_of_birth"></span></li>
-                                                        <li>Note: <span class="note"></span></li>
+                                                    <ul class="row">
+                                                        <div class="col-md-6">
+                                                            <li>Patient: &emsp;<span class="name"></span></li>
+                                                            <li>Gender: &emsp;<span class="gender"></span></li>
+                                                            <li>Date Of Birth: &emsp;<span class="date_of_birth"></span></li>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <li>Schedule:&emsp; <span class="schedule"></span></li>
+                                                        </div>
+                                             
+                                                        <div class="col-md-12">
+                                                            <li>Patient Note: &emsp;<span class="patient_note"></span></li>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <li>Schedule Note:&emsp; <span class="schedule_note"></span></li>
+                                                        </div>
+                                                  
+                                                        <div class="mt-3 text-center col-md-12" >
+                                                            <button class="btn btn-outline-warning">Click Here To View Detail</button>
+                                                        </div>
                                                     </ul>
                                                 </div>
-                                                <div class="empty">
-                                                    No Schedule Today 
-                                                </div>
+                                        </div>
+                                        <div class="card schedule-card empty-card ">
+                                            <div class="card-body text-center">
+                                                No Event Today
                                             </div>
                                         </div>
                                 </div>
@@ -161,31 +178,47 @@
     <script>
         $(document).ready(function() {
             $(".schedule-card").hide();
-
-
             $(".nav-link").on("click",  function () {
+                $(".schedule-card").hide();
                 $(".tab-pane").removeClass("show active");
                 const id = $(this).attr("id");
                 const tabID = id.substring(0,id.length-4);
                 $(".tab-pane-"+tabID).addClass("show active");
             });
 
-
+            
             $("form").on("submit", function (e) {
+                $(".schedule-card").hide(500);
                 e.preventDefault();
+                const isBusy = $(e.currentTarget[3]).val();
+                const button = $(this).find("button");
+                const dataHTML = $(button).html();
+                if(!isBusy){
+                    $(".empty-card").slideToggle(500);
+                    return ;
+                } 
                 const data = $(this).serialize();
                 $.ajax({
                     type: "GET",
                     url: "{{route('admin.doctor.get-working-time')}}",
                     data: data,
                     dataType: "JSON",
+                    beforeSend:function(){ 
+                        $(button).html(`<i class="fas fa-spinner fa-pulse"></i>`)
+                        $(button).attr("disabled",true)
+                    },
                     success: function (data) {
-                        console.log(data);
+                        $(button).html(dataHTML);
+                        $(button).attr("disabled",false)
+                        $(".schedule").html(data.schedule);
                         $(".name").html(data.name); 
                         $(".date_of_birth").html(data.date_of_birth);
                         $(".gender").html(data.gender);
                         $(".note").html(data.note);
-                        $(".schedule-card").slideToggle(500);
+                        $(".patient_note").html(data.patient_note);
+                        $(".schedule_note").html(data.schedule_note);
+                        $(".gender").html(!data.gender ? "Female" : "Male");
+                        $(".busy-card").slideToggle(500);
                     },
                 });
             });

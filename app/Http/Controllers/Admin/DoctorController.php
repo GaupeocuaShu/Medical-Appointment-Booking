@@ -154,7 +154,10 @@ class DoctorController extends Controller
         return response([
             "name" =>getFullName($user),
             "date_of_birth" =>$user->date_of_birth,
-            "note" => $user->note,
+            "schedule_note" => $schedule->note,
+            "patient_note" => $user->patient->note,
+            "gender" => $user->gender,
+            "schedule" => Carbon::create($appointment)->isoFormat("HH:mm DD-MM-YYYY"),
         ]);
     }
 }
