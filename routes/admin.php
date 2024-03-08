@@ -29,17 +29,22 @@ Route::resource("specialization",SpecializationController::class);
 
 // Doctor  --------------------------------------
 
-// Get Specialization belongs to doctor 
+// Get Working Time 
+Route::get("doctor/get-working-time",[DoctorController::class,"getWorkingTime"])->name("doctor.get-working-time");
+// Edit and add Working Time for Doctor  
 Route::get("doctor/{id}/working-time",[DoctorController::class,"workingTime"])->name("doctor.working-time");
+// Get Specialization belongs to doctor 
 Route::get("doctor/{id}/get-specialization",[DoctorController::class,"getSpecialization"])->name("doctor.get-specialization");
 Route::resource("doctor",DoctorController::class);
+
 // Doctor  --------------------------------------
 
-
-
+// Working Time ------------------------------------
 // Update Working Time Table 
 Route::get("working-time/get-working-time",[WorkingTimeController::class,"getWorkingTime"])->name("working-time.get-working-time");
 Route::put("working-time/update",[WorkingTimeController::class,"updateWorkingTime"])->name("working-time.update");
+// Working Time ------------------------------------
+
 
 
 

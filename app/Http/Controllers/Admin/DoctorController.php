@@ -6,6 +6,7 @@ use App\DataTables\DoctorDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
 use App\Models\Doctor_Specialization;
+use App\Models\Schedule;
 use App\Models\Specialization;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -139,8 +140,21 @@ class DoctorController extends Controller
         };
         return response($specializationIDs);
     }
+    // Add Working Time for Doctor
     public function workingTime(string $id){
         $today = Carbon::today();    
         return view("admin.doctor.working-time",compact("today","id"));
+    }
+    // Get Doctor Working Time 
+    public function getWorkingTime(Request $request){
+        $dateTime = $request->date.$request->time;
+        $appointment = Carbon::create($dateTime);
+        $schedule = Schedule::where("doctor_id",$request->doctor_id)->where("appointment",$appointment)->first();
+        $user = $schedule->user;
+        return response([
+            "name" =>getFullName($user),
+            "date_of_birth" =>$user->date_of_birth,
+            "note" => $user->note,
+        ]);
     }
 }

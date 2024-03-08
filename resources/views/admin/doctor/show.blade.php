@@ -22,7 +22,6 @@
                                 <div> 
                                     <h3 class="font-weight-bold">{{$doctor->academic_degree." ".getFullName($doctor->user)}}</h3>
                                     <p><span class="font-weight-bold text-primary">Doctor</span> | <span class="font-weight-bold">{{$doctor->experience_year}}</span> experiences year</p>
-                          
                                     <p><span>Speciality</span> &emsp;
                                         @foreach ($doctor->specializations as $s)
                                             <span class="text-primary font-weight-bold">
@@ -30,7 +29,6 @@
                                             </span>
                                         @endforeach
                                     </p>
-
                                     <p>
                                         <span>Title</span> &emsp;
                                             <span class="text-primary font-weight-bold">
@@ -41,7 +39,6 @@
                             </div>
                             <div>
                                 <h5 class="mb-4">Working Time</h5>
-
                                 <hr>
                             </div>
                             <div>
@@ -63,36 +60,54 @@
                                 </ul>
                                 <div class="tab-content mb-4" id="myTabContent">
                                         @foreach ($datesFrWTime as $key => $wTimes)
-                                            @if ($loop->index == 0)
+                                          
+                                                @if ($loop->index == 0)
                                                 <div class="tab-pane tab-pane-{{$key}} fade show active " id="{{$key}}" role="tabpanel" aria-labelledby="{{$key}}-tab">
                                                     @foreach ($wTimes as $wtime)
-                                                        @php
-                                                            $time = explode("/",$wtime)[0]; 
-                                                            $isBusy = !empty(explode("/",$wtime)[1]);
-                                                            $endTime = Carbon\Carbon::create($time);
-                                                            $endTime->addMinutes(30);
-                                                        @endphp
-                                                        <span  class="working-time-button mb-3 btn btn-lg {{$isBusy ? 'btn-outline-warning' : 'btn-outline-primary'}}">{{$time}}-{{$endTime->isoFormat("HH-mm")}}</span>&emsp;
+                                                        <form action="" style="display: inline">
+                                                            <input type="hidden" name="date" value="{{$key}}"/>
+                                                            <input type="hidden" name="doctor_id" value="{{$doctor->id}}"/>
+                                                            @php
+                                                                $time = explode("/",$wtime)[0]; 
+                                                                $isBusy = !empty(explode("/",$wtime)[1]);
+                                                                $endTime = Carbon\Carbon::create($time);
+                                                                $endTime->addMinutes(30);
+                                                            @endphp
+                                                            <input type="hidden" name="time" value="{{$time}}"/>
+                                                            <button  class="working-time-button  mb-3 btn btn-lg {{$isBusy ? 'btn-outline-warning' : 'btn-outline-primary'}}">{{$time}}-{{$endTime->isoFormat("HH-mm")}}</button>&emsp;
+                                                        </form>
                                                     @endforeach
                                                 </div>
-                                            @else 
-                                                <div class="tab-pane tab-pane-{{$key}} fade" id="{{$key}}" role="tabpanel" aria-labelledby="{{$key}}-tab">
-                                                    @foreach ($wTimes as $wtime)
-                                                        @php     
-                                                            $time = explode("/",$wtime)[0]; 
-                                                            $isBusy = !empty(explode("/",$wtime)[1]);
-                                                        @endphp
-                                                        <span  class="working-time-button mb-3 btn btn-lg {{$isBusy ? 'btn-outline-warning' : 'btn-outline-primary'}}">{{$time}}-{{$endTime->isoFormat("HH-mm")}}</span>&emsp;
-                                                    @endforeach
-                                                </div>
-                                            @endif
+                                                @else 
+                                                    <div class="tab-pane tab-pane-{{$key}} fade" id="{{$key}}" role="tabpanel" aria-labelledby="{{$key}}-tab">
+                                                        @foreach ($wTimes as $wtime)
+                                                            <form action=""  style="display: inline">
+                                                                <input type="hidden" name="date" value="{{$key}}"/>
+                                                                <input type="hidden" name="doctor_id" value="{{$doctor->id}}"/>
+                                                                @php     
+                                                                    $time = explode("/",$wtime)[0]; 
+                                                                    $isBusy = !empty(explode("/",$wtime)[1]);
+                                                                    @endphp
+                                                                <input type="hidden" name="time" value="{{$time}}"/>
+                                                                <button class="working-time-button  mb-3 btn btn-lg {{$isBusy ? 'btn-outline-warning' : 'btn-outline-primary'}}">{{$time}}-{{$endTime->isoFormat("HH-mm")}}</button>&emsp;
+                                                            </form>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
                                         @endforeach
                                         <div class="card schedule-card ">
                                             <div class="card-body">
-                                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo prov
-                                                ident eligendi modi impedit commodi natus vitae debitis odio error sint vo
-                                                luptates molestiae pariatur, neque laudantium. Atque eligendi eum d
-                                                olore nobis.''
+                                                <div class="busy">
+                                                    <ul>
+                                                        <li>Schedule: <span class="schedule"></span></li>
+                                                        <li>Patient: <span class="name"></span></li>
+                                                        <li>Date Of Birth: <span class="date_of_birth"></span></li>
+                                                        <li>Note: <span class="note"></span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="empty">
+                                                    No Schedule Today 
+                                                </div>
                                             </div>
                                         </div>
                                 </div>
@@ -146,15 +161,33 @@
     <script>
         $(document).ready(function() {
             $(".schedule-card").hide();
+
+
             $(".nav-link").on("click",  function () {
                 $(".tab-pane").removeClass("show active");
                 const id = $(this).attr("id");
                 const tabID = id.substring(0,id.length-4);
                 $(".tab-pane-"+tabID).addClass("show active");
             });
-            $(".working-time-button").on("click", function () {
-                $(this).toggleClass("btn-warning");
-                $(".schedule-card").slideToggle(500);
+
+
+            $("form").on("submit", function (e) {
+                e.preventDefault();
+                const data = $(this).serialize();
+                $.ajax({
+                    type: "GET",
+                    url: "{{route('admin.doctor.get-working-time')}}",
+                    data: data,
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(data);
+                        $(".name").html(data.name); 
+                        $(".date_of_birth").html(data.date_of_birth);
+                        $(".gender").html(data.gender);
+                        $(".note").html(data.note);
+                        $(".schedule-card").slideToggle(500);
+                    },
+                });
             });
         });
     </script>

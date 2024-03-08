@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string("phone")->nullable(); 
             $table->string("avatar")->nullable();
             $table->tinyInteger("gender")->nullable();
+            $table->date("date_of_birth")->nullable();
             $table->text("description")->nullable();
             $table->enum("role",['user','doctor','admin'])->default('user');
             $table->boolean("status")->default(true);
