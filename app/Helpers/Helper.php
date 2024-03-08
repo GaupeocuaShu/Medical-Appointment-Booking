@@ -1,5 +1,12 @@
 <?php
 use Illuminate\Support\Carbon;
+function setActive(array $routes)
+{
+    foreach ($routes as $route) {
+        if (request()->routeIs($route))
+            return "active";
+    }
+}
 function getFullName($person){
     return $person->last_name." ".$person->middle_name." ".$person->first_name;
 }
