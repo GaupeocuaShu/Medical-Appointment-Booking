@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\DataTables\DoctorDataTable;
+use App\DataTables\DoctorScheduleDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
 use App\Models\Doctor_Specialization;
@@ -152,6 +153,7 @@ class DoctorController extends Controller
         $schedule = Schedule::where("doctor_id",$request->doctor_id)->where("appointment",$appointment)->first();
         $user = $schedule->user;
         return response([
+            "url" => route("admin.schedule.show",$schedule->id),
             "name" =>getFullName($user),
             "date_of_birth" =>$user->date_of_birth,
             "schedule_note" => $schedule->note,
@@ -160,4 +162,5 @@ class DoctorController extends Controller
             "schedule" => Carbon::create($appointment)->isoFormat("HH:mm DD-MM-YYYY"),
         ]);
     }
+
 }

@@ -117,7 +117,7 @@
                                                         </div>
                                                   
                                                         <div class="mt-3 text-center col-md-12" >
-                                                            <button class="btn btn-outline-warning">Click Here To View Detail</button>
+                                                            <a href="" class="btn-detail btn btn-outline-warning">Click Here To View Detail</a>
                                                         </div>
                                                     </ul>
                                                 </div>
@@ -219,6 +219,7 @@
                         $(".schedule_note").html(data.schedule_note);
                         $(".gender").html(!data.gender ? "Female" : "Male");
                         $(".busy-card").slideToggle(500);
+                        $(".btn-detail").attr("href",data.url);
                     },
                 });
             });

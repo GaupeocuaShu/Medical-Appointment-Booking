@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\admin\DoctorController;
+use App\Http\Controllers\admin\DoctorScheduleController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\SpecializationController;
@@ -38,6 +39,12 @@ Route::get("doctor/{id}/get-specialization",[DoctorController::class,"getSpecial
 Route::resource("doctor",DoctorController::class);
 
 // Doctor  --------------------------------------
+
+
+// Doctor Schedule  --------------------------------------
+Route::get("doctor/schedule/{id}/index",[DoctorScheduleController::class,"index"])->name("doctor.schedule.index");
+// Doctor Schedule  --------------------------------------
+
 
 // Working Time ------------------------------------
 // Update Working Time Table 

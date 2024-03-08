@@ -23,11 +23,25 @@ class DoctorDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
-                $workingTimeBtn = "<a class='btn btn-success' href='".route("admin.doctor.working-time",$query->id)."'><i class='fa-regular fa-calendar-check'></i></a> &emsp;"; 
+                $moreBtn = '
+                <div class="dropdown d-inline">
+                      <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-solid fa-plane-departure"></i>
+                      </button>
+                      <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 29px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <a class="dropdown-item has-icon" href="'.route("admin.doctor.show",$query->id).'"><i class="fa-solid fa-circle-info"></i>Detail</a>
+                        <a class="dropdown-item has-icon" href="'.route("admin.doctor.working-time",$query->id).'"><i class="fa-solid fa-stopwatch"></i>Add Working Time</a>
+                        <a class="dropdown-item has-icon" href="'.route("admin.doctor.schedule.index",$query->id).'"><i class="fa-regular fa-calendar-check"></i></i>Schedule</a>
+                      </div>
+                    </div>
+                    &emsp;
+                ';
+                $scheduleBtn = "<a class='btn btn-success' href='".route("admin.doctor.schedule.index",$query->id)."'><i class='fa-regular fa-calendar-check'></i></a> &emsp;"; 
+                // $workingTimeBtn = "<a class='btn btn-success' href='".route("admin.doctor.working-time",$query->id)."'><i class='fa-regular fa-calendar-check'></i></a> &emsp;"; 
                 $showBtn = "<a class='btn btn-info' href='".route("admin.doctor.show",$query->id)."'><i class='fa-solid fa-circle-info'></i> </a> &emsp;"; 
                 $updateBtn = "<a class='btn btn-primary' href='".route("admin.doctor.edit",$query->id)."'><i class='fa-solid fa-pen-to-square'></i> </a> &emsp;"; 
                 $deleteBtn = "<button class='delete btn btn-danger' data-url='".route("admin.doctor.destroy", $query->id) ."'><i class='fa-solid fa-trash-can-arrow-up'></i></button>"; 
-                return  $workingTimeBtn.$showBtn.$updateBtn.$deleteBtn;
+                return  $moreBtn.$updateBtn.$deleteBtn;
             })
             ->addColumn('title',function($query){
                 return $query->academic_degree." ".getFullName($query->user);
