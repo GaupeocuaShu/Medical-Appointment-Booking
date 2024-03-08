@@ -151,7 +151,7 @@
         const selectName = $(this).data("name");
         const data = {key : status};
         let text = ""; 
-        let confirmButtonText="";
+        let confirmButtonText="Yes, I Agree";
 
         // Set up button text for schedule status select
         if(selectName == "schedule-status") { 
@@ -190,7 +190,15 @@
           data: data,
           dataType: "JSON",
           success: function (data) {       
-            
+                      
+            if(data.status == 'success_show'){
+              Swal.fire({
+                  title: "Updated!",
+                  text:   data.text,
+                  icon: "success"
+              });
+            }
+
             if(data.status == 'success'){
               Toastify({
               text: data.message,
@@ -210,26 +218,39 @@
               $(`.select-status-${data.id}`).parents().eq(2).hide(3000);
             }
             
+
             if(data.is_empty == true) {
               const html = '<td valign="top" colspan="6" class="dataTables_empty">No data available in table</td>';
               $("tbody").html(html);
             } 
 
-            else {
-              Toastify({
-              text: data.message,
-              className:"info",  
-              style: {
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
-              }
-              }).showToast();
-            }
           },
           });
         }
 
+        // Update Role Status 
+        if(selectName == "role-status") {
+          Swal.fire({
+          title: "Are you sure?",
+          html: text,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: confirmButtonText,
+          }).then((result) => {
+            if (!result.isConfirmed) {
+              resetStatus();
+            }
+            else {
+              changeStatus(data);
+            }
+          }
+          )
+        }
+        // Update Role Status 
 
-        if(selectName == "schedule-status") {
+        else if(selectName == "schedule-status") {
           Swal.fire({
           title: "Are you sure?",
           html: text,
@@ -267,7 +288,6 @@
               }
               else{
                 changeStatus(data);
-
               }
             }
           });

@@ -18,8 +18,9 @@
         <li class="dropdown active">
           <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Website Management</span></a>
           <ul class="dropdown-menu">
-            <li class=active><a class="nav-link" href="{{route("admin.specialization.index")}}">Specialization</a></li>
+            <li class=active><a class="nav-link" href="{{route("admin.user.index")}}">User</a></li>
             <li class=active><a class="nav-link" href="{{route("admin.doctor.index")}}">Doctor</a></li>
+            <li class=active><a class="nav-link" href="{{route("admin.specialization.index")}}">Specialization</a></li>
           
           </ul>
         </li>

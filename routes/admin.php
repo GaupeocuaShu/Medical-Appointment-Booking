@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\DoctorScheduleController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\SpecializationController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\admin\WorkingTimeController;
 use Illuminate\Support\Facades\Route;
 
@@ -75,4 +76,12 @@ Route::get("schedule/filter-schedule",[ScheduleController::class,"filterSchedule
 
 Route::get("schedule/{id}/show",[ScheduleController::class,"show"])->name("schedule.show");
 // Schedule ------------------------------------------- 
+
+
+
+
+// User ------------------------------------------- 
+Route::put("user/{id}/update-role",[UserController::class,"updateRole"])->name("user.update-role");
+Route::resource("user",UserController::class);
+// User ------------------------------------------- 
 
