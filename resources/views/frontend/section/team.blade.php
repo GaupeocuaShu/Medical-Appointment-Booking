@@ -34,3 +34,13 @@
         </div>
     </div>
 </section>
+
+
+
+@push('scripts')
+    <script>
+        $(".book-appointment").on("click", function() {
+            window.location.href = "{{ route('book-appointment') }}"
+        });
+    </script>
+@endpush

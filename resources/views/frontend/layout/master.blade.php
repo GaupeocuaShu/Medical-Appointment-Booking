@@ -24,6 +24,7 @@ http://www.tooplate.com/view/2098-health
     <link rel="stylesheet" href="{{ asset('frontend/home/css/owl.carousel.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/home/css/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/home/css/doctor-team.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/choose-date/style.css') }}">
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/home/css/tooplate-style.css') }}">
@@ -59,7 +60,8 @@ http://www.tooplate.com/view/2098-health
     <script src="{{ asset('frontend/home/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('frontend/home/js/custom.js') }}"></script>
     <script src="{{ asset('frontend/home/js/doctor-team.js') }}"></script>
-
+    <script src="{{ asset('frontend/choose-date/custom.js') }}"></script>
+    @stack('scripts')
 </body>
 
 

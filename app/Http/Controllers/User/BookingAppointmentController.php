@@ -29,7 +29,7 @@ class BookingAppointmentController extends Controller
                 $datesFrWTime[$flag] = $timesFrWTime;
             }
         }
-        return view("user.book_appointment",compact("doctor","datesFrWTime")); 
+        return view("frontend.pages.choose-date",compact("doctor","datesFrWTime")); 
     }
 
     // Create appointment 
