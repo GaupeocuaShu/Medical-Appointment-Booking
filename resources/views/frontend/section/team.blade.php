@@ -26,7 +26,8 @@
 
                         </h5>
                         <p>{{ $dr->workplace->name }}</p>
-                        <div><button class="book-appointment">Đặt lịch</button></div>
+                        <div><button data-url="{{ route('book-appointment', $dr->id) }}" class="book-appointment">Đặt
+                                lịch</button></div>
                     </div>
                 @endforeach
 
@@ -40,7 +41,7 @@
 @push('scripts')
     <script>
         $(".book-appointment").on("click", function() {
-            window.location.href = "{{ route('book-appointment') }}"
+            window.location.href = $(this).data("url");
         });
     </script>
 @endpush

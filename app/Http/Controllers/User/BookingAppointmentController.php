@@ -12,8 +12,8 @@ use Illuminate\Support\Carbon;
 class BookingAppointmentController extends Controller
 {
     //  return booking appointment page
-    public function bookAppointment(){
-        $doctor = Doctor::with("specializations","user")->findOrFail(3);
+    public function bookAppointment(string $id){
+        $doctor = Doctor::with("specializations","user")->findOrFail($id);
         $datesFrWTime = array();
         $timesFrWTime = array();
         $flag = " ";

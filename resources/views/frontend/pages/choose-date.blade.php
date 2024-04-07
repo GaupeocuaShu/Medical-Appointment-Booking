@@ -5,55 +5,81 @@
 
         <div class="doctor-introduction"><!-- Phần giới thiệu bác sĩ -->
             <div class="doctor-profile">
-                <img src="images/quoc.jpg" alt="Doctor" class="doctor-image">
-                <h3>Dr. Dương Trung Quốc</h3>
+                <img width="200" alt="{{ getFullName($doctor->user) }}" src="{{ asset($doctor->user->avatar) }}" />
+                <div>
+                    <h3 class="font-weight-bold">
+                        {{ $doctor->academic_degree . ' ' . getFullName($doctor->user) }}</h3>
+                    <p><span class="font-weight-bold text-primary">Doctor</span> | <span
+                            class="font-weight-bold">{{ $doctor->experience_year }}</span> experiences year
+                    </p>
+                    <p><span>Speciality</span> &emsp;
+                        @foreach ($doctor->specializations as $s)
+                            <span class="text-primary font-weight-bold">
+                                {{ $s->name }} &emsp13;
+                            </span>
+                        @endforeach
+                    </p>
+                    <p class="">
+                        <span>Title</span> &emsp;
+                        <span class="text-primary font-weight-bold">
+                            {!! $doctor->title !!} &emsp13;
+                        </span>
+                    </p>
+                    <p>
+                        <span>Workplace</span> &emsp;
+                        <span class="text-primary font-weight-bold">
+                            {{ $doctor->workplace->name }} &emsp13;
+                        </span>
+                    </p>
+                </div>
             </div>
-            <p>Chuyên khoa: Tim mạch</p>
-            <div class="doctor-location">
-                <i class="fa fa-map-marker" aria-hidden="true"></i> Nha Trang
-            </div>
+
         </div>
 
 
-        <!-- Bảng ngày để đặt lịch -->
-        <div class="calendar-container">
-            <div class="month">
-                <button id="prev" class="prev">&#10094;</button>
-                <h3>Tháng 4, 2024</h3>
-                <button id="next" class="next">&#10095;</button>
-            </div>
-            <div class="days">
-                <div class="day">T2</div>
-                <div class="day">T3</div>
-                <div class="day">T4</div>
-                <div class="day">T5</div>
-                <div class="day">T6</div>
-                <div class="day">T7</div>
-                <div class="day">CN</div>
-            </div>
-            <div class="dates" id="dates">
-                <!-- JavaScript sẽ điền các ngày vào đây -->
-            </div>
-            <div class="calendar-legend">
-                <span class="legend-item"><span class="legend-color available"></span> Ngày đặt khám được</span>
-                <span class="legend-item"><span class="legend-color unavailable"></span> Ngày không đặt khám
-                    được</span>
+        <div style="display: flex;justify-content:space-between">
+            <!-- Bảng ngày để đặt lịch -->
+            <div class="calendar-container">
+                <div class="month">
+                    <button id="prev" class="prev">&#10094;</button>
+                    <h3>Tháng 4, 2024</h3>
+                    <button id="next" class="next">&#10095;</button>
+                </div>
+                <div class="days">
+                    <div class="day">T2</div>
+                    <div class="day">T3</div>
+                    <div class="day">T4</div>
+                    <div class="day">T5</div>
+                    <div class="day">T6</div>
+                    <div class="day">T7</div>
+                    <div class="day">CN</div>
+                </div>
+                <div class="dates" id="dates">
+                    <!-- JavaScript sẽ điền các ngày vào đây -->
+                </div>
+                <div class="calendar-legend">
+                    <span class="legend-item"><span class="legend-color available"></span> Ngày đặt khám được</span>
+                    <span class="legend-item"><span class="legend-color unavailable"></span> Ngày không đặt khám
+                        được</span>
+                </div>
+
+                <button id="confirmDate" class="confirm-date">Xác nhận chọn ngày</button>
             </div>
 
-            <button id="confirmDate" class="confirm-date">Xác nhận chọn ngày</button>
+
+            <!-- Phần thông tin phòng khám -->
+            <div class="clinic-information">
+                <h3>Địa chỉ khám</h3>
+                <p>Bệnh viện Đa Khoa tỉnh Khánh Hòa</p>
+                <p>19 Yersin, P. Lộc Thọ, TP. Nha Trang</p>
+                <p><span class="promotion">Chương trình khuyến mãi</span> <a href="#" class="detail-link">Xem chi
+                        tiết</a></p>
+                <p>Giá khám: 150.000đ <a href="#" class="detail-link">Xem chi tiết</a></p>
+                <p>Loại bảo hiểm áp dụng <a href="#" class="detail-link">Xem chi tiết</a></p>
+
+            </div>
+
         </div>
-        <!-- Phần thông tin phòng khám -->
-        <div class="clinic-information">
-            <h3>Địa chỉ khám</h3>
-            <p>Bệnh viện Đa Khoa tỉnh Khánh Hòa</p>
-            <p>19 Yersin, P. Lộc Thọ, TP. Nha Trang</p>
-            <p><span class="promotion">Chương trình khuyến mãi</span> <a href="#" class="detail-link">Xem chi
-                    tiết</a></p>
-            <p>Giá khám: 150.000đ <a href="#" class="detail-link">Xem chi tiết</a></p>
-            <p>Loại bảo hiểm áp dụng <a href="#" class="detail-link">Xem chi tiết</a></p>
-
-        </div>
-
     </div>
 
     <!-- Main container  -->
