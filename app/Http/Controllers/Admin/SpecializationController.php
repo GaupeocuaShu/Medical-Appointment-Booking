@@ -8,7 +8,7 @@ use App\Models\Specialization;
 use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-class SpecializationController extends Controller
+class WorkplaceControllerSpecializationController extends Controller
 {
     use UploadTrait;
     public function index(SpecializationsDataTable $datatable)
@@ -94,7 +94,7 @@ class SpecializationController extends Controller
     {
         $specialization = Specialization::findOrFail($id);
         $specialization->delete();
-        return response(["status" => "success","message"=>"Delete Specialization Successfully"]);
+        return response(["status" => "success","message"=>"Delete Specialization Successfully","is_empty" => isTableEmpty(Specialization::get())]);
     }
 
     // Change Status 

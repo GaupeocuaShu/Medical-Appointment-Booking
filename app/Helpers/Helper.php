@@ -15,3 +15,10 @@ function getAge($date) {
     $currentYear = Carbon::create();
     return $currentYear->subYears($date)->year;
 }
+
+
+
+// Check table is Empty 
+function isTableEmpty($model){
+    return $model->isEmpty();
+}

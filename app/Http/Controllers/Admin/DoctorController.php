@@ -11,6 +11,7 @@ use App\Models\Schedule;
 use App\Models\Specialization;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Workplace;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 
@@ -27,7 +28,8 @@ class DoctorController extends Controller
     {
         $users = User::get();
         $specializations = Specialization::get();
-        return view("admin.doctor.create",compact("users","specializations"));
+        $workplaces = Workplace::get();
+        return view("admin.doctor.create",compact("users","specializations","workplaces"));
     }
 
     public function store(Request $request)
@@ -39,11 +41,12 @@ class DoctorController extends Controller
             "title" => ["required"], 
             "user_id" => ["required"], 
             "specialization_id" => ["required"], 
+            "workplace_id" => ["required"], 
         ]); 
      
         $doctor = Doctor::create([
             "academic_degree"=>$request->academic_degree, 
-            "specialization_id"=>$request->specialization_id, 
+            "workplace_id"=>$request->workplace_id, 
             "experience_year"=>$request->experience_year, 
             "user_id"=>$request->user_id, 
             "title"=>$request->title, 
@@ -62,7 +65,7 @@ class DoctorController extends Controller
 
     public function show(string $id)
     {   
-        $doctor = Doctor::with("specializations","user")->findOrFail($id);
+        $doctor = Doctor::with("specializations","user","workplace")->findOrFail($id);
         $datesFrWTime = array();
         $timesFrWTime = array();
         $flag = " ";
@@ -91,8 +94,9 @@ class DoctorController extends Controller
         $users = User::get();
         $specializations = Specialization::get();
         $doctor = Doctor::with("specializations")->findOrFail($id); 
+        $workplaces = Workplace::get();
 
-        return view("admin.doctor.edit",compact("doctor","users","specializations"));
+        return view("admin.doctor.edit",compact("doctor","users","specializations","workplaces"));
     }
 
     /**
@@ -112,6 +116,7 @@ class DoctorController extends Controller
             "academic_degree"=>$request->academic_degree, 
             "experience_year"=>$request->experience_year,
             "user_id"=>$request->user_id,
+            "workplace_id"=>$request->workplace_id, 
             "title"=>$request->title,
             "note"=>$request->note,
             "introduction"=>$request->introduction,
@@ -130,7 +135,7 @@ class DoctorController extends Controller
     {
         $doctor = Doctor::findOrFail($id); 
         $doctor->delete();
-        return response(["status"=>"success","message"=>"Delete Doctor successfully"]);
+        return response(["status"=>"success","message"=>"Delete Doctor successfully","is_empty" => isTableEmpty(Doctor::get())]);
     }
     // Get Specialization ID
     public function getSpecialization(string $id){

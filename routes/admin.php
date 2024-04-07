@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\SpecializationController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\admin\WorkingTimeController;
+use App\Http\Controllers\Admin\WorkplaceController;
+use App\Models\Workplace;
 use Illuminate\Support\Facades\Route;
 
 // Dashboard  ------------------------------------
@@ -53,7 +55,10 @@ Route::get("working-time/get-working-time",[WorkingTimeController::class,"getWor
 Route::put("working-time/update",[WorkingTimeController::class,"updateWorkingTime"])->name("working-time.update");
 // Working Time ------------------------------------
 
-
+// Workplace------------------------------------
+Route::put("workplace/{id}/change-status",[WorkplaceController::class,'changeStatus'])->name("workplace.change-status");
+Route::resource("workplace",WorkplaceController::class);
+// Workplace------------------------------------
 
 
 // Schedule -------------------------------------------

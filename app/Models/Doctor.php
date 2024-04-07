@@ -13,6 +13,7 @@ class Doctor extends Model
         "academic_degree", 
         "experience_year",
         "user_id",
+        "workplace_id",
         "title",
         "note",
         "introduction",
@@ -28,5 +29,9 @@ class Doctor extends Model
     }
     public function working_times(){
         return $this->hasMany(WorkingTime::class);
+    }
+
+    public function workplace(){
+        return $this->belongsTo(Workplace::class);
     }
 }

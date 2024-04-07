@@ -23,6 +23,7 @@ http://www.tooplate.com/view/2098-health
     <link rel="stylesheet" href="{{ asset('frontend/home/css/animate.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/home/css/owl.carousel.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/home/css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/home/css/doctor-team.css') }}">
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/home/css/tooplate-style.css') }}">
@@ -46,6 +47,9 @@ http://www.tooplate.com/view/2098-health
 
 
     <!-- SCRIPTS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="{{ asset('frontend/home/js/jquery.js') }}"></script>
     <script src="{{ asset('frontend/home/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('frontend/home/js/jquery.sticky.js') }}"></script>
@@ -54,6 +58,8 @@ http://www.tooplate.com/view/2098-health
     <script src="{{ asset('frontend/home/js/smoothscroll.js') }}"></script>
     <script src="{{ asset('frontend/home/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('frontend/home/js/custom.js') }}"></script>
+    <script src="{{ asset('frontend/home/js/doctor-team.js') }}"></script>
+
 </body>
 
 
