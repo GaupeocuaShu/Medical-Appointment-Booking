@@ -93,7 +93,7 @@
                                                         <input type="hidden" name="time" value="{{ $time }}" />
                                                         <input type="hidden" name="is_busy" value="{{ $isBusy }}" />
                                                         <button
-                                                            class="working-time-button  mb-3 btn btn-lg {{ $isBusy ? 'btn-outline-warning' : 'btn-outline-primary' }}">{{ $time }}-{{ $endTime->isoFormat('HH-mm') }}</button>&emsp;
+                                                            class="working-time-button  mb-3 btn btn-lg {{ $isBusy ? 'btn-outline-warning' : 'btn-outline-primary' }}">{{ $time }}-{{ $endTime->isoFormat('HH:mm') }}</button>&emsp;
                                                     </form>
                                                 @endforeach
                                             </div>
@@ -113,7 +113,7 @@
                                                         <input type="hidden" name="time" value="{{ $time }}" />
                                                         <input type="hidden" name="is_busy" value="{{ $isBusy }}" />
                                                         <button
-                                                            class="working-time-button  mb-3 btn btn-lg {{ $isBusy ? 'btn-outline-warning' : 'btn-outline-primary' }}">{{ $time }}-{{ $endTime->isoFormat('HH-mm') }}</button>&emsp;
+                                                            class="working-time-button  mb-3 btn btn-lg {{ $isBusy ? 'btn-outline-warning' : 'btn-outline-primary' }}">{{ $time }}-{{ $endTime->isoFormat('HH:mm') }}</button>&emsp;
                                                     </form>
                                                 @endforeach
                                             </div>

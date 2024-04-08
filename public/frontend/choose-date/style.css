@@ -158,9 +158,11 @@ html {
 }
 .time-container {
     flex: 1;
-
+    max-height: 500px;
+    overflow-y: scroll;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: relative;
+    padding: 20px;
     & .data-loader {
         position: absolute;
         z-index: 2;
@@ -174,6 +176,30 @@ html {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+    }
+    & .time-section {
+        & h4 {
+            color: #4491e3;
+        }
+        & .time-selection {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+
+            & .time-frame {
+                cursor: pointer;
+                border: 2px solid;
+                border-color: #2e72ba;
+                color: #2e72ba;
+                padding: 10px;
+                text-align: center;
+                transition: 0.3s;
+                &:hover {
+                    background-color: #2e72ba;
+                    color: white;
+                }
+            }
+        }
     }
 }
 

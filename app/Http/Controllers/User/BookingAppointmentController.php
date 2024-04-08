@@ -11,7 +11,23 @@ use Illuminate\Support\Carbon;
 
 class BookingAppointmentController extends Controller
 {
-    //  return booking appointment page
+    // Get Time Frame By Date 
+    public function getTimeFrameByDate(Request $request){
+        $date = $request->current_year."-".$request->current_month."-".$request->selected_date;
+        $dateFrames = WorkingTime::where("doctor_id",$request->doctor_id)
+                    ->whereDate("working_time",$date)
+                    ->get("working_time");  
+        
+        $timeFrames = array(); 
+        foreach ($dateFrames as $key => $value) {
+            $time = Carbon::create($value->working_time);
+            $sTime = $time->isoFormat("HH:mm"); 
+            $eTime = $time->addMinute(30)->isoFormat("HH:mm");
+            $timeFrames[] = $sTime."-".$eTime;
+        }
+        return response(["time_frames" => $timeFrames]);
+    }
+    //  return booking appointment page 
     public function bookAppointment(string $id){
         $doctor = Doctor::with("specializations","user")->findOrFail($id);  
         $currentYear = Carbon::now()->year;

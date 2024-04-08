@@ -78,13 +78,30 @@
 
             <!-- Bảng Gio để đặt lịch -->
             <div class="time-container">
-                <section class="data-loader hide">
+                <section class="data-loader hidden">
                     <div class="spinner">
                         <span class="spinner-rotate"></span>
                     </div>
                 </section>
                 <div class="time-container-background">
                     <img width="120" src="{{ asset('uploads/shop.png') }}" />
+                </div>
+                <div>
+                    <div class="morning time-section hidden">
+                        <h4>Buổi Sáng</h4>
+                        <div class="time-selection">
+                        </div>
+                    </div>
+                    <div class="afternoon time-section hidden">
+                        <h4>Buổi Chiều</h4>
+                        <div class="time-selection">
+                        </div>
+                    </div>
+                    <div class="evening time-section hidden">
+                        <h4>Buổi Tối</h4>
+                        <div class="time-selection">
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -103,12 +120,14 @@
         let availability = '{!! $jsonDatesFrWTime !!}';
         const currentMonth = "{{ $currentMonth }}";
         const currentYear = "{{ $currentYear }}";
+        let selectedDate = null; // Lưu trữ ngày được chọn
+        const doctorID = "{{ $doctor->id }}";
         const daysInMonth = new Date(currentYear, parseInt(currentMonth), 0).getDate();
         const datesContainer = document.getElementById('dates');
-        let selectedDate = null; // Lưu trữ ngày được chọn
         let dates = [];
         availability = JSON.parse(availability);
-        for (let i = 0; i <= daysInMonth; i++) {
+
+        for (let i = 1; i <= daysInMonth; i++) {
             if (availability[i] == true) dates[i] = true;
             else dates[i] = false;
         }
@@ -129,19 +148,59 @@
                     selectedDate = dateElement;
                 });
             }
-            dateElement.textContent = index + 1; // Ngày bắt đầu từ 1
+            dateElement.textContent = index; // Ngày bắt đầu từ 1
             datesContainer.appendChild(dateElement);
         });
 
         // Xử lý sự kiện khi nhấn nút xác nhận
-        document.getElementById('confirmDate').addEventListener('click', function() {
-            if (selectedDate) {
-                // Thực hiện hành động chuyển trang hoặc lưu ngày được chọn
-                alert('Ngày được chọn: ' + selectedDate.textContent); // Ví dụ hiển thị thông báo
-                window.location.href = '../ChooseTime/index.html';
-            } else {
-                alert('Vui lòng chọn ngày khám bệnh.');
+        $("#confirmDate").on("click", function() {
+            const data = {
+                current_month: currentMonth,
+                current_year: currentYear,
+                doctor_id: doctorID,
+                selected_date: $(selectedDate).html(),
             }
+            $.ajax({
+                type: "POST",
+                url: "{{ route('get-time-frame-by-date') }}",
+                data: data,
+                dataType: "JSON",
+                beforeSend: function() {
+                    $(".data-loader").removeClass("hidden");
+                    $(".time-container-background").hide();
+                    $(".time-section").addClass("hidden");
+                },
+                success: function(response, textStatus, jqXHR) {
+                    const timeFrames = response.time_frames;
+
+                    $(".time-selection").html('');
+                    $(".data-loader").addClass("hidden");
+
+                    function removeClassHidden(a) {
+                        $(a).removeClass("hidden");
+                    }
+                    $.each(timeFrames, function(i, v) {
+                        const timeSection = parseInt(v.slice(0, 2));
+                        const timeFrameHTML = `<div class="time-frame">${v}</div>`;
+                        if (timeSection < 12) {
+                            removeClassHidden(".morning");
+                            $(".morning .time-selection").append(
+                                timeFrameHTML);
+                        } else if (timeSection > 12 && timeSection < 17) {
+                            removeClassHidden(".afternoon");
+                            $(".afternoon .time-selection").append(
+                                timeFrameHTML);
+                        } else {
+                            removeClassHidden(".evening");
+                            $(".evening .time-selection").append(
+                                timeFrameHTML);
+                        };
+                    });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.table(jqXHR)
+                }
+            });
         });
     </script>
 @endpush

@@ -68,8 +68,9 @@ class DoctorController extends Controller
         $doctor = Doctor::with("specializations","user","workplace")->findOrFail($id);
         $datesFrWTime = array();
         $timesFrWTime = array();
-        $flag = " ";
-        foreach($doctor->working_times as $wTime){
+        $flag = " "; 
+        $working_times = $doctor->working_times()->orderBy('working_time')->get();
+        foreach( $working_times as $wTime){
             $carbonWTime = Carbon::create($wTime->working_time);
             if($flag != $carbonWTime->toDateString() && $flag != " ") {
                 $datesFrWTime[$flag] = $timesFrWTime;

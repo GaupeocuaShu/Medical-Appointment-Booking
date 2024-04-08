@@ -29,9 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get("{id}/booking-appointment",[BookingAppointmentController::class,"bookAppointment"])->name("book-appointment");
-
     Route::post("create-appointment",[BookingAppointmentController::class,"createAppointment"])->name("create-appointment");
-
+    
+    // Get Time Frame By Date 
+    Route::POST("get-time-frame-by-date",[BookingAppointmentController::class,"getTimeFrameByDate"])->name("get-time-frame-by-date");
 });
 
 require __DIR__.'/auth.php';
