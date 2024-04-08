@@ -35,10 +35,15 @@
             </div>
 
         </div>
+        {{-- Phần note --}}
+        <div class="note">
+            <h3>Bệnh nhân lưu ý !</h3>
+            {!! $doctor->note !!}
+        </div>
 
         <!-- Phần thông tin phòng khám -->
         <div class="clinic-information">
-            <h3>Địa chỉ khám</h3>
+            <h3>Địa chỉ khám</h3> <br>
             <p>Bệnh viện Đa Khoa tỉnh Khánh Hòa</p>
             <p>19 Yersin, P. Lộc Thọ, TP. Nha Trang</p>
             <p><span class="promotion">Chương trình khuyến mãi</span> <a href="#" class="detail-link">Xem chi
@@ -107,7 +112,16 @@
 
 
         </div>
-
+        {{-- Phần Introductio --}}
+        <div class="introduction">
+            <h3>Giới thiệu </h3>
+            {!! $doctor->introduction !!}
+        </div>
+        {{-- Phần training process --}}
+        <div class="training-process">
+            <h3>Quá trình đào tạo</h3>
+            {!! $doctor->training_process !!}
+        </div>
     </div>
 
     <!-- Main container  -->

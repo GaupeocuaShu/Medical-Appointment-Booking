@@ -1305,6 +1305,42 @@ button:hover {
     background-color: #0056b3;
 }
 
+.note {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #e99999;
+    border-radius: 8px;
+    background-color: #f41c1c42;
+    line-height: 3rem;
+    & h3 {
+        color: #007bff;
+        margin-bottom: 5px;
+    }
+}
+.introduction {
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: white;
+    line-height: 3rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    & h3 {
+        color: #007bff;
+        margin-bottom: 5px;
+    }
+}
+.training-process {
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: white;
+    line-height: 3rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    & h3 {
+        color: #007bff;
+        margin-bottom: 5px;
+    }
+}
 /*---------------------------------------
      RESPONSIVE STYLES              
   -----------------------------------------*/
