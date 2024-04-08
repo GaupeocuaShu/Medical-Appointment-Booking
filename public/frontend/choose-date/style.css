@@ -144,12 +144,37 @@ p {
 html {
     -webkit-font-smoothing: antialiased;
 }
+.booking-area {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 5rem;
+}
 .calendar-container {
     max-width: 400px;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.time-container {
+    flex: 1;
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    & .data-loader {
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    & .time-container-background {
+        position: absolute;
+        z-index: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
 
 .month {

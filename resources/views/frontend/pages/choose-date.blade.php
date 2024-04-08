@@ -36,13 +36,23 @@
 
         </div>
 
+        <!-- Phần thông tin phòng khám -->
+        <div class="clinic-information">
+            <h3>Địa chỉ khám</h3>
+            <p>Bệnh viện Đa Khoa tỉnh Khánh Hòa</p>
+            <p>19 Yersin, P. Lộc Thọ, TP. Nha Trang</p>
+            <p><span class="promotion">Chương trình khuyến mãi</span> <a href="#" class="detail-link">Xem chi
+                    tiết</a></p>
+            <p>Giá khám: 150.000đ <a href="#" class="detail-link">Xem chi tiết</a></p>
+            <p>Loại bảo hiểm áp dụng <a href="#" class="detail-link">Xem chi tiết</a></p>
 
-        <div style="display: flex;justify-content:space-between">
+        </div>
+        <div class="booking-area">
             <!-- Bảng ngày để đặt lịch -->
             <div class="calendar-container">
                 <div class="month">
                     <button id="prev" class="prev">&#10094;</button>
-                    <h3>Tháng 4, 2024</h3>
+                    <h3>Tháng {{ $currentMonth }}, {{ $currentYear }}</h3>
                     <button id="next" class="next">&#10095;</button>
                 </div>
                 <div class="days">
@@ -66,20 +76,21 @@
                 <button id="confirmDate" class="confirm-date">Xác nhận chọn ngày</button>
             </div>
 
-
-            <!-- Phần thông tin phòng khám -->
-            <div class="clinic-information">
-                <h3>Địa chỉ khám</h3>
-                <p>Bệnh viện Đa Khoa tỉnh Khánh Hòa</p>
-                <p>19 Yersin, P. Lộc Thọ, TP. Nha Trang</p>
-                <p><span class="promotion">Chương trình khuyến mãi</span> <a href="#" class="detail-link">Xem chi
-                        tiết</a></p>
-                <p>Giá khám: 150.000đ <a href="#" class="detail-link">Xem chi tiết</a></p>
-                <p>Loại bảo hiểm áp dụng <a href="#" class="detail-link">Xem chi tiết</a></p>
-
+            <!-- Bảng Gio để đặt lịch -->
+            <div class="time-container">
+                <section class="data-loader hide">
+                    <div class="spinner">
+                        <span class="spinner-rotate"></span>
+                    </div>
+                </section>
+                <div class="time-container-background">
+                    <img width="120" src="{{ asset('uploads/shop.png') }}" />
+                </div>
             </div>
 
+
         </div>
+
     </div>
 
     <!-- Main container  -->
@@ -89,15 +100,21 @@
 @push('scripts')
     <script>
         // Mảng ví dụ, true nghĩa là ngày có thể đặt lịch, false là không thể
-        const availability = [false, true, true, true, false, true, true, false, true, true, false, true, true, true,
-            false, true, true, true, false, true, true, true, false, true, true, true, false, true, true, false
-        ];
-
+        let availability = '{!! $jsonDatesFrWTime !!}';
+        const currentMonth = "{{ $currentMonth }}";
+        const currentYear = "{{ $currentYear }}";
+        const daysInMonth = new Date(currentYear, parseInt(currentMonth), 0).getDate();
         const datesContainer = document.getElementById('dates');
         let selectedDate = null; // Lưu trữ ngày được chọn
-
+        let dates = [];
+        availability = JSON.parse(availability);
+        for (let i = 0; i <= daysInMonth; i++) {
+            if (availability[i] == true) dates[i] = true;
+            else dates[i] = false;
+        }
+        console.log(dates);
         // Tạo và hiển thị các ngày
-        availability.forEach((available, index) => {
+        dates.forEach((available, index) => {
             const dateElement = document.createElement('div');
             dateElement.classList.add('date');
             if (!available) {

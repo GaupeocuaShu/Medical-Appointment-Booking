@@ -148,8 +148,9 @@ class DoctorController extends Controller
     }
     // Add Working Time for Doctor
     public function workingTime(string $id){
-        $today = Carbon::today();    
-        return view("admin.doctor.working-time",compact("today","id"));
+        $firstOfMonth = Carbon::now()->firstOfMonth();  
+
+        return view("admin.doctor.working-time",compact("firstOfMonth","id"));
     }
     // Get Doctor Working Time 
     public function getWorkingTime(Request $request){

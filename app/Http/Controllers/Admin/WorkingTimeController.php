@@ -13,7 +13,8 @@ class WorkingTimeController extends Controller
     public function getWorkingTime(){
         $workingTimes = array();
         $timeStrings = array();
-        for($i = 1 ; $i <= 7 ; $i++){
+        $daysInMonth = Carbon::now()->daysInMonth;
+        for($i = 1 ; $i <= $daysInMonth ; $i++){
             $workingTimesFromDB = WorkingTime::where("select_id",$i)->get(); 
             if($workingTimesFromDB->count() > 0){
                 foreach ($workingTimesFromDB as $key => $wTime) {

@@ -13,23 +13,36 @@ class BookingAppointmentController extends Controller
 {
     //  return booking appointment page
     public function bookAppointment(string $id){
-        $doctor = Doctor::with("specializations","user")->findOrFail($id);
+        $doctor = Doctor::with("specializations","user")->findOrFail($id);  
+        $currentYear = Carbon::now()->year;
+        $currentMonth = Carbon::now()->month;
+
         $datesFrWTime = array();
         $timesFrWTime = array();
         $flag = " ";
-        foreach($doctor->working_times as $wTime){
-            $carbonWTime = Carbon::create($wTime->working_time);
-            if($flag != $carbonWTime->toDateString() && $flag != " ") {
-                $datesFrWTime[$flag] = $timesFrWTime;
-                $timesFrWTime = array();
-            }
-            $timesFrWTime[] = $carbonWTime->isoFormat("HH:mm");
-            $flag = $carbonWTime->toDateString();
-            if(!next($doctor->working_times)){
-                $datesFrWTime[$flag] = $timesFrWTime;
-            }
-        }
-        return view("frontend.pages.choose-date",compact("doctor","datesFrWTime")); 
+        $working_times = WorkingTime::where("doctor_id",$doctor->id)
+                        ->whereYear('working_time',$currentYear) 
+                        ->whereMonth('working_time',$currentMonth) 
+                        ->get();
+        foreach( $working_times as $wTime){ 
+            // $carbonWTime = Carbon::create($wTime->working_time);
+            // if($flag != $carbonWTime->toDateString() && $flag != " ") {
+            //     $datesFrWTime[$flag] = $timesFrWTime;
+            //     $timesFrWTime = array();
+            // }
+            // $timesFrWTime[] = $carbonWTime->isoFormat("HH:mm");
+            // $flag = $carbonWTime->toDateString();
+            // if(!next($doctor->working_times)){
+            //     $datesFrWTime[$flag] = $timesFrWTime;
+            // } 
+
+            $carbonWTime = Carbon::create($wTime->working_time)->isoFormat("D"); 
+            $datesFrWTime[$carbonWTime] = true ; 
+ 
+        } 
+    $jsonDatesFrWTime = json_encode($datesFrWTime);
+        return view("frontend.pages.choose-date",compact("doctor","jsonDatesFrWTime"
+        ,"currentYear","currentMonth")); 
     }
 
     // Create appointment 
