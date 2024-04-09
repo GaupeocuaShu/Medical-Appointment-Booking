@@ -109,6 +109,8 @@
                                                         @php
                                                             $time = explode('/', $wtime)[0];
                                                             $isBusy = !empty(explode('/', $wtime)[1]);
+                                                            $endTime = Carbon\Carbon::create($time);
+                                                            $endTime->addMinutes(30);
                                                         @endphp
                                                         <input type="hidden" name="time" value="{{ $time }}" />
                                                         <input type="hidden" name="is_busy" value="{{ $isBusy }}" />

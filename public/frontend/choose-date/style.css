@@ -161,8 +161,17 @@ html {
     max-height: 500px;
     overflow-y: scroll;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
     position: relative;
     padding: 20px;
+    & button {
+        position: absolute;
+        bottom: 2px;
+        left: 50%;
+        width: 70%;
+        transform: translate(-50%, -50%);
+    }
     & .data-loader {
         position: absolute;
         z-index: 2;
@@ -195,6 +204,10 @@ html {
                 text-align: center;
                 transition: 0.3s;
                 &:hover {
+                    background-color: #2e72ba;
+                    color: white;
+                }
+                &.active {
                     background-color: #2e72ba;
                     color: white;
                 }
@@ -253,7 +266,8 @@ html {
     background-color: #ccc;
 }
 
-.confirm-date {
+.confirm-date,
+.confirm-time {
     background-color: #4caf50;
     color: white;
     padding: 10px 20px;
@@ -265,7 +279,8 @@ html {
     width: 100%;
 }
 
-.confirm-date:hover {
+.confirm-date:hover,
+.confirm-time:hover {
     background-color: #45a049;
 }
 .date.active:hover {

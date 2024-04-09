@@ -92,21 +92,26 @@
                     <img width="120" src="{{ asset('uploads/shop.png') }}" />
                 </div>
                 <div>
-                    <div class="morning time-section hidden">
-                        <h4>Buổi Sáng</h4>
-                        <div class="time-selection">
+                    <form action="" class="submit-appointment">
+                        <input name="doctor_id" type="hidden" value="{{ $doctor->id }}" />
+                        <input type="hidden" class="appointment" name="appointment" />
+                        <div class="morning time-section hidden">
+                            <h4>Buổi Sáng</h4>
+                            <div class="time-selection">
+                            </div>
                         </div>
-                    </div>
-                    <div class="afternoon time-section hidden">
-                        <h4>Buổi Chiều</h4>
-                        <div class="time-selection">
+                        <div class="afternoon time-section hidden">
+                            <h4>Buổi Chiều</h4>
+                            <div class="time-selection">
+                            </div>
                         </div>
-                    </div>
-                    <div class="evening time-section hidden">
-                        <h4>Buổi Tối</h4>
-                        <div class="time-selection">
+                        <div class="evening time-section hidden">
+                            <h4>Buổi Tối</h4>
+                            <div class="time-selection">
+                            </div>
                         </div>
-                    </div>
+                        <button class="confirm-time">Xác nhận chọn giờ</button>
+                    </form>
                 </div>
             </div>
 
@@ -130,6 +135,8 @@
 
 @push('scripts')
     <script>
+        // Ham Khoi tao 
+
         // Mảng ví dụ, true nghĩa là ngày có thể đặt lịch, false là không thể
         let availability = '{!! $jsonDatesFrWTime !!}';
         const currentMonth = "{{ $currentMonth }}";
@@ -141,6 +148,11 @@
         let dates = [];
         availability = JSON.parse(availability);
 
+        function init() {
+            $(".appointment").val("");
+            selectedDate = null;
+        }
+        init();
         for (let i = 1; i <= daysInMonth; i++) {
             if (availability[i] == true) dates[i] = true;
             else dates[i] = false;
@@ -168,53 +180,90 @@
 
         // Xử lý sự kiện khi nhấn nút xác nhận
         $("#confirmDate").on("click", function() {
-            const data = {
-                current_month: currentMonth,
-                current_year: currentYear,
-                doctor_id: doctorID,
-                selected_date: $(selectedDate).html(),
-            }
-            $.ajax({
-                type: "POST",
-                url: "{{ route('get-time-frame-by-date') }}",
-                data: data,
-                dataType: "JSON",
-                beforeSend: function() {
-                    $(".data-loader").removeClass("hidden");
-                    $(".time-container-background").hide();
-                    $(".time-section").addClass("hidden");
-                },
-                success: function(response, textStatus, jqXHR) {
-                    const timeFrames = response.time_frames;
-
-                    $(".time-selection").html('');
-                    $(".data-loader").addClass("hidden");
-
-                    function removeClassHidden(a) {
-                        $(a).removeClass("hidden");
-                    }
-                    $.each(timeFrames, function(i, v) {
-                        const timeSection = parseInt(v.slice(0, 2));
-                        const timeFrameHTML = `<div class="time-frame">${v}</div>`;
-                        if (timeSection < 12) {
-                            removeClassHidden(".morning");
-                            $(".morning .time-selection").append(
-                                timeFrameHTML);
-                        } else if (timeSection > 12 && timeSection < 17) {
-                            removeClassHidden(".afternoon");
-                            $(".afternoon .time-selection").append(
-                                timeFrameHTML);
-                        } else {
-                            removeClassHidden(".evening");
-                            $(".evening .time-selection").append(
-                                timeFrameHTML);
-                        };
-                    });
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.table(jqXHR)
+            const date = $(selectedDate).html();
+            if (!date) {
+                alert("Please select date")
+            } else {
+                const data = {
+                    current_month: currentMonth,
+                    current_year: currentYear,
+                    doctor_id: doctorID,
+                    selected_date: date,
                 }
-            });
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('get-time-frame-by-date') }}",
+                    data: data,
+                    dataType: "JSON",
+                    beforeSend: function() {
+                        $(".data-loader").removeClass("hidden");
+                        $(".time-container-background").hide();
+                        $(".time-section").addClass("hidden");
+                    },
+                    success: function(response, textStatus, jqXHR) {
+                        const timeFrames = response.time_frames;
+
+                        $(".time-selection").html('');
+                        $(".data-loader").addClass("hidden");
+
+                        function removeClassHidden(a) {
+                            $(a).removeClass("hidden");
+                        }
+                        $.each(timeFrames, function(i, v) {
+                            const timeSection = parseInt(v.slice(0, 2));
+                            const timeFrameHTML =
+                                `<div data-appointment='${currentYear}/${currentMonth}/${date}/${v.slice(0, 5)}' class="time-frame">
+                                ${v}
+                            </div>`;
+                            if (timeSection < 12) {
+                                removeClassHidden(".morning");
+                                $(".morning .time-selection").append(
+                                    timeFrameHTML);
+                            } else if (timeSection > 12 && timeSection < 17) {
+                                removeClassHidden(".afternoon");
+                                $(".afternoon .time-selection").append(
+                                    timeFrameHTML);
+                            } else {
+                                removeClassHidden(".evening");
+                                $(".evening .time-selection").append(
+                                    timeFrameHTML);
+                            };
+                        });
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.table(jqXHR)
+                    }
+                });
+            }
+        });
+
+        // xử lý sự kiện chọn giờ 
+        $("body").on("click", ".time-frame", function() {
+            $(".time-frame").removeClass("active");
+            const appointment = $(this).data("appointment");
+            $(this).addClass("active");
+            $(".appointment").val(appointment);
+        });
+        $(".confirm-time").on("click", function(e) {
+            e.preventDefault();
+            const appointment = $(".appointment").val();
+            if (!appointment) alert("Please Choose The Time");
+            else {
+                const data = $(this).closest("form").serialize();
+                // console.log(data);
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('create-appointment') }}",
+                    data: data,
+                    dataType: "JSON",
+                    success: function(response, textStatus, jqXHR) {
+
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.table(jqXHR)
+                    }
+                });
+            }
         });
     </script>
 @endpush

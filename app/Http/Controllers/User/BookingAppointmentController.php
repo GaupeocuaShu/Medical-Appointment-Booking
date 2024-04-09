@@ -15,7 +15,8 @@ class BookingAppointmentController extends Controller
     public function getTimeFrameByDate(Request $request){
         $date = $request->current_year."-".$request->current_month."-".$request->selected_date;
         $dateFrames = WorkingTime::where("doctor_id",$request->doctor_id)
-                    ->whereDate("working_time",$date)
+                    ->whereDate("working_time",$date) 
+                    ->where('is_selected',false)
                     ->get("working_time");  
         
         $timeFrames = array(); 
@@ -38,9 +39,10 @@ class BookingAppointmentController extends Controller
         $flag = " ";
         $working_times = WorkingTime::where("doctor_id",$doctor->id)
                         ->whereYear('working_time',$currentYear) 
-                        ->whereMonth('working_time',$currentMonth) 
+                        ->whereMonth('working_time',$currentMonth)  
                         ->get();
-        foreach( $working_times as $wTime){ 
+        foreach( $working_times as $wTime){  
+
             // $carbonWTime = Carbon::create($wTime->working_time);
             // if($flag != $carbonWTime->toDateString() && $flag != " ") {
             //     $datesFrWTime[$flag] = $timesFrWTime;
@@ -51,23 +53,26 @@ class BookingAppointmentController extends Controller
             // if(!next($doctor->working_times)){
             //     $datesFrWTime[$flag] = $timesFrWTime;
             // } 
-
-            $carbonWTime = Carbon::create($wTime->working_time)->isoFormat("D"); 
-            $datesFrWTime[$carbonWTime] = true ; 
- 
+            if($wTime->is_selected == false){
+                $day = Carbon::create($wTime->working_time)->isoFormat("D");  
+                $datesFrWTime[$day] = true ; 
+            }
         } 
-    $jsonDatesFrWTime = json_encode($datesFrWTime);
+        $jsonDatesFrWTime = json_encode($datesFrWTime);
         return view("frontend.pages.choose-date",compact("doctor","jsonDatesFrWTime"
         ,"currentYear","currentMonth")); 
     }
 
     // Create appointment 
-    public function createAppointment(Request $request){
+    public function createAppointment(Request $request){ 
+        [$year,$month,$day,$time] = explode("/",$request->appointment); 
+        [$hour,$minute] = explode(":",$time);
+        $appointment = Carbon::create($year,$month,$day,$hour,$minute); 
         $schedule = Schedule::create([
-            "user_id" => $request->user_id, 
-            "patient_id" => $request->patient_id, 
+            "user_id" => auth()->user()->id, 
+            "patient_id" => auth()->user()->patient->patient_id, 
             "doctor_id" => $request->doctor_id, 
-            "appointment" => $request->appointment, 
+            "appointment" => $appointment, 
         ]);
         $workingTime = WorkingTime::where("doctor_id",$schedule->doctor_id)
         ->where("working_time",$schedule->appointment);
