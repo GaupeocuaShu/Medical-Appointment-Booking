@@ -122,7 +122,8 @@
                                                 id="{{ $key }}" role="tabpanel"
                                                 aria-labelledby="{{ $key }}-tab">
                                                 @foreach ($wTimes as $wtime)
-                                                    <form action="" style="display: inline">
+                                                    <form class="get-working-time-form" action=""
+                                                        style="display: inline">
                                                         <input type="hidden" name="date" value="{{ $key }}" />
                                                         <input type="hidden" name="doctor_id"
                                                             value="{{ $doctor->id }}" />
@@ -154,7 +155,8 @@
                                                             $endTime = Carbon\Carbon::create($time);
                                                             $endTime->addMinutes(30);
                                                         @endphp
-                                                        <input type="hidden" name="time" value="{{ $time }}" />
+                                                        <input type="hidden" name="time"
+                                                            value="{{ $time }}" />
                                                         <input type="hidden" name="is_busy"
                                                             value="{{ $isBusy }}" />
                                                         <button
@@ -239,7 +241,7 @@
                 <div class="col-12 col-md-12 col-lg-12">
                     <div class="card">
                         <form enctype="multipart/form-data" action="{{ route('doctor.profile.profile-update') }}"
-                            method="post" class="needs-validation" novalidate="">
+                            method="POST" class="needs-validation" novalidate="">
                             @csrf
                             <div class="card-header">
                                 <h4>Edit User Profile</h4>
@@ -499,6 +501,7 @@
     <script>
         $(document).ready(function() {
             $(".schedule-card").hide();
+
             $(".nav-link").on("click", function() {
                 $(".schedule-card").hide();
                 $(".tab-pane").removeClass("show active");
@@ -508,7 +511,7 @@
             });
 
 
-            $("form").on("submit", function(e) {
+            $(".get-working-time-form").on("submit", function(e) {
                 $(".schedule-card").hide(500);
                 e.preventDefault();
                 const isBusy = $(e.currentTarget[3]).val();
@@ -543,6 +546,16 @@
                         $(".btn-detail").attr("href", data.url);
                     },
                 });
+            });
+
+
+            $.ajax({
+                type: "GET",
+                url: "{{ route('doctor.get-specialization') }}",
+                dataType: "JSON",
+                success: function(data) {
+                    $('.select2').select2().val(data).trigger('change')
+                },
             });
         });
     </script>

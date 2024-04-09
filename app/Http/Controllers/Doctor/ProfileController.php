@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use App\Models\Workplace;
 use App\Models\Specialization;
+use App\Models\Schedule;
 class ProfileController extends Controller
 {
     use UploadTrait;
@@ -90,13 +91,11 @@ class ProfileController extends Controller
             "academic_degree" => ["required"],
             "experience_year" => ["required"], 
             "title" => ["required"], 
-            "user_id" => ["required"], 
         ]); 
         $doctor = Auth::user()->doctor;
         $doctor->update([
             "academic_degree"=>$request->academic_degree, 
             "experience_year"=>$request->experience_year,
-            "user_id"=>$request->user_id,
             "workplace_id"=>$request->workplace_id, 
             "title"=>$request->title,
             "note"=>$request->note,
@@ -109,7 +108,7 @@ class ProfileController extends Controller
         return redirect()->route("admin.doctor.index");
     }
 
-    
+
     // Get Doctor Working Time 
     public function getWorkingTime(Request $request){
         $dateTime = $request->date.$request->time;
@@ -125,5 +124,15 @@ class ProfileController extends Controller
             "gender" => $user->gender,
             "schedule" => Carbon::create($appointment)->isoFormat("HH:mm DD-MM-YYYY"),
         ]);
+    }
+
+    // Get Specialization ID
+    public function getSpecialization(){
+        $doctor = Auth::user()->doctor;
+        $specializationIDs = array();
+        foreach($doctor->specializations as $s){
+            $specializationIDs[] = $s->id;
+        };
+        return response($specializationIDs);
     }
 }

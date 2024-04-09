@@ -6,8 +6,9 @@ Route::get("profile",[ProfileController::class,'index'])->name("profile");
 Route::post("profile/profile-update",[ProfileController::class,'profileUpdate'])->name("profile.profile-update");
 Route::post("profile/password-update",[ProfileController::class,'passwordUpdate'])->name("profile.password-update");
 
-Route::post("profile/doctor-profile-update",[ProfileController::class,'doctorProfileUpdate'])->name("profile.doctor-profile-update");
+Route::put("profile/doctor-profile-update",[ProfileController::class,'doctorProfileUpdate'])->name("profile.doctor-profile-update");
 
+Route::get("get-specialization",[ProfileController::class,"getSpecialization"])->name("get-specialization");
 
 // Working Time ------------------------------------
 // Update Working Time Table 
