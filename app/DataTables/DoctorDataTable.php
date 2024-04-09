@@ -46,6 +46,7 @@ class DoctorDataTable extends DataTable
             ->addColumn('title',function($query){
                 return $query->academic_degree." ".getFullName($query->user);
             })
+
             ->addColumn('experienceYear',function($query){
                 return $query->experience_year." Experience Years";
             })

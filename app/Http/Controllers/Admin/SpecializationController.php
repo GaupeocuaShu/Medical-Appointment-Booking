@@ -8,7 +8,7 @@ use App\Models\Specialization;
 use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-class WorkplaceControllerSpecializationController extends Controller
+class SpecializationController extends Controller
 {
     use UploadTrait;
     public function index(SpecializationsDataTable $datatable)

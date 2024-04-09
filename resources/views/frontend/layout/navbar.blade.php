@@ -17,7 +17,7 @@
                 </button>
 
                 <!-- lOGO TEXT HERE -->
-                <a href="index.html" class="navbar-brand"><i class="fa fa-meetup large-icon"></i>EDICLORD</a>
+                <a href="/" class="navbar-brand"><i class="fa fa-meetup large-icon"></i>EDICLORD</a>
             </div>
 
             <!-- MENU LINKS -->

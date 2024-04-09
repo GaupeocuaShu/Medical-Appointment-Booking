@@ -61,7 +61,8 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-4">
-                                        <img width="200" src="{{ asset("$user->avatar") }}" alt="avatar" />
+                                        <img class="rounded-circle mb-5" width="200" src="{{ asset("$user->avatar") }}"
+                                            alt="avatar" />
                                     </div>
                                     <div class="form-group col-12">
                                         <input class="form-control" name="avatar" type="file" />

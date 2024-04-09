@@ -17,8 +17,8 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
-                                <img width="200" alt="{{ getFullName($doctor->user) }}"
-                                    src="{{ asset($doctor->user->avatar) }}" />
+                                <img class="rounded-circle mr-5 mb-5 object-cover" width="200"
+                                    alt="{{ getFullName($doctor->user) }}" src="{{ asset($doctor->user->avatar) }}" />
                                 <div>
                                     <h3 class="font-weight-bold">
                                         {{ $doctor->academic_degree . ' ' . getFullName($doctor->user) }}</h3>
@@ -141,7 +141,8 @@
                                                 </div>
 
                                                 <div class="mt-3 text-center col-md-12">
-                                                    <a href="" class="btn-detail btn btn-outline-warning">Click Here
+                                                    <a href="" class="btn-detail btn btn-outline-warning">Click
+                                                        Here
                                                         To View Detail</a>
                                                 </div>
                                             </ul>
@@ -181,7 +182,7 @@
                             @if ($doctor->prize_and_research)
                                 <div>
                                     <h5>Prizes & Research</h5>
-                                    {{ Str::length($doctor->prize_and_research) }}
+
                                     <p>{!! $doctor->prize_and_research !!}</p>
                                 </div>
                             @endif

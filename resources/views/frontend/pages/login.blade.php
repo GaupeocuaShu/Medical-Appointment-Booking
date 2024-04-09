@@ -35,6 +35,7 @@
         <div class="form-container sign-in">
             <form method="POST" action="{{ route('login') }}">
                 @csrf
+
                 <h1>Log In</h1>
                 <div class="social-icons">
                     <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
@@ -44,6 +45,11 @@
                 <span>or use your email password</span>
                 <input name="email" type="email" placeholder="Email">
                 <input name="password" type="password" placeholder="Password">
+                @if ($errors->any())
+                    @foreach ($errors->all() as $err)
+                        <h4 class="error_alert">{{ $err }}</h4>
+                    @endforeach
+                @endif
                 <a href="#">Forget Your Password?</a>
                 <button>Log In</button>
             </form>

@@ -214,3 +214,8 @@ body {
 .container.active .toggle-right {
     transform: translateX(200%);
 }
+.error_alert {
+    color: rgb(210, 4, 4);
+    font-weight: normal;
+    font-size: 14px;
+}
