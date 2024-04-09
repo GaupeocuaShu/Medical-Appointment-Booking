@@ -65,18 +65,40 @@ class BookingAppointmentController extends Controller
 
     // Create appointment 
     public function createAppointment(Request $request){ 
-        [$year,$month,$day,$time] = explode("/",$request->appointment); 
-        [$hour,$minute] = explode(":",$time);
-        $appointment = Carbon::create($year,$month,$day,$hour,$minute); 
-        $schedule = Schedule::create([
-            "user_id" => auth()->user()->id, 
-            "patient_id" => auth()->user()->patient->patient_id, 
-            "doctor_id" => $request->doctor_id, 
-            "appointment" => $appointment, 
+        try{
+            [$year,$month,$day,$time] = explode("/",$request->appointment); 
+            [$hour,$minute] = explode(":",$time);
+            $appointment = Carbon::create($year,$month,$day,$hour,$minute); 
+            $schedule = Schedule::create([
+                "user_id" => auth()->user()->id, 
+                "patient_id" => auth()->user()->patient->patient_id, 
+                "doctor_id" => $request->doctor_id, 
+                "appointment" => $appointment, 
+            ]);
+            $workingTime = WorkingTime::where("doctor_id",$schedule->doctor_id)
+            ->where("working_time",$schedule->appointment);
+            $workingTime->update(["is_selected" => true]);
+            return response([
+                "status" => "success", 
+                "url" => route('booking-success',$schedule->id),
+            ]);
+        }catch (\Exception $e) {
+            // If an exception occurs (e.g., user not found), handle it here
+            return response([
+                "status" => "fail", 
+                
+            ]);
+        }
+    }
+    // Return view booking success
+    public function bookingSuccess(string $id){ 
+        $schedule = Schedule::findOrFail($id);  
+        $user = auth()->user();
+        $doctor = Doctor::with("workplace")->findOrFail($schedule->doctor_id);
+        return view("frontend.pages.booking-success",[
+            "schedule" => $schedule, 
+            "user" => $user,
+            "doctor" =>  $doctor,
         ]);
-        $workingTime = WorkingTime::where("doctor_id",$schedule->doctor_id)
-        ->where("working_time",$schedule->appointment);
-        $workingTime->update(["is_selected" => true]);
-        return redirect()->back();
     }
 }

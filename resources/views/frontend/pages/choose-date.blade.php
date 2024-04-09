@@ -91,7 +91,7 @@
                 <div class="time-container-background">
                     <img width="120" src="{{ asset('uploads/shop.png') }}" />
                 </div>
-                <div>
+                <div class="appointment-form">
                     <form action="" class="submit-appointment">
                         <input name="doctor_id" type="hidden" value="{{ $doctor->id }}" />
                         <input type="hidden" class="appointment" name="appointment" />
@@ -246,18 +246,24 @@
         });
         $(".confirm-time").on("click", function(e) {
             e.preventDefault();
+            $(this).attr("disabled", true);
             const appointment = $(".appointment").val();
             if (!appointment) alert("Please Choose The Time");
             else {
                 const data = $(this).closest("form").serialize();
-                // console.log(data);
                 $.ajax({
                     type: "POST",
                     url: "{{ route('create-appointment') }}",
                     data: data,
                     dataType: "JSON",
+                    beforeSend: function() {
+                        $(".data-loader").removeClass("hidden");
+                        $(".appointment-form").css('filter', 'blur(10px)');
+                    },
                     success: function(response, textStatus, jqXHR) {
-
+                        if (response.status == 'success') {
+                            window.location.replace(response.url);
+                        }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.table(jqXHR)

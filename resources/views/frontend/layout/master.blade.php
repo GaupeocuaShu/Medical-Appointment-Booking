@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="{{ asset('frontend/home/css/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/home/css/doctor-team.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/choose-date/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/booking-result/style.css') }}">
+
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/home/css/tooplate-style.css') }}">
@@ -56,6 +58,9 @@
     <script src="{{ asset('frontend/home/js/custom.js') }}"></script>
     <script src="{{ asset('frontend/home/js/doctor-team.js') }}"></script>
     <script src="{{ asset('frontend/choose-date/custom.js') }}"></script>
+    <script src="{{ asset('frontend/booking-result/custom.js') }}"></script>
+
+
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {

@@ -22,3 +22,9 @@ function getAge($date) {
 function isTableEmpty($model){
     return $model->isEmpty();
 }
+
+
+// Get Workplace Address 
+function getWorkplaceAddress($model) {
+    return $model->address. " ".$model->city." ".$model->province;
+}
