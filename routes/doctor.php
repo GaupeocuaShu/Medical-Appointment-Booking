@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\Doctor\ProfileController;
+use App\Http\Controllers\Doctor\ScheduleController;
 use App\Http\Controllers\Doctor\WorkingtimeController;
 use Illuminate\Support\Facades\Route;
 // Profile  ------------------------------------------
@@ -19,3 +20,11 @@ Route::get("working-time/get-working-time",[WorkingtimeController::class,"getWor
 Route::get("working-time/edit",[WorkingtimeController::class,"edit"])->name("working-time.edit");
 Route::put("working-time/update",[WorkingTimeController::class,"updateWorkingTime"])->name("working-time.update");
 // Working Time ------------------------------------
+
+
+
+// Doctor Schedule  --------------------------------------
+Route::get("schedule/{id}/show",[ScheduleController::class,"show"])->name("schedule.show");
+Route::get("schedule/index",[ScheduleController::class,"index"])->name("schedule.index");
+// Doctor Schedule  --------------------------------------
+

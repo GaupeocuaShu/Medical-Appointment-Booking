@@ -23,6 +23,7 @@ class DoctorScheduleDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+        $role = auth()->user()->role; 
         return (new EloquentDataTable($query))
             ->addColumn("patient",function($query){
                 $user = User::findOrFail($query->user_id);
@@ -40,11 +41,17 @@ class DoctorScheduleDataTable extends DataTable
                 $html = "<span class='btn btn-outline-dark text-capitalize'>$query->status</span>";
                 return  $html;
             })
-            ->addColumn("action",function($query){
-                $showBtn = "<a class='btn btn-info' href='".route("admin.schedule.show",$query->id)."'><i class='fa-solid fa-circle-info'></i> </a> &emsp;"; 
-                $updateBtn = "<a class='btn btn-primary' href='".route("admin.doctor.edit",$query->id)."'><i class='fa-solid fa-pen-to-square'></i> </a> &emsp;"; 
-                $deleteBtn = "<button class='delete btn btn-danger' data-url='".route("admin.doctor.destroy", $query->id) ."'><i class='fa-solid fa-trash-can-arrow-up'></i></button>"; 
-                return  $showBtn.$updateBtn.$deleteBtn;
+            ->addColumn("action",function($query) use ($role){ 
+                if($role == 'admin'){
+                    $showBtn = "<a class='btn btn-info' href='".route("admin.schedule.show",$query->id)."'><i class='fa-solid fa-circle-info'></i> </a> &emsp;"; 
+                    $updateBtn = "<a class='btn btn-primary' href='".route("admin.doctor.edit",$query->id)."'><i class='fa-solid fa-pen-to-square'></i> </a> &emsp;"; 
+                    $deleteBtn = "<button class='delete btn btn-danger' data-url='".route("admin.doctor.destroy", $query->id) ."'><i class='fa-solid fa-trash-can-arrow-up'></i></button>"; 
+                    return $showBtn.$updateBtn.$deleteBtn;
+                }
+                else {
+                    $showBtn = "<a class='btn btn-info' href='".route("doctor.schedule.show",$query->id)."'><i class='fa-solid fa-circle-info'></i> </a> &emsp;"; 
+                    return $showBtn;
+                }
             })
             ->filterColumn("status", function ($query, $keyWord) {
                 return $query->where("status",$keyWord );

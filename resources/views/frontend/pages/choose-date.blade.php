@@ -5,7 +5,8 @@
 
         <div class="doctor-introduction"><!-- Phần giới thiệu bác sĩ -->
             <div class="doctor-profile">
-                <img width="200" alt="{{ getFullName($doctor->user) }}" src="{{ asset($doctor->user->avatar) }}" />
+                <img style="border-radius: 100%;margin-right:10px" width="200" alt="{{ getFullName($doctor->user) }}"
+                    src="{{ asset($doctor->user->avatar) }}" />
                 <div>
                     <h3 class="font-weight-bold">
                         {{ $doctor->academic_degree . ' ' . getFullName($doctor->user) }}</h3>

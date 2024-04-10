@@ -22,18 +22,12 @@
                             href="{{ route('doctor.working-time.index') }}">Working Time</a></li>
                 </ul>
             </li>
-            <li class="dropdown {{ setActive(['admin.schedule.*']) }}">
+            <li class="dropdown {{ setActive(['doctor.schedule.*']) }}">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Schedule
                         Management</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ setActive(['admin.schedule.canceled-schedule']) }}"><a class="nav-link"
-                            href="{{ route('admin.schedule.canceled-schedule') }}">Canceled Schedule</a></li>
-                    <li class="{{ setActive(['admin.schedule.pending-schedule']) }}"><a class="nav-link"
-                            href="{{ route('admin.schedule.pending-schedule') }}">Pending Schedule</a></li>
-                    <li class="{{ setActive(['admin.schedule.confirmed-schedule']) }}"><a class="nav-link"
-                            href="{{ route('admin.schedule.confirmed-schedule') }}">Confirmed Schedule</a></li>
-                    <li class="{{ setActive(['admin.schedule.completed-schedule']) }}"><a class="nav-link"
-                            href="{{ route('admin.schedule.completed-schedule') }}">Completed Schedule</a></li>
+                    <li class="{{ setActive(['doctor.schedule.index']) }}"><a class="nav-link"
+                            href="{{ route('doctor.schedule.index') }}">Schedule</a></li>
                 </ul>
             </li>
         </ul>
