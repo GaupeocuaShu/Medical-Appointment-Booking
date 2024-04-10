@@ -54,7 +54,7 @@
                                 <img src="{{ asset(Auth::user()->avatar) }}" alt="Avatar" class="avatar">
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="../UserInformation/index.html" class="profile"><i class="fa fa-user"></i>
+                                <li><a href="{{ route('profile') }}" class="profile"><i class="fa fa-user"></i>
                                         My
                                         Profile</a></li>
                                 <li><a href="#" class="messages"><i class="fa fa-envelope"></i> Messages</a></li>

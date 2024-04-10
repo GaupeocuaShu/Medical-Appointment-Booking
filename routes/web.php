@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\ProfileController as FrontendProfileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\BookingAppointmentController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,10 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
 
+    // Profile  
+    Route::put("profile/password-update",[FrontendProfileController::class,'passwordUpdate'])->name("profile.password-update");
+    Route::put("profile/update",[FrontendProfileController::class,"profileUpdate"])->name("profile.update"); 
+    Route::get("profile",[FrontendProfileController::class,"index"])->name("profile"); 
 
     // Booking Appoitment
     Route::get("{id}/booking-success",[BookingAppointmentController::class,"bookingSuccess"])->name("booking-success");

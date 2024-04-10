@@ -37,7 +37,17 @@ class ProfileController extends Controller
     public function profileUpdate(Request $request){
      
         $user = Auth::user(); 
+        
         $path = $this->updateImage($request,$user->avatar,"uploads","avatar");
+        $request->validate([
+            'first_name' => ['required'],
+            'middle_name' => ['required'],
+            'last_name' => ['required'],
+            'email' => ['email','required'], 
+            'phone' => ['required'], 
+            'address' => ['required'],
+            'gender' => ['required'],
+        ]);
         $user->update([
             "first_name" => $request->first_name, 
             "middle_name" => $request->middle_name, 

@@ -1,32 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Traits\UploadTrait;
+use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Reader\Xls\RC4;
 
 class ProfileController extends Controller
-{
+{ 
     use UploadTrait;
-    public function index(){
-        $user  = Auth::user(); 
-        $firstName = $user->first_name; 
-        $middleName = $user->middle_name; 
-        $lastName = $user->last_name; 
-
-        return view("admin.profile.index",[ 
-            "fullName" => $lastName." ".$middleName." ".$firstName,
-            "user" => $user, 
-            "firstName" => $firstName, 
-            "middleName" => $middleName, 
-            "lastName" => $lastName,
+    public function index(){ 
+        $user = auth()->user();
+        return view("frontend.pages.profile",[
+            'user' => $user,
         ]);
-    }
+    } 
+
     public function profileUpdate(Request $request){
-        
-        $user = Auth::user();   
+        $user = auth()->user();   
         $path = $this->updateImage($request,$user->avatar,"uploads","avatar");
         $request->validate([
             'first_name' => ['required'],
@@ -44,18 +36,18 @@ class ProfileController extends Controller
             "email" => $request->email, 
             "gender" => $request->gender, 
             "phone" => $request->phone, 
-            "description" => $request->description,
             "address" => $request->address,
             "avatar" => $path != null ? $path : $user->avatar,
         ]);
         return redirect()->back();
     }
+
     public function passwordUpdate(Request $request){
         $request->validate([
             "current_password" => ["required","current_password"], 
             "password" => ["required","confirmed"], 
         ]); 
-        Auth::user()->update([
+        auth()->user()->update([
             "password" => bcrypt($request->password),
         ]);
         return redirect()->back();
