@@ -21,7 +21,8 @@
     <link rel="stylesheet" href="{{ asset('frontend/choose-date/style.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/booking-result/style.css') }}">
 
-
+    {{-- Ckeditor --}}
+    <script src="{{ asset('vendor/ckeditor/build/ckeditor.js') }}"></script>
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/home/css/tooplate-style.css') }}">
 
@@ -38,6 +39,7 @@
     {{-- Content --}}
 
     @yield('content')
+
 
     {{-- Footer --}}
     @include('frontend.layout.footer')

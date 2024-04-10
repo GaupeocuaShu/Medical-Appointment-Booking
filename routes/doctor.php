@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\Doctor\PostController;
 use App\Http\Controllers\Doctor\ProfileController;
 use App\Http\Controllers\Doctor\ScheduleController;
 use App\Http\Controllers\Doctor\WorkingtimeController;
@@ -28,3 +30,8 @@ Route::get("schedule/{id}/show",[ScheduleController::class,"show"])->name("sched
 Route::get("schedule/index",[ScheduleController::class,"index"])->name("schedule.index");
 // Doctor Schedule  --------------------------------------
 
+// Post --------------------------------------
+
+Route::post('/upload',[PostController::class,"upload"])->name('ckeditor.upload');
+Route::resource("post",PostController::class);
+// Post --------------------------------------

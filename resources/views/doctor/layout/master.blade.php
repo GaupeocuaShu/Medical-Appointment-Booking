@@ -40,6 +40,13 @@
         gtag('config', 'UA-94034622-3');
     </script>
     <!-- /END GA -->
+    {{-- CK Editor --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.3.0/classic/ckeditor.js"></script>
+    <style type="text/css">
+        .ck-editor__editable_inline {
+            height: 750px;
+        }
+    </style>
 </head>
 
 <body>
@@ -113,6 +120,28 @@
     {{-- Datatable --}}
     <script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    {{-- CkEditor --}}
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                    ckfinder: {
+                        uploadUrl: "{{ route('doctor.ckeditor.upload', ['_token' => csrf_token()]) }}",
+                    }
+                }
+
+            )
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor2'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    {{-- CkEditor --}}
 
     <script>
         @if ($errors->any())

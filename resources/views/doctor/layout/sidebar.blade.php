@@ -30,6 +30,14 @@
                             href="{{ route('doctor.schedule.index') }}">Schedule</a></li>
                 </ul>
             </li>
+            <li class="dropdown {{ setActive(['doctor.post.*']) }}">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Post
+                        Management</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ setActive(['doctor.post.index']) }}"><a class="nav-link"
+                            href="{{ route('doctor.post.index') }}">Post</a></li>
+                </ul>
+            </li>
         </ul>
 
     </aside>
