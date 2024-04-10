@@ -6,7 +6,7 @@
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="index.html">St</a>
         </div>
-        {{-- <ul class="sidebar-menu">
+        <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
             <li class="dropdown ">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
@@ -15,19 +15,11 @@
                     <li><a class="nav-link" href="index.html">Ecommerce Dashboard</a></li>
                 </ul>
             </li>
-            <li class="dropdown {{ setActive(['admin.user.*', 'admin.doctor.*', 'admin.specialization.*']) }}">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Website
-                        Management</span></a>
+            <li class="dropdown {{ setActive(['doctor.working-time.*']) }}">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Working Time</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ setActive(['admin.user.index']) }}"><a class="nav-link"
-                            href="{{ route('admin.user.index') }}">User</a></li>
-                    <li class="{{ setActive(['admin.doctor.index']) }}"><a class="nav-link"
-                            href="{{ route('admin.doctor.index') }}">Doctor</a></li>
-                    <li class="{{ setActive(['admin.specialization.index']) }}"><a class="nav-link"
-                            href="{{ route('admin.specialization.index') }}">Specialization</a></li>
-                    <li class="{{ setActive(['admin.workplace.index']) }}"><a class="nav-link"
-                            href="{{ route('admin.workplace.index') }}">Workplace</a></li>
-
+                    <li class="{{ setActive(['doctor.working-time.*']) }}"><a class="nav-link"
+                            href="{{ route('doctor.working-time.index') }}">Working Time</a></li>
                 </ul>
             </li>
             <li class="dropdown {{ setActive(['admin.schedule.*']) }}">
@@ -44,7 +36,7 @@
                             href="{{ route('admin.schedule.completed-schedule') }}">Completed Schedule</a></li>
                 </ul>
             </li>
-        </ul> --}}
+        </ul>
 
     </aside>
 </div>

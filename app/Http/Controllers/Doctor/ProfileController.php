@@ -19,27 +19,9 @@ class ProfileController extends Controller
         $firstName = $user->first_name; 
         $middleName = $user->middle_name; 
         $lastName = $user->last_name; 
-        $datesFrWTime = array();
-        $timesFrWTime = array();
-        $flag = " "; 
-        $working_times = $doctor->working_times()->orderBy('working_time')->get(); 
         $specializations = Specialization::get();
         $workplaces = Workplace::get();
-        foreach( $working_times as $wTime){
-            $carbonWTime = Carbon::create($wTime->working_time);
-            if($flag != $carbonWTime->toDateString() && $flag != " ") {
-                $datesFrWTime[$flag] = $timesFrWTime;
-                $timesFrWTime = array();
-            }
-       
-            $timesFrWTime[] =$wTime->is_selected == true 
-                            ? $carbonWTime->isoFormat("HH:mm")."/b" 
-                            :  $carbonWTime->isoFormat("HH:mm");
-            $flag = $carbonWTime->toDateString();
-            if(!next($doctor->working_times)){
-                $datesFrWTime[$flag] = $timesFrWTime;
-            }
-        }
+
         return view("doctor.profile.index",[ 
             "fullName" => $lastName." ".$middleName." ".$firstName,
             "user" => $user,  
@@ -47,7 +29,6 @@ class ProfileController extends Controller
             "firstName" => $firstName, 
             "middleName" => $middleName, 
             "lastName" => $lastName, 
-            "datesFrWTime" => $datesFrWTime,
             "specializations" => $specializations,
             "workplaces" => $workplaces,
 
@@ -109,22 +90,7 @@ class ProfileController extends Controller
     }
 
 
-    // Get Doctor Working Time 
-    public function getWorkingTime(Request $request){
-        $dateTime = $request->date.$request->time;
-        $appointment = Carbon::create($dateTime);
-        $schedule = Schedule::where("doctor_id",$request->doctor_id)->where("appointment",$appointment)->first();
-        $user = $schedule->user;
-        return response([
-            "url" => route("admin.schedule.show",$schedule->id),
-            "name" =>getFullName($user),
-            "date_of_birth" =>$user->date_of_birth,
-            "schedule_note" => $schedule->note,
-            "patient_note" => $user->patient->note,
-            "gender" => $user->gender,
-            "schedule" => Carbon::create($appointment)->isoFormat("HH:mm DD-MM-YYYY"),
-        ]);
-    }
+
 
     // Get Specialization ID
     public function getSpecialization(){
