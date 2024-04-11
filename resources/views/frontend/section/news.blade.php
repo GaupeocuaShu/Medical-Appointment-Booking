@@ -14,12 +14,12 @@
                 <div class="col-md-4 col-sm-6">
                     <!-- NEWS THUMB -->
                     <div class="news-thumb wow fadeInUp" data-wow-delay="0.4s">
-                        <a href="news-detail.html">
+                        <a href="{{ route('news-detail', $post->id) }}">
                             <img src="{{ asset($post->thumb_image) }}" class="img-responsive" alt="">
                         </a>
                         <div class="news-info">
                             <span>{{ $post->created_at }}</span>
-                            <h3><a href="news-detail.html">{{ $post->title }}</a></h3>
+                            <h3><a href="{{ route('news-detail', $post->id) }}">{{ $post->title }}</a></h3>
                             <p>{!! $post->short_description !!}</p>
                             <div class="author">
                                 <img src="{{ asset($post->user->avatar) }}" class="img-responsive" alt="">

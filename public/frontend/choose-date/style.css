@@ -486,8 +486,9 @@ a:focus {
 
 .author {
     border-top: 1px solid #f0f0f0;
-    padding-top: 1.5em;
-    margin-top: 2em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .author img,
 .author .author-info {
@@ -1007,7 +1008,11 @@ header span i {
     font-weight: normal;
     padding: 6px 12px 6px 0px;
 }
-
+.news-content img {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: contain;
+}
 .news-sidebar {
     margin-top: 16px;
 }

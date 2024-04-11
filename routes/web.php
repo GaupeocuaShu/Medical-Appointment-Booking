@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\PostController;
 use App\Http\Controllers\Frontend\ProfileController as FrontendProfileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\BookingAppointmentController;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/',[HomeController::class,"index"]);
+
+Route::get("{id}/news-detail",[PostController::class,"show"])->name('news-detail');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
