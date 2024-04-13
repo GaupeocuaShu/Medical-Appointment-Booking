@@ -13,7 +13,7 @@
 
             <div class="doctors-scroll">
                 @foreach ($doctors as $dr)
-                    <div class="doctor-item">
+                    <div class="doctor-item wow fadeInUp" data-wow-delay="0.4s">
                         <img src="{{ asset($dr->user->avatar) }}" class="img-responsive" alt="Bác sĩ 1">
                         <h4>{{ $dr->academic_degree }} {{ getFullName($dr->user) }}</h4>
                         <h5>

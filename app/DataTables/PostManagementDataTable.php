@@ -35,7 +35,7 @@ class PostManagementDataTable extends DataTable
                 return $updateBtn.$deleteBtn;
             })
             ->addColumn("status", function ($query) {
-                if ($query->status == 1) {
+                if ($query->status == "active" ) {
                     return
                         '<label class="custom-switch mt-2">
                             <input type="checkbox" checked data-url=" ' . route("admin.post.change-status", $query->id) . '" class="status custom-switch-input">

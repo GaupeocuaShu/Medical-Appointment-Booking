@@ -17,11 +17,6 @@
                         <div class="card-header">
                             <h4>Post Management Table</h4>
                             <div class="card-header-action">
-                                <div class="input-group-btn">
-                                    <a href="{{ route('admin.specialization.create') }}"><button class="btn btn-primary"><i
-                                                class="fa-solid fa-plus"></i></button></a>
-                                </div>
-
                             </div>
                         </div>
                         <div class="card-body">

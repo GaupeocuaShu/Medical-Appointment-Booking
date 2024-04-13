@@ -40,7 +40,8 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::findOrFail($id); 
+        return view("admin.user.show",compact("user"));
     }
 
     /**
@@ -57,6 +58,7 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         $request->validate([
             "avatar" => ["image"],
         ]);
@@ -69,16 +71,15 @@ class UserController extends Controller
             "date_of_birth" => $request->date_of_birth, 
             "gender" => $request->gender, 
             "status" => $request->status, 
-            "role" => $request->role, 
             "address" => $request->address, 
             "phone" => $request->phone, 
             "description" => $request->description, 
-            "role" => $request->role, 
-            "email" => $request->role, 
-            "avatar" =>  $avatar,
+            "role" => $user->role != 'doctor' ?  $request->role : 'doctor', 
+            "email" => $request->email, 
+            "avatar" =>  $avatar ? $avatar : $user->avatar,
         ]);
         Session::flash("status","Update User Successfully");
-        return redirect()->route("admin.user.index");
+        return redirect()->back();
     }
 
     /**

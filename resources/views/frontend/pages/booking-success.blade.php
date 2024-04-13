@@ -35,11 +35,16 @@
                         <p>Số điện thoại:{{ $user->phone }}</p>
                         <p>Email:{{ $user->email }}</p>
                     </div>
+                    <div class="patient-info">
+                        <h3>Thông tin bác sĩ</h3>
+                        <p>Họ và tên: {{ getFullName($doctor->user) }}</p>
+                        <p>Số điện thoại:{{ $doctor->user->phone }}</p>
+                        <p>Email:{{ $doctor->user->email }}</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Main container  -->
 @endsection
 

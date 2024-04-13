@@ -8,7 +8,4 @@
     @include('frontend.section.team')
     {{-- News --}}
     @include('frontend.section.news')
-
-    {{-- Map --}}
-    @include('frontend.section.map')
 @endsection

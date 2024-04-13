@@ -51,6 +51,12 @@
                                 @endforeach
                             </div>
                         @endif
+                        @if (Session::has('status'))
+                            <div class="row"
+                                style=" border-radius:5px;margin:20px 0;background-color: rgba(52, 176, 65, 0.47);padding:10px">
+                                <h5 style="color: rgb(30, 105, 52)">{{ session('status') }}</h5>
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="userName">Họ</label>

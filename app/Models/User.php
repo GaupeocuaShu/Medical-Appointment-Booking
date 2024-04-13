@@ -31,6 +31,7 @@ class User extends Authenticatable
         'avatar',
         'date_of_birth',
         'role',
+        'status',
     ];
 
     /**

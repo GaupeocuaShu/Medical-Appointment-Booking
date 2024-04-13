@@ -24,28 +24,29 @@ class UserDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
                 $detailBtn ="<a class='btn btn-info' href='".route("admin.user.show",$query->id)."'><i class='fa-solid fa-circle-info'></i> </a> &emsp;"; 
-                $updateBtn = "<a class='btn btn-primary' href='".route("admin.user.edit",$query->id)."'><i class='fa-solid fa-pen-to-square'></i> </a> &emsp;"; 
                 $deleteBtn = "<button class='delete btn btn-danger' data-url='".route("admin.user.destroy", $query->id) ."'><i class='fa-solid fa-trash-can-arrow-up'></i></button>"; 
-                return $detailBtn.$updateBtn.$deleteBtn;
+                return $detailBtn.$deleteBtn;
             })
             ->addColumn("avatar",function($query){
-                return "<img width='200' src='".asset($query->avatar)."' alt='$query->name'/>";
+                return "<img class='rounded-circle' width='100' src='".asset($query->avatar)."' alt='$query->name'/>";
             })
             ->addColumn("fullName",function($query){
                 return getFullName($query);
             })
-            ->addColumn('role', function ($query) {
+            ->addColumn('role', function ($query) { 
                 $types = array();
                 $types = [
                     "admin" => "Admin",
-                    "doctor" => "Doctor",
                     "user" => "User",
                 ];
                 $typesHTML = "";
-                foreach ($types as $key => $value) {
-                    if ($key == $query->role) $typesHTML .= "<option selected value='$key'> $value </option>";
-                    else $typesHTML .= "<option  value='$key'> $value </option>";
-                };
+                if($query->role == 'doctor') $typesHTML = "<option selected value='doctor'> Doctor </option>";
+                else{
+                    foreach ($types as $key => $value) {
+                        if ($key == $query->role) $typesHTML .= "<option selected value='$key'> $value </option>";
+                        else $typesHTML .= "<option  value='$key'> $value </option>";
+                    };
+                }
                 return "<div class=' form-group'><select data-status='$query->role' data-name='role-status' data-url='".route("admin.user.update-role",[$query->id])."' data-id='$query->id' class='status select-status select-status-$query->id form-control'>" . $typesHTML . "</select> </div>";
              })
             ->setRowId('id')
@@ -57,7 +58,7 @@ class UserDataTable extends DataTable
      */
     public function query(User $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where("id","!=",auth()->user()->id)->newQuery();
     }
 
     /**

@@ -6,8 +6,11 @@ use App\DataTables\PostManagementDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Traits\UploadTrait;
+
 class PostManagementController extends Controller
 {
+    use UploadTrait;
     public function index(PostManagementDataTable $dataTable){
         return $dataTable->render("admin.post.index");
     }
@@ -31,8 +34,9 @@ class PostManagementController extends Controller
     // Change Status 
     public function changeStatus(string $id){
         $post = Post::findOrFail($id);
-        $newStatus = !$post->status; 
-        $post->update(["status" =>$newStatus]);
+        $status = $post->status; 
+        if($status == 'pending' || $status == 'inactive') $post->update(["status" =>"active"]);
+        else $post->update(["status" =>"inactive"]);
         return response(["status" => "success","message"=>"Change Post Status Successfully"]);
     }
 }

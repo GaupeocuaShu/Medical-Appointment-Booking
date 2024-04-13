@@ -94,7 +94,7 @@ class BookingAppointmentController extends Controller
     public function bookingSuccess(string $id){ 
         $schedule = Schedule::findOrFail($id);  
         $user = auth()->user();
-        $doctor = Doctor::with("workplace")->findOrFail($schedule->doctor_id);
+        $doctor = Doctor::with("workplace","user")->findOrFail($schedule->doctor_id);
         return view("frontend.pages.booking-success",[
             "schedule" => $schedule, 
             "user" => $user,

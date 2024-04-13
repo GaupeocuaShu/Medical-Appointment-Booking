@@ -32,8 +32,8 @@ class PostDataTable extends DataTable
                 return $carbonDateTime;
             })
             ->addColumn('status',function ($query){
-                if($query->status == 0) {
-                  return '<p class="badge badge-warning">Pending</p>';
+                if($query->status == "pending" || $query->status == "inactive") {
+                  return "<p class='badge badge-warning capitalize'>$query->status</p>";
                 }
                 else return '<p class="badge badge-success">Active</p>';
             })

@@ -56,6 +56,10 @@ class DoctorController extends Controller
             "experience_list"=>$request->experience_list, 
             "prize_and_research"=>$request->prize_and_research, 
         ]);
+
+        $user = $doctor->user;
+        $user->update(["role" => "doctor"]);    
+
         foreach($request->specialization_id as $id){
             $doctor->specializations()->attach($id); 
         }
@@ -134,7 +138,9 @@ class DoctorController extends Controller
      */
     public function destroy(string $id)
     {
-        $doctor = Doctor::findOrFail($id); 
+        $doctor = Doctor::findOrFail($id);  
+        $user = $doctor->user; 
+        $user->update(['role' => "user"]);
         $doctor->delete();
         return response(["status"=>"success","message"=>"Delete Doctor successfully","is_empty" => isTableEmpty(Doctor::get())]);
     }
