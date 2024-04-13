@@ -232,7 +232,7 @@ a:focus {
 }
 
 .news-info {
-    padding: 30px;
+    padding: 0 30px;
     text-align: left;
 }
 .news-info span {

@@ -1,3 +1,8 @@
+@php
+    use Illuminate\Support\Carbon;
+
+@endphp
+
 <!-- NEWS -->
 <section id="news" data-stellar-background-ratio="2.5">
     <div class="container">
@@ -18,7 +23,8 @@
                             <img src="{{ asset($post->thumb_image) }}" class="img-responsive" alt="">
                         </a>
                         <div class="news-info">
-                            <span>{{ $post->created_at }}</span>
+                            <p style="padding: 5px 0"> {{ Carbon::create($post->created_at)->isoFormat('DD/MM/YYYY') }}
+                            </p>
                             <h3><a href="{{ route('news-detail', $post->id) }}">{{ $post->title }}</a></h3>
                             <p>{!! $post->short_description !!}</p>
                             <div class="author">

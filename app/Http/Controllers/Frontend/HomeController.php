@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function index(){ 
         $doctors = Doctor::with("specializations", "user", "workplace")->take(10)->get();
-        $posts = Post::with("user")->take(3)->get();
+        $posts = Post::with("user")->where("status",1)->take(3)->get();
         return view("frontend.pages.home",compact("doctors","posts"));
     }
 

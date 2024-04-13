@@ -44,6 +44,16 @@
                             href="{{ route('admin.schedule.completed-schedule') }}">Completed Schedule</a></li>
                 </ul>
             </li>
+
+            <li class="dropdown {{ setActive(['admin.post.*']) }}">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Post
+                        Management</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ setActive(['admin.post.index']) }}"><a class="nav-link"
+                            href="{{ route('admin.post.index') }}">Post</a></li>
+
+                </ul>
+            </li>
         </ul>
 
     </aside>

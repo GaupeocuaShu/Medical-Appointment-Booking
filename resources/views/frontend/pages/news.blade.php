@@ -29,8 +29,33 @@
                     <div class="news-sidebar">
                         <div class="news-author">
                             <h4>About the author</h4>
-                            <p>Lorem ipsum dolor sit amet, maecenas eget vestibulum justo imperdiet, wisi risus purus augue
-                                vulputate voluptate neque.</p>
+                            <div class="doctor-introduction"><!-- Phần giới thiệu bác sĩ -->
+                                <div style="text-align: center"><img style="border-radius: 100%;margin-right:10px"
+                                        width="100" alt="{{ getFullName($creator) }}"
+                                        src="{{ asset($creator->avatar) }}" /></div>
+                                <div class="doctor-profile">
+
+                                    <div>
+                                        <h3 class="font-weight-bold">
+                                            {{ $creator->doctor->academic_degree . ' ' . getFullName($creator) }}</h3>
+                                        <br>
+                                        <div><span>Chuyên Khoa</span> &ensp;
+                                            @foreach ($creator->doctor->specializations as $s)
+                                                <span class="text-primary font-weight-bold">
+                                                    {{ $s->name }} &emsp13;
+                                                </span>
+                                            @endforeach
+                                        </div>
+                                        <div>
+                                            <span>Phòng Khám</span> &emsp;
+                                            <span class="text-primary font-weight-bold">
+                                                {{ $creator->doctor->workplace->name }} &emsp13;
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
 
                         <div class="recent-post">
