@@ -101,6 +101,7 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         $post = Post::findOrFail($id);
+        $this->deleteImage($post->thumb_image);
         $post->delete();
         return response(["status" => "success","message"=>"Delete Post Successfully","is_empty" => isTableEmpty(Post::get())]);
     }

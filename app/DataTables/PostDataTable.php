@@ -31,7 +31,12 @@ class PostDataTable extends DataTable
                 $carbonDateTime = Carbon::create($query->created_at)->isoFormat("HH:mm DD/MM/YYYY");
                 return $carbonDateTime;
             })
-
+            ->addColumn('status',function ($query){
+                if($query->status == 0) {
+                  return '<p class="badge badge-warning">Pending</p>';
+                }
+                else return '<p class="badge badge-success">Active</p>';
+            })
             ->rawColumns(["action","status"])
             ->setRowId('id');
     }
@@ -75,6 +80,7 @@ class PostDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('title'),
+            Column::make('status'),
             Column::make('created_at'),
             Column::computed('action')
             ->exportable(false)

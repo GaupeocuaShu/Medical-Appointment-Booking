@@ -12,8 +12,24 @@ class PostManagementController extends Controller
         return $dataTable->render("admin.post.index");
     }
 
-      // Change Status 
-      public function changeStatus(string $id){
+    public function show(string $id){
+        $post = Post::findOrFail($id);
+        return view("admin.post.show",[
+            "post" => $post,
+        ]);
+    }
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $post = Post::findOrFail($id);
+        $this->deleteImage($post->thumb_image);
+        $post->delete();
+        return response(["status" => "success","message"=>"Delete Post Successfully","is_empty" => isTableEmpty(Post::get())]);
+    }
+    // Change Status 
+    public function changeStatus(string $id){
         $post = Post::findOrFail($id);
         $newStatus = !$post->status; 
         $post->update(["status" =>$newStatus]);
