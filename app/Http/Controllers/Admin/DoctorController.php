@@ -26,7 +26,7 @@ class DoctorController extends Controller
  
     public function create()
     {
-        $users = User::get();
+        $users = User::where('role','!=','doctor')->get();
         $specializations = Specialization::get();
         $workplaces = Workplace::get();
         return view("admin.doctor.create",compact("users","specializations","workplaces"));
@@ -34,11 +34,9 @@ class DoctorController extends Controller
 
     public function store(Request $request)
     {
-   
         $request->validate([
             "academic_degree" => ["required"],
             "experience_year" => ["required"], 
-            "title" => ["required"], 
             "user_id" => ["required"], 
             "specialization_id" => ["required"], 
             "workplace_id" => ["required"], 
@@ -96,7 +94,8 @@ class DoctorController extends Controller
     public function edit(string $id)
     {
      
-        $users = User::get();
+        $users = User::where('role','!=','doctor')->get(); 
+        
         $specializations = Specialization::get();
         $doctor = Doctor::with("specializations")->findOrFail($id); 
         $workplaces = Workplace::get();
@@ -109,18 +108,19 @@ class DoctorController extends Controller
      */
     public function update(Request $request, string $id)
     { 
+
         $request->validate([
             "academic_degree" => ["required"],
             "experience_year" => ["required"], 
-            "title" => ["required"], 
             "user_id" => ["required"], 
         ]); 
         
         $doctor = Doctor::findOrFail($id);
+        $oldUID = $doctor->user->id;
         $doctor->update([
             "academic_degree"=>$request->academic_degree, 
             "experience_year"=>$request->experience_year,
-            "user_id"=>$request->user_id,
+            "user_id"=>  $request->user_id,
             "workplace_id"=>$request->workplace_id, 
             "title"=>$request->title,
             "note"=>$request->note,
@@ -130,6 +130,13 @@ class DoctorController extends Controller
             "prize_and_research"=>$request->prize_and_research,
         ]);
         $doctor->specializations()->sync($request->specialization_id);
+        $newUID = $request->user_id; 
+        if($oldUID != $newUID) { 
+            User::findOrFail($oldUID)->update(['role' => 'user']);
+            User::findOrFail($newUID)->update(['role' => 'doctor']);
+        }
+        Session::flash("status","Update Doctor Successfully");
+        
         return redirect()->route("admin.doctor.index");
     }
 
@@ -168,7 +175,7 @@ class DoctorController extends Controller
         return response([
             "url" => route("admin.schedule.show",$schedule->id),
             "name" =>getFullName($user),
-            "date_of_birth" =>$user->date_of_birth,
+            "date_of_birth" =>Carbon::create($user->date_of_birth)->isoFormat("DD/MM/YYYY"),
             "schedule_note" => $schedule->note,
             "patient_note" => $user->patient->note,
             "gender" => $user->gender,

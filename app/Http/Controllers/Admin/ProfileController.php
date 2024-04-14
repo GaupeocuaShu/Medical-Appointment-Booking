@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\UploadTrait;
+use Illuminate\Support\Facades\Session;
 
 class ProfileController extends Controller
 {
@@ -36,6 +37,7 @@ class ProfileController extends Controller
             'phone' => ['required'], 
             'address' => ['required'],
             'gender' => ['required'],
+            'date_of_birth' => ['required'],
         ]);
         $user->update([
             "first_name" => $request->first_name, 
@@ -47,7 +49,11 @@ class ProfileController extends Controller
             "description" => $request->description,
             "address" => $request->address,
             "avatar" => $path != null ? $path : $user->avatar,
+            "date_of_birth" => $request->date_of_birth,
+
         ]);
+        Session::flash("status","Update Profile Successfully");
+
         return redirect()->back();
     }
     public function passwordUpdate(Request $request){
@@ -58,6 +64,8 @@ class ProfileController extends Controller
         Auth::user()->update([
             "password" => bcrypt($request->password),
         ]);
+        Session::flash("status","Update Password Successfully");
+
         return redirect()->back();
     }
 }

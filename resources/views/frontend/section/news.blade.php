@@ -33,7 +33,7 @@
                                     <a href="{{ route('news-detail', $post->id) }}">{{ $post->title }}</a>
                                 </div>
                                 <div style="height: 150px;overflow:hidden">{!! $post->short_description !!}</div>
-                                <div class="author">
+                                <div style="height: 120px;overflow:hidden" class="author">
                                     <img src="{{ asset($post->user->avatar) }}" class="img-responsive" alt="">
                                     <div class="author-info">
                                         <h5>{{ getFullName($post->user) }}</h5>

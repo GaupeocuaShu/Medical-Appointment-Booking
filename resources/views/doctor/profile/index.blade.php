@@ -38,6 +38,11 @@
                                         <div class="profile-widget-item-label">Address</div>
                                         <div class="profile-widget-item-value">{!! $user->address !!}</div>
                                     </div>
+                                    <div class="profile-widget-item">
+                                        <div class="profile-widget-item-label">Date Of Birth</div>
+                                        <div class="profile-widget-item-value">
+                                            {{ Carbon\Carbon::create($user->date_of_birth)->isoFormat('DD/MM/YYYY') }}</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="profile-widget-description">
@@ -183,7 +188,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="form-group col-md-4 col-12">
+                                    <div class="form-group col-md-6 col-12">
                                         <label>Email</label>
                                         <input name="email" type="email" class="form-control"
                                             value="{{ $user->email }}" required="">
@@ -191,12 +196,16 @@
                                             Please fill in the email
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-4 col-12">
+                                    <div class="form-group col-md-6 col-12">
                                         <label>Phone</label>
                                         <input type="tel" name="phone" class="form-control"
                                             value="{{ $user->phone }}">
                                     </div>
-                                    <div class="form-group col-md-4 col-12">
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6 col-12">
                                         <label>Select</label>
                                         <select name="gender" class="form-control">
                                             <option value="1" {{ $user->gender == 1 ? 'selected' : ' ' }}>Male
@@ -204,6 +213,11 @@
                                             <option value="0" {{ $user->gender == 0 ? 'selected' : ' ' }}>Female
                                             </option>
                                         </select>
+                                    </div>
+                                    <div class="form-group col-md-6 col-12">
+                                        <label>Date Of Birth</label>
+                                        <input class="form-control" type="date" name="date_of_birth"
+                                            value="{{ $user->date_of_birth }}" />
                                     </div>
                                 </div>
                                 <div class="row">

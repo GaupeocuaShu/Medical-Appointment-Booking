@@ -90,7 +90,7 @@ class WorkplaceDataTable extends DataTable
             Column::make('city'),
             Column::make('province'),
             Column::make('status'),
-            Column::make('action'),
+            Column::make('action')->width(200)->addClass('text-center'),
         ];
     }
 

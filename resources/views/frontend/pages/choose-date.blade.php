@@ -224,7 +224,7 @@
                                 removeClassHidden(".morning");
                                 $(".morning .time-selection").append(
                                     timeFrameHTML);
-                            } else if (timeSection > 12 && timeSection < 17) {
+                            } else if (timeSection >= 12 && timeSection < 17) {
                                 removeClassHidden(".afternoon");
                                 $(".afternoon .time-selection").append(
                                     timeFrameHTML);

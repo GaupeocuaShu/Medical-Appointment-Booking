@@ -52,7 +52,7 @@ class WorkingtimeController extends Controller
         return response([
             "url" => route("admin.schedule.show",$schedule->id),
             "name" =>getFullName($user),
-            "date_of_birth" =>$user->date_of_birth,
+            "date_of_birth" =>Carbon::create($user->date_of_birth)->isoFormat("DD/MM/YYYY"),
             "schedule_note" => $schedule->note,
             "patient_note" => $user->patient->note,
             "gender" => $user->gender,

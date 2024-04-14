@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use App\Models\Workplace;
 use App\Models\Specialization;
 use App\Models\Schedule;
+use Illuminate\Support\Facades\Session;
 class ProfileController extends Controller
 {
     use UploadTrait;
@@ -47,6 +48,8 @@ class ProfileController extends Controller
             'phone' => ['required'], 
             'address' => ['required'],
             'gender' => ['required'],
+            'date_of_birth' => ['required'],
+
         ]);
         $user->update([
             "first_name" => $request->first_name, 
@@ -57,8 +60,10 @@ class ProfileController extends Controller
             "phone" => $request->phone, 
             "description" => $request->description,
             "address" => $request->address,
+            "date_of_birth" => $request->date_of_birth,
             "avatar" => $path != null ? $path : $user->avatar,
         ]);
+        Session::flash("status","Update Profile Successfully");
         return redirect()->back();
     }
     public function passwordUpdate(Request $request){
@@ -69,6 +74,8 @@ class ProfileController extends Controller
         Auth::user()->update([
             "password" => bcrypt($request->password),
         ]);
+        Session::flash("status","Update Password Successfully");
+
         return redirect()->back();
     }
 
@@ -96,7 +103,9 @@ class ProfileController extends Controller
             "prize_and_research"=>$request->prize_and_research,
         ]);
         $doctor->specializations()->sync($request->specialization_id);
-        return redirect()->route("admin.doctor.index");
+        Session::flash("status","Update Doctor Profile Successfully");
+
+        return redirect()->back();
     }
 
 

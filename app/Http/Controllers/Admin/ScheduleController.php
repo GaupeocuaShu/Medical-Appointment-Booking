@@ -8,6 +8,8 @@ use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\User;
+use App\Models\WorkingTime;
+
 class ScheduleController extends Controller
 {
     // Show 
@@ -61,11 +63,16 @@ class ScheduleController extends Controller
         return count(Schedule::where("status",$status)->get()) > 0 ? false : true;
     } 
     // Update schedule status 
-    public function updateStatus(Request $request,string $id){ 
+    public function updateStatus(Request $request,string $id){  
+        $newStatus =  $request->key; 
         $schedule = Schedule::findOrFail($id);
+        if($newStatus == 'canceled') {
+            $wTime = WorkingTime::where('doctor_id',$schedule->doctor_id)->where("working_time",$schedule->appointment)->first();
+            $wTime->update(['is_selected' => 0]);
+        }
         $currentStatus = $schedule->status;
         $schedule->update([
-            "status" => $request->key,
+            "status" => $newStatus,
             "note" => $request->text,
         ]);
         $isEmpty = self::checkStatusTableEmpty($currentStatus);

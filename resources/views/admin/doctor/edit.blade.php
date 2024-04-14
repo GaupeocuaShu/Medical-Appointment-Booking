@@ -71,9 +71,10 @@
                                 <div class="form-group">
                                     <label>User</label>
                                     <select name="user_id" class="form-control">
+                                        <option selected value="{{ $doctor->user->id }}">{{ $doctor->user->email }}
+                                        </option>
                                         @foreach ($users as $u)
-                                            <option {{ $doctor->user_id == $u->id ? 'selected' : ' ' }}
-                                                value="{{ $u->id }}">{{ $u->email }}</option>
+                                            <option value="{{ $u->id }}">{{ $u->email }}</option>
                                         @endforeach
                                     </select>
                                 </div>

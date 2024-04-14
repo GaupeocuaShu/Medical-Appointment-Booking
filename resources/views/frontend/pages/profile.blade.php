@@ -11,6 +11,10 @@
                             <td>{{ getFullName($user) }}</td>
                         </tr>
                         <tr>
+                            <th>Ngày Sinh</th>
+                            <td>{{ Carbon\Carbon::create($user->date_of_birth)->isoFormat('DD/MM/YYYY') }}</td>
+                        </tr>
+                        <tr>
                             <th>Email</th>
                             <td>{{ $user->email }}</td>
                         </tr>
@@ -74,7 +78,11 @@
                                     class="form-control" id="userName" placeholder="Tên Người Dùng">
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label for="userEmail">Ngày Sinh: </label>
+                            <input value="{{ $user->date_of_birth }}" name="date_of_birth" type="date"
+                                class="form-control" id="userEmail" placeholder="email@example.com">
+                        </div>
                         <div class="form-group">
                             <label for="userEmail">Email:</label>
                             <input value="{{ $user->email }}" name="email" type="email" class="form-control"

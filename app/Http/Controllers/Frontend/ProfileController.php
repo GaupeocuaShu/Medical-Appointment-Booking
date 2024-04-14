@@ -30,11 +30,14 @@ class ProfileController extends Controller
             'phone' => ['required'], 
             'address' => ['required'],
             'gender' => ['required'],
+            'date_of_birth' => ['required'],
+
         ]);
         $user->update([
             "first_name" => $request->first_name, 
             "middle_name" => $request->middle_name, 
             "last_name" => $request->last_name, 
+            "date_of_birth" => $request->date_of_birth, 
             "email" => $request->email, 
             "gender" => $request->gender, 
             "phone" => $request->phone, 
