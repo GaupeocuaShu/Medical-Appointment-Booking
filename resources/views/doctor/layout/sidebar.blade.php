@@ -26,7 +26,7 @@
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Schedule
                         Management</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ setActive(['doctor.schedule.index']) }}"><a class="nav-link"
+                    <li class="{{ setActive(['doctor.schedule.*']) }}"><a class="nav-link"
                             href="{{ route('doctor.schedule.index') }}">Schedule</a></li>
                 </ul>
             </li>
