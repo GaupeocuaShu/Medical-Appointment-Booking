@@ -92,7 +92,7 @@
                 <div class="time-container-background">
                     <img width="120" src="{{ asset('uploads/shop.png') }}" />
                 </div>
-                <div class="appointment-form">
+                <div class="appointment-form ">
                     <form action="" class="submit-appointment">
                         <input name="doctor_id" type="hidden" value="{{ $doctor->id }}" />
                         <input type="hidden" class="appointment" name="appointment" />
@@ -142,6 +142,7 @@
         let availability = '{!! $jsonDatesFrWTime !!}';
         const currentMonth = "{{ $currentMonth }}";
         const currentYear = "{{ $currentYear }}";
+        const currentDay = new Date().getDate();
         let selectedDate = null; // Lưu trữ ngày được chọn
         const doctorID = "{{ $doctor->id }}";
         const daysInMonth = new Date(currentYear, parseInt(currentMonth), 0).getDate();
@@ -154,9 +155,12 @@
             selectedDate = null;
         }
         init();
+        console.log(currentDay);
         for (let i = 1; i <= daysInMonth; i++) {
-            if (availability[i] == true) dates[i] = true;
-            else dates[i] = false;
+            if (availability[i] == true && i > currentDay) dates[i] = true;
+            else {
+                dates[i] = false;
+            }
         }
         console.log(dates);
         // Tạo và hiển thị các ngày
@@ -259,7 +263,7 @@
                     dataType: "JSON",
                     beforeSend: function() {
                         $(".data-loader").removeClass("hidden");
-                        $(".appointment-form").css('filter', 'blur(10px)');
+                        $(".submit-appointment").hide();
                     },
                     success: function(response, textStatus, jqXHR) {
                         if (response.status == 'success') {

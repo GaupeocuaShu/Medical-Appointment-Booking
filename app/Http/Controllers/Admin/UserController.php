@@ -87,7 +87,23 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id); 
+        $role = $user->role; 
+        if($role == 'doctor') {
+            return response([
+                'status' => 'unsuccess', 
+                'message' => 'You need to delete this user in doctor table first'
+            ]);
+        }
+        else {
+            if($user->avatar) $this->deleteImage($user->avatar); 
+            $user->delete();
+            return response([
+                'status' => 'success',
+                'message' => 'Delete User Successfully' ,
+                'is_empty' => isTableEmpty(User::get()),
+            ]);
+        }
     }
 
     public function updateRole(Request $request,string $id){

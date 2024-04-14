@@ -51,74 +51,103 @@
                                 <hr>
                             </div>
                             <div>
+                                @php
+                                    $flag = 0;
+                                @endphp
                                 <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
                                     @foreach ($datesFrWTime as $key => $wTimes)
                                         @php
                                             $date = Carbon\Carbon::create($key);
+                                            $currentDate = Carbon\Carbon::now();
                                         @endphp
-                                        @if ($loop->index == 0)
-                                            <li class="nav-item">
-                                                <a class="nav-link active" id="{{ $key }}-tab" data-toggle="tab"
-                                                    href="#{{ $key }}" role="tab"
-                                                    aria-controls="{{ $key }}"
-                                                    aria-selected="true">{{ $date->isoFormat('DD-MM') }}</a>
-                                            </li>
-                                        @else
-                                            <li class="nav-item">
-                                                <a class="nav-link " id="{{ $key }}-tab" data-toggle="tab"
-                                                    href="#{{ $key }}" role="tab"
-                                                    aria-controls="{{ $key }}"
-                                                    aria-selected="false">{{ $date->isoFormat('DD-MM') }}</a>
-                                            </li>
+                                        @if ($date->greaterThan($currentDate))
+                                            @if ($flag == 0)
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" id="{{ $key }}-tab"
+                                                        data-toggle="tab" href="#{{ $key }}" role="tab"
+                                                        aria-controls="{{ $key }}"
+                                                        aria-selected="true">{{ $date->isoFormat('DD-MM') }}</a>
+                                                </li>
+                                            @else
+                                                <li class="nav-item">
+                                                    <a class="nav-link " id="{{ $key }}-tab" data-toggle="tab"
+                                                        href="#{{ $key }}" role="tab"
+                                                        aria-controls="{{ $key }}"
+                                                        aria-selected="false">{{ $date->isoFormat('DD-MM') }}</a>
+                                                </li>
+                                            @endif
+                                            @php
+                                                $flag++;
+                                            @endphp
                                         @endif
                                     @endforeach
                                 </ul>
+                                @php
+                                    $flag = 0;
+                                @endphp
                                 <div class="tab-content mb-4" id="myTabContent">
                                     @foreach ($datesFrWTime as $key => $wTimes)
-                                        @if ($loop->index == 0)
-                                            <div class="tab-pane tab-pane-{{ $key }} fade show active "
-                                                id="{{ $key }}" role="tabpanel"
-                                                aria-labelledby="{{ $key }}-tab">
-                                                @foreach ($wTimes as $wtime)
-                                                    <form action="" style="display: inline">
-                                                        <input type="hidden" name="date" value="{{ $key }}" />
-                                                        <input type="hidden" name="doctor_id"
-                                                            value="{{ $doctor->id }}" />
-                                                        @php
-                                                            $time = explode('/', $wtime)[0];
-                                                            $isBusy = !empty(explode('/', $wtime)[1]);
-                                                            $endTime = Carbon\Carbon::create($time);
-                                                            $endTime->addMinutes(30);
-                                                        @endphp
-                                                        <input type="hidden" name="time" value="{{ $time }}" />
-                                                        <input type="hidden" name="is_busy" value="{{ $isBusy }}" />
-                                                        <button
-                                                            class="working-time-button  mb-3 btn btn-lg {{ $isBusy ? 'btn-outline-warning' : 'btn-outline-primary' }}">{{ $time }}-{{ $endTime->isoFormat('HH:mm') }}</button>&emsp;
-                                                    </form>
-                                                @endforeach
-                                            </div>
-                                        @else
-                                            <div class="tab-pane tab-pane-{{ $key }} fade"
-                                                id="{{ $key }}" role="tabpanel"
-                                                aria-labelledby="{{ $key }}-tab">
-                                                @foreach ($wTimes as $wtime)
-                                                    <form action="" style="display: inline">
-                                                        <input type="hidden" name="date" value="{{ $key }}" />
-                                                        <input type="hidden" name="doctor_id"
-                                                            value="{{ $doctor->id }}" />
-                                                        @php
-                                                            $time = explode('/', $wtime)[0];
-                                                            $isBusy = !empty(explode('/', $wtime)[1]);
-                                                            $endTime = Carbon\Carbon::create($time);
-                                                            $endTime->addMinutes(30);
-                                                        @endphp
-                                                        <input type="hidden" name="time" value="{{ $time }}" />
-                                                        <input type="hidden" name="is_busy" value="{{ $isBusy }}" />
-                                                        <button
-                                                            class="working-time-button  mb-3 btn btn-lg {{ $isBusy ? 'btn-outline-warning' : 'btn-outline-primary' }}">{{ $time }}-{{ $endTime->isoFormat('HH:mm') }}</button>&emsp;
-                                                    </form>
-                                                @endforeach
-                                            </div>
+                                        @php
+                                            $date = Carbon\Carbon::create($key);
+                                            $currentDate = Carbon\Carbon::now();
+                                        @endphp
+                                        @if ($date->greaterThan($currentDate))
+                                            @if ($flag == 0)
+                                                <div class="tab-pane tab-pane-{{ $key }} fade show active "
+                                                    id="{{ $key }}" role="tabpanel"
+                                                    aria-labelledby="{{ $key }}-tab">
+                                                    @foreach ($wTimes as $wtime)
+                                                        <form class="get-working-time-form" action=""
+                                                            style="display: inline">
+                                                            <input type="hidden" name="date"
+                                                                value="{{ $key }}" />
+                                                            <input type="hidden" name="doctor_id"
+                                                                value="{{ $doctor->id }}" />
+                                                            @php
+                                                                $time = explode('/', $wtime)[0];
+                                                                $isBusy = !empty(explode('/', $wtime)[1]);
+                                                                $endTime = Carbon\Carbon::create($time);
+                                                                $endTime->addMinutes(30);
+                                                            @endphp
+                                                            <input type="hidden" name="time"
+                                                                value="{{ $time }}" />
+                                                            <input type="hidden" name="is_busy"
+                                                                value="{{ $isBusy }}" />
+                                                            <button
+                                                                class="working-time-button  mb-3 btn btn-lg {{ $isBusy ? 'btn-outline-warning' : 'btn-outline-primary' }}">{{ $time }}-{{ $endTime->isoFormat('HH:mm') }}</button>&emsp;
+                                                        </form>
+                                                    @endforeach
+                                                </div>
+                                            @else
+                                                <div class="tab-pane tab-pane-{{ $key }} fade"
+                                                    id="{{ $key }}" role="tabpanel"
+                                                    aria-labelledby="{{ $key }}-tab">
+                                                    @foreach ($wTimes as $wtime)
+                                                        <form class="get-working-time-form" action=""
+                                                            style="display: inline">
+                                                            <input type="hidden" name="date"
+                                                                value="{{ $key }}" />
+                                                            <input type="hidden" name="doctor_id"
+                                                                value="{{ $doctor->id }}" />
+                                                            @php
+                                                                $time = explode('/', $wtime)[0];
+                                                                $isBusy = !empty(explode('/', $wtime)[1]);
+                                                                $endTime = Carbon\Carbon::create($time);
+                                                                $endTime->addMinutes(30);
+                                                            @endphp
+                                                            <input type="hidden" name="time"
+                                                                value="{{ $time }}" />
+                                                            <input type="hidden" name="is_busy"
+                                                                value="{{ $isBusy }}" />
+                                                            <button
+                                                                class="working-time-button  mb-3 btn btn-lg {{ $isBusy ? 'btn-outline-warning' : 'btn-outline-primary' }}">{{ $time }}-{{ $endTime->isoFormat('HH:mm') }}</button>&emsp;
+                                                        </form>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                            @php
+                                                $flag++;
+                                            @endphp
                                         @endif
                                     @endforeach
                                     <div class="card schedule-card busy-card">
