@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 // Top 10 Favorite Doctor Statistic 
 Route::get("dashboard/top-ten-fav-doctor",[DashboardController::class,"topTenFavDoctor"])->name("dashboard.top-ten-fav-doctor");
+// Get Booking Number By Month 
+Route::get("dashboard/booking-number-by-month",[DashboardController::class,"bookingNumberByMonth"])->name("dashboard.booking-number-by-month");
+// Get Booking Status 
+Route::get("dashboard/booking-status-by-month",[DashboardController::class,"bookingStatusByMonth"])->name("dashboard.booking-status-by-month");
 
 Route::get("dashboard",[DashboardController::class,"index"])->name("dashboard");
 // Dashboard  ---------------------------------------
