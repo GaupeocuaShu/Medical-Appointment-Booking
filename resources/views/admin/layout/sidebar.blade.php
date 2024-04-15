@@ -8,11 +8,11 @@
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
-            <li class="dropdown ">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
+            <li class="dropdown {{ setActive(['admin.dashboard']) }}">
+                <a href="#" class="nav-link has-dropdown "><i class="fas fa-fire"></i><span>Dashboard</span></a>
                 <ul class="dropdown-menu">
-                    <li class=><a class="nav-link" href="index-0.html">General Dashboard</a></li>
-                    <li><a class="nav-link" href="index.html">Ecommerce Dashboard</a></li>
+                    <li class="{{ setActive(['admin.dashboard']) }}"><a class="nav-link "
+                            href="{{ route('admin.dashboard') }}">General Dashboard</a></li>
                 </ul>
             </li>
             <li

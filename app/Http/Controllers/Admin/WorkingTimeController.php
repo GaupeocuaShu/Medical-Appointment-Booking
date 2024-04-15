@@ -10,12 +10,13 @@ use Illuminate\Support\Carbon;
 class WorkingTimeController extends Controller
 {
     // Get working time
-    public function getWorkingTime(){
+    public function getWorkingTime(Request $request){ 
+        $doctorID = $request->doctor_id;
         $workingTimes = array();
         $timeStrings = array();
         $daysInMonth = Carbon::now()->daysInMonth;
         for($i = 1 ; $i <= $daysInMonth ; $i++){
-            $workingTimesFromDB = WorkingTime::where("select_id",$i)->get(); 
+            $workingTimesFromDB = WorkingTime::where("select_id",$i)->where('doctor_id',$doctorID)->get(); 
             if($workingTimesFromDB->count() > 0){
                 foreach ($workingTimesFromDB as $key => $wTime) {
                     $time = Carbon::create($wTime->working_time);
@@ -37,8 +38,9 @@ class WorkingTimeController extends Controller
     }
     // Update working time 
     public function updateWorkingTime(Request $request){
+        $doctorID = $request->doctor_id;
         $dateFromRes = Carbon::createFromDate(null,$request->month,$request->day);
-        $oldWTimes= WorkingTime::whereDate("working_time",$dateFromRes->toDateString())->get();
+        $oldWTimes= WorkingTime::where('doctor_id',$doctorID)->whereDate("working_time",$dateFromRes->toDateString())->get();
         if($oldWTimes->count() > 0 || empty($request->working_time)) self::deleteWorkingTime($oldWTimes);
         
         if(empty($request->working_time)) {

@@ -67,7 +67,7 @@ class WorkingtimeController extends Controller
         $timeStrings = array();
         $daysInMonth = Carbon::now()->daysInMonth;
         for($i = 1 ; $i <= $daysInMonth ; $i++){
-            $workingTimesFromDB = WorkingTime::where("select_id",$i)->get(); 
+            $workingTimesFromDB = WorkingTime::where("select_id",$i)->where('doctor_id',auth()->user()->doctor->id)->get(); 
             if($workingTimesFromDB->count() > 0){
                 foreach ($workingTimesFromDB as $key => $wTime) {
                     $time = Carbon::create($wTime->working_time);
@@ -90,7 +90,7 @@ class WorkingtimeController extends Controller
     // Update working time 
     public function updateWorkingTime(Request $request){
         $dateFromRes = Carbon::createFromDate(null,$request->month,$request->day);
-        $oldWTimes= WorkingTime::whereDate("working_time",$dateFromRes->toDateString())->get();
+        $oldWTimes= WorkingTime::where('doctor_id',auth()->user()->doctor->id)->whereDate("working_time",$dateFromRes->toDateString())->get();
         if($oldWTimes->count() > 0 || empty($request->working_time)) self::deleteWorkingTime($oldWTimes);
         
         if(empty($request->working_time)) {

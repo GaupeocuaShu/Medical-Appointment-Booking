@@ -1,3 +1,7 @@
+@php
+    $doctor_id = request()->id;
+@endphp
+
 @extends('admin.layout.master')
 @section('content')
     <section class="section">
@@ -89,6 +93,9 @@
             $.ajax({
                 type: "GET",
                 url: "{{ route('admin.working-time.get-working-time') }}",
+                data: {
+                    doctor_id: "{{ $doctor_id }}"
+                },
                 dataType: "JSON",
                 success: function(datas) {
                     $.each(datas, function(i, v) {

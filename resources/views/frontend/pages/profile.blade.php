@@ -41,7 +41,7 @@
                     @csrf
 
                     <h3 style="margin: 20px 0">Thay Đổi Thông Tin Cá Nhân</h3>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="overflow: hidden">
                         <img src="{{ asset($user->avatar) }}" class="profile-img mb-3 " style="border-radius: 100%"
                             width="200" alt="Avatar">
                         <input name="avatar" type="file" class="form-control-file mb-3">

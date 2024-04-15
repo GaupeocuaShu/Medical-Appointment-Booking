@@ -14,7 +14,11 @@ use App\Http\Controllers\Doctor\PostController;
 use App\Models\Workplace;
 use Illuminate\Support\Facades\Route;
 
-// Dashboard  ------------------------------------
+// Dashboard  ------------------------------------ 
+
+// Top 10 Favorite Doctor Statistic 
+Route::get("dashboard/top-ten-fav-doctor",[DashboardController::class,"topTenFavDoctor"])->name("dashboard.top-ten-fav-doctor");
+
 Route::get("dashboard",[DashboardController::class,"index"])->name("dashboard");
 // Dashboard  ---------------------------------------
 
