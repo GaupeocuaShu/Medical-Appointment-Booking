@@ -20,12 +20,13 @@
     <link rel="stylesheet" href="{{ asset('frontend/home/css/doctor-team.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/choose-date/style.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/booking-result/style.css') }}">
-
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     {{-- Ckeditor --}}
     <script src="{{ asset('vendor/ckeditor/build/ckeditor.js') }}"></script>
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/home/css/tooplate-style.css') }}">
-
+    @stack('styles')
 </head>
 
 
@@ -46,6 +47,8 @@
 
 
     <!-- SCRIPTS -->
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -68,6 +71,22 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
+    </script>
+
+
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
         });
     </script>
     @stack('scripts')

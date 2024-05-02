@@ -1,10 +1,12 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="index.html">Stisla</a>
+            <a href="/" class="navbar-brand" style="color: #a5c422;font-weight: 1000; ">
+                <i class="fa fa-meetup large-icon"></i>EDICLORD
+            </a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">St</a>
+            <a href="index.html" style="color: #a5c422;font-weight: 1000; "> <i class="fa fa-meetup large-icon"></i></a>
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>

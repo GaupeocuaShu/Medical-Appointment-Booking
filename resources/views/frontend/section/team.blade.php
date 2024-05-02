@@ -11,32 +11,56 @@
 
             <div class="clearfix"></div>
 
-            <div class="doctors-scroll">
-                @foreach ($doctors as $dr)
-                    <div class="doctor-item wow fadeInUp" data-wow-delay="0.4s">
-                        <img src="{{ asset($dr->user->avatar) }}" class="img-responsive" alt="Bác sĩ 1">
-                        <h4>{{ $dr->academic_degree }} {{ getFullName($dr->user) }}</h4>
-                        <h5>
-                            @foreach ($dr->specializations as $sp)
-                                {{ ' ' . $sp->name }}
-                                @if (!$loop->last)
-                                    ,
-                                @endif
-                            @endforeach
+            <div class="swiper mySwiper doctor-swiper">
+                <div class="swiper-wrapper">
+                    @foreach ($doctors as $dr)
+                        <div class="doctor-item wow fadeInUp swiper-slide doctor-swiper-slide" data-wow-delay="0.4s">
+                            <img src="{{ asset($dr->user->avatar) }}" class="img-responsive" alt="Bác sĩ 1">
+                            <h4>{{ $dr->academic_degree }} {{ getFullName($dr->user) }}</h4>
+                            <h5>
+                                @foreach ($dr->specializations as $sp)
+                                    {{ ' ' . $sp->name }}
+                                    @if (!$loop->last)
+                                        ,
+                                    @endif
+                                @endforeach
 
-                        </h5>
-                        <p>{{ $dr->workplace->name }}</p>
-                        <div><button data-url="{{ route('book-appointment', $dr->id) }}" class="book-appointment">Đặt
-                                lịch</button></div>
-                    </div>
-                @endforeach
-
+                            </h5>
+                            <p>{{ $dr->workplace->name }}</p>
+                            <div><button data-url="{{ route('book-appointment', $dr->id) }}"
+                                    class="book-appointment">Đặt
+                                    lịch</button>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
             </div>
         </div>
     </div>
 </section>
 
+@push('styles')
+    <style>
+        .doctor-swiper {
+            width: 100%;
+            height: 350px;
+        }
 
+        .doctor-swiper-slide {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100% !important;
+        }
+
+        .doctor-swiper-slide img {
+            display: block;
+            object-fit: cover;
+        }
+    </style>
+@endpush
 
 @push('scripts')
     <script>

@@ -74,7 +74,7 @@
                         <div class="card-header-action">
                             <form class="form-group d-flex ">
                                 <select class="form-control" name="month">
-                                    <option selected value="1">Jannuary</option>
+                                    <option value="1">Jannuary</option>
                                     <option value="2">February</option>
                                     <option value="3">March</option>
                                     <option value="4">April</option>
@@ -111,7 +111,7 @@
                         <div class="card-header-action">
                             <form class="form-group d-flex ">
                                 <select class="form-control" name="month">
-                                    <option selected value="1">Jannuary</option>
+                                    <option value="1">Jannuary</option>
                                     <option value="2">February</option>
                                     <option value="3">March</option>
                                     <option value="4">April</option>
@@ -149,7 +149,7 @@
                         <div class="card-header-action">
                             <form class="form-group d-flex ">
                                 <select class="form-control" name="month">
-                                    <option selected value="1">Jannuary</option>
+                                    <option value="1">Jannuary</option>
                                     <option value="2">February</option>
                                     <option value="3">March</option>
                                     <option value="4">April</option>
@@ -191,7 +191,10 @@
         $(document).ready(function() {
             function init() {
                 const currentMonth = new Date().getMonth() + 1;
+                $(`select option[value = "${currentMonth}"]`).attr('selected', true);
                 const data = `month=${currentMonth}`;
+
+
                 getTopTenFavDoctor(data);
                 getBookingNumberFollowByWeek(data);
                 getBookingStatusByMonth(data)
