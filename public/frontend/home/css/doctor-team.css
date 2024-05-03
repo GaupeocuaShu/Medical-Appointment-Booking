@@ -1162,3 +1162,33 @@ button:hover {
         letter-spacing: 1px;
     }
 }
+
+.doctor-list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.doctor-list li {
+    background: #fff;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.doctor-list img {
+    width: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.doctor-list h2 {
+    margin: 0 0 10px 0;
+}
+
+.doctor-list p {
+    margin: 5px 0;
+}

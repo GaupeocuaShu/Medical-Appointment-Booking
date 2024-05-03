@@ -14,5 +14,8 @@ class HomeController extends Controller
         return view("frontend.pages.home",compact("doctors","posts"));
     }
 
-    
+    public function doctorTeam(){
+        $doctors = Doctor::with("specializations", "user", "workplace")->take(10)->get();
+        return view("frontend.pages.doctor-list",compact("doctors"));
+    }
 }
