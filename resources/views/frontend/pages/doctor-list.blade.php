@@ -3,12 +3,18 @@
     <!-- Main container  -->
     <div class="container">
         <div class="row">
-            <h4>Danh sách các bác sĩ</h4>
+            <div style="margin-top:1rem ;display:flex; justify-content:space-between;align-items:center">
+                <h4>Danh sách các bác sĩ</h4>
+
+                <div><button onclick="window.location.href='/'">Trở lại</button></div>
+
+            </div>
             <div class="doctor-list">
                 <ul>
                     @foreach ($doctors as $dr)
                         <li class=" wow fadeInUp" data-wow-delay="0.4s">
-                            <img src="{{ asset($dr->user->avatar) }}" class="img-responsive" alt="Bác sĩ 1">
+                            <img src="{{ asset($dr->user->avatar) }}" style="border-radius: 100%" width="100" height="100"
+                                alt="Avatar">
                             <div class="doctor-list-infor">
                                 <h4>{{ $dr->academic_degree }} {{ getFullName($dr->user) }}</h4>
                                 <h5>
@@ -21,7 +27,8 @@
 
                                 </h5>
                                 <p>{{ $dr->workplace->name }}</p>
-                                <div><button data-url="{{ route('book-appointment', $dr->id) }}" class="book-appointment">Đặt
+                                <div><button data-url="{{ route('book-appointment', $dr->id) }}"
+                                        class="book-appointment">Đặt
                                         lịch</button>
                                 </div>
                             </div>

@@ -42,6 +42,12 @@
                         <p>Email:{{ $doctor->user->email }}</p>
                     </div>
                 </div>
+                <div style="margin-top:2rem;display:flex;justify-content:space-between">
+                    <button onclick="window.location.href='/'"><i class="fa-solid fa-house"></i>&ensp;Trang Chủ</button>
+                    <button onclick="window.location.href='{{ route('my-appointment') }}'"><i
+                            class="fa-regular fa-calendar-check"></i>&ensp;Lịch
+                        Hẹn</button>
+                </div>
             </div>
         </div>
     </div>

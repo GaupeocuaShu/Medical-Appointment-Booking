@@ -3,8 +3,10 @@
     <!-- NEWS DETAIL -->
     <section id="news-detail" data-stellar-background-ratio="0.5">
         <div class="container">
+            <div style="margin-bottom:2rem">
+                <button onclick="window.location.href='/'">Trở lại</button>
+            </div>
             <div class="row">
-
                 <div class="col-md-8 col-sm-7">
                     <!-- NEWS THUMB -->
                     <div class="news-detail-thumb">

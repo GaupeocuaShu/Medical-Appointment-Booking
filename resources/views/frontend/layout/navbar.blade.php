@@ -23,10 +23,8 @@
             <!-- MENU LINKS -->
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#top" class="smoothScroll">Đặt khám</a></li>
-                    <li><a href="#about" class="smoothScroll">Tư vấn trực tuyến</a></li>
-                    <li><a href="#news" class="smoothScroll">Tin Y tế</a></li>
-                    <li><a href="#google-map" class="smoothScroll">Dành cho nhân viên Y tế</a></li>
+                    <li><a href="{{ route('doctor-team') }}" class="smoothScroll">Đặt khám</a></li>
+                    <li><a href="{{ route('news') }}" class="smoothScroll">Tin Y tế</a></li>
                     @if (!Auth::check())
                         <li class="appointment-btn"><a href="{{ route('login') }}">Đăng nhập</a></li>
                     @else
@@ -54,18 +52,20 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="{{ route('profile') }}" class="profile"><i class="fa fa-user"></i>
-                                        My
-                                        Profile</a></li>
-                                <li><a href="#" class="messages"><i class="fa fa-envelope"></i> Messages</a></li>
-                                <li><a href="#" class="activity"><i class="fa fa-bell"></i> Activity</a></li>
-                                <li><a href="#" class="faq"><i class="fa fa-question-circle"></i> FAQ</a></li>
+                                        Tài Khoản</a></li>
+                                <li><a href="{{ route('my-appointment') }}" class="activity"><i class="fa fa-bell"></i>
+                                        Lịch
+                                        hẹn</a></li>
+                                <li><a href="#" class="faq"><i class="fa fa-question-circle"></i> Thắc Mắc</a>
+                                </li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST">
                                         @csrf
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
-                                            this.closest('form').submit();">
-                                            Logout
+                                            this.closest('form').submit();"><i
+                                                class="fa fa-sign-out"></i>
+                                            Đăng xuất
                                         </a>
                                     </form>
                                 </li>

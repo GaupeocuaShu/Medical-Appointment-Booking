@@ -1,18 +1,16 @@
 @php
     use Illuminate\Support\Carbon;
-
 @endphp
 
 <!-- NEWS -->
 <section id="news" data-stellar-background-ratio="2.5">
     <div class="container">
         <div class="row">
-
-            <div class="col-md-12 col-sm-12">
-                <!-- SECTION TITLE -->
-                <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
-                    <h2>Tin Y tế</h2>
+            <div class="col-md-12 col-sm-6" style="display: flex;justify-content:space-between;align-items:center">
+                <div class="about-info">
+                    <h2 class="wow fadeInUp" data-wow-delay="0.1s">Tin Tức</h2>
                 </div>
+                <button onclick="window.location.href='{{ route('news') }}'">Xem Thêm</button>
             </div>
 
             <div>

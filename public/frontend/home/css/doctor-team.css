@@ -1192,3 +1192,38 @@ button:hover {
 .doctor-list p {
     margin: 5px 0;
 }
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    margin-left: 10px;
+}
+th,
+td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+th {
+    background-color: #4caf50;
+    color: white;
+}
+.details-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.cancel-button {
+    background-color: #e42b12;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 16px;
+}

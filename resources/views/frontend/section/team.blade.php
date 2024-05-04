@@ -3,10 +3,11 @@
     <div class="container">
         <div class="row">
 
-            <div class="col-md-6 col-sm-6">
+            <div class="col-md-12 col-sm-6" style="display: flex;justify-content:space-between;align-items:center">
                 <div class="about-info">
                     <h2 class="wow fadeInUp" data-wow-delay="0.1s">Đặt khám bác sĩ</h2>
                 </div>
+                <button onclick="window.location.href='{{ route('doctor-team') }}'">Xem Thêm</button>
             </div>
 
             <div class="clearfix"></div>
@@ -15,7 +16,8 @@
                 <div class="swiper-wrapper">
                     @foreach ($doctors as $dr)
                         <div class="doctor-item wow fadeInUp swiper-slide doctor-swiper-slide" data-wow-delay="0.4s">
-                            <img src="{{ asset($dr->user->avatar) }}" class="img-responsive" alt="Bác sĩ 1">
+                            <img src="{{ asset($dr->user->avatar) }}" style="border-radius: 100%" width="100"
+                                height="100" alt="Avatar">
                             <h4>{{ $dr->academic_degree }} {{ getFullName($dr->user) }}</h4>
                             <h5>
                                 @foreach ($dr->specializations as $sp)

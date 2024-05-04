@@ -15,8 +15,9 @@ class WorkingTimeController extends Controller
         $workingTimes = array();
         $timeStrings = array();
         $daysInMonth = Carbon::now()->daysInMonth;
+        $currentMonth = Carbon::now()->month;
         for($i = 1 ; $i <= $daysInMonth ; $i++){
-            $workingTimesFromDB = WorkingTime::where("select_id",$i)->where('doctor_id',$doctorID)->get(); 
+            $workingTimesFromDB = WorkingTime::whereMonth("working_time",$currentMonth)->where("select_id",$i)->where('doctor_id',$doctorID)->get(); 
             if($workingTimesFromDB->count() > 0){
                 foreach ($workingTimesFromDB as $key => $wTime) {
                     $time = Carbon::create($wTime->working_time);
