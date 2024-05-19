@@ -5,7 +5,7 @@
 
             <div class="col-md-12 col-sm-6" style="display: flex;justify-content:space-between;align-items:center">
                 <div class="about-info">
-                    <h2 class="wow fadeInUp" data-wow-delay="0.1s">Đặt khám bác sĩ</h2>
+                    <h4 class="wow fadeInUp" data-wow-delay="0.1s">Đặt khám bác sĩ</h4>
                 </div>
                 <button onclick="window.location.href='{{ route('doctor-team') }}'">Xem Thêm</button>
             </div>

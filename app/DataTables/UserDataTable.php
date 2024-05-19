@@ -28,7 +28,7 @@ class UserDataTable extends DataTable
                 return $detailBtn.$deleteBtn;
             })
             ->addColumn("avatar",function($query){
-                return "<img class='rounded-circle' width='100' src='".asset($query->avatar)."' alt='$query->name'/>";
+                return "<img class='rounded-circle object-cover' width='100' height='100' src='".asset($query->avatar)."' alt='$query->name'/>";
             })
             ->addColumn("fullName",function($query){
                 return getFullName($query);

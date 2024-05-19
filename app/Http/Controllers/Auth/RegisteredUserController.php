@@ -35,6 +35,13 @@ class RegisteredUserController extends Controller
             'username' => ['required','string','unique:users,username'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ],[
+            'username.required' => "Tên người dùng không được trống", 
+            'username.unique' => "Tên người dùng đã tồn tại", 
+            'email.required' => "Email không được trống", 
+            'email.email' => "Email không hơp lệ", 
+            "password.required" => "Mật khẩu không được trống", 
+            'password.confirmed' => "Mật khẩu không khớp"
         ]);
 
         $user = User::create([

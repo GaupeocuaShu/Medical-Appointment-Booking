@@ -31,7 +31,14 @@ class LoginRequest extends FormRequest
             'password' => ['required', 'string'],
         ];
     }
-
+    public function messages()
+    {
+        return [
+            'email.required' => 'Email không được trống',
+            'email.email' => "Email không hợp lệ",
+            'password.required' => 'Mật khẩu không được trống', 
+        ];
+    }
     /**
      * Attempt to authenticate the request's credentials.
      *
@@ -45,7 +52,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => "Email hoặc mật khẩu không đúng",
             ]);
         }
 

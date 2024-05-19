@@ -61,7 +61,6 @@ class BookingAppointmentController extends Controller
        
 
         $jsonDatesFrWTime = json_encode($datesFrWTime);
-
         return view("frontend.pages.choose-date",compact("doctor","jsonDatesFrWTime"
         ,"currentYear","currentMonth")); 
     }

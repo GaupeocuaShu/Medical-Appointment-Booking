@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/',[HomeController::class,"index"]);
-
+Route::get("{id}/specialization-book",[HomeController::class,"specialzationBook"])->name('specialization-book');
+Route::get("/specialization-list",[HomeController::class,"specialzationList"])->name('specialization-list');
 Route::get("{id}/news-detail",[PostController::class,"show"])->name('news-detail');
 Route::get("/doctor-team",[HomeController::class,"doctorTeam"])->name('doctor-team');
 Route::get("/news",[HomeController::class,"newsList"])->name('news');
