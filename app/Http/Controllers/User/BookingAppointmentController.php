@@ -66,13 +66,17 @@ class BookingAppointmentController extends Controller
     }
 
     // Create appointment 
-    public function createAppointment(Request $request){ 
+    public function createAppointment(Request $request){   
+        $user = auth()->user();
+        if(empty($user->name) || empty($user->name) || empty($user->date_of_birth)) {
+            return response(['status' => "error",'message' =>"Thông tin cá nhân còn thiếu"]);
+        }
         try{
             [$year,$month,$day,$time] = explode("/",$request->appointment); 
             [$hour,$minute] = explode(":",$time);
             $appointment = Carbon::create($year,$month,$day,$hour,$minute); 
             $schedule = Schedule::create([
-                "user_id" => auth()->user()->id, 
+                "user_id" =>$user->id, 
                 "patient_id" => auth()->user()->patient->patient_id, 
                 "doctor_id" => $request->doctor_id, 
                 "appointment" => $appointment, 
@@ -85,7 +89,6 @@ class BookingAppointmentController extends Controller
                 "url" => route('booking-success',$schedule->id),
             ]);
         }catch (\Exception $e) {
-            // If an exception occurs (e.g., user not found), handle it here
             return response([
                 "status" => "fail", 
                 

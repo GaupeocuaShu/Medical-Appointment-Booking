@@ -25,7 +25,6 @@
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your email for registeration</span>
-                <input name="username" type="text" placeholder="Username" id="name">
                 <input name="email" type="email" placeholder="Email">
                 <input name="password" type="password" placeholder="Password">
                 <input name="password_confirmation" type="password" placeholder="Password">
@@ -38,7 +37,8 @@
 
                 <h1>Log In</h1>
                 <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="{{ route('google.redirect') }}" class="icon"><i
+                            class="fa-brands fa-google-plus-g"></i></a>
                     <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>

@@ -134,7 +134,13 @@
 
     <!-- Main container  -->
 @endsection
-
+@push('styles')
+    <style>
+        .swal2-popup {
+            font-size: 1.5rem !important;
+        }
+    </style>
+@endpush
 
 @push('scripts')
     <script>
@@ -270,7 +276,22 @@
                     success: function(response, textStatus, jqXHR) {
                         if (response.status == 'success') {
                             window.location.replace(response.url);
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Đặt Lịch Không Thành Công",
+                                text: response.message,
+                                footer: `<a href="{{ route('profile') }}">Bổ sung thông tin cá nhân</a>`
+                            });
+                            const link =
+                                `<h4 style='text-align:center'> Bệnh nhân cần bổ sung thêm thông tin cá nhân ! </h4>
+                               <h4 style='text-align:center'> <a style='color:#45A049' href="{{ route('profile') }}">Bổ sung</a></h4>`
+                            $(".appointment-form ").html(link);
+                            $(".time-container-background").show();
+
                         }
+                        $(".data-loader").addClass("hidden");
+
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.table(jqXHR)

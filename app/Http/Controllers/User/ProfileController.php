@@ -24,14 +24,17 @@ class ProfileController extends Controller
         $path = $this->updateImage($request,$user->avatar,"uploads","avatar");
         $request->validate([
             'first_name' => ['required'],
-            'middle_name' => ['required'],
             'last_name' => ['required'],
             'email' => ['email','required'], 
             'phone' => ['required'], 
-            'address' => ['required'],
-            'gender' => ['required'],
             'date_of_birth' => ['required'],
-
+        ],[
+            'first_name.required' => "Tên không được trống", 
+            'last_name.required' => "Tên họ không được trống", 
+            'email.required' => "Email không được trống", 
+            'email.email' => "Email không hợp lệ", 
+            'phone.required' => "Số điện thoại không được trống",
+            'date_of_birth.required' => "Ngày sinh không được trống", 
         ]);
         $user->update([
             "first_name" => $request->first_name, 

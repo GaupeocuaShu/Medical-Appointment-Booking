@@ -12,6 +12,10 @@
                 <table class="table">
                     <tbody>
                         <tr>
+                            <th>Mã bệnh nhân</th>
+                            <td>{{ $user->patient->patient_id }}</td>
+                        </tr>
+                        <tr>
                             <th>Tên Đầy Đủ</th>
                             <td>{{ getFullName($user) }}</td>
                         </tr>

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-
+use Illuminate\Support\Carbon;
 class RegisteredUserController extends Controller
 {
     /**
@@ -32,12 +32,9 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'username' => ['required','string','unique:users,username'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ],[
-            'username.required' => "Tên người dùng không được trống", 
-            'username.unique' => "Tên người dùng đã tồn tại", 
             'email.required' => "Email không được trống", 
             'email.email' => "Email không hơp lệ", 
             "password.required" => "Mật khẩu không được trống", 
@@ -45,14 +42,13 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
-            "username" => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
         $patient = Patient::create([
             "user_id" => $user->id,
         ]);
-        $patient->update(["patient_id" => $user->id."-".$user->phone."-".$patient->id]);
+        $patient->update(["patient_id" => $user->id.$user->phone.$patient->id.Carbon::now()->isoFormat("YYYYMMDDDD")]);
         event(new Registered($user));
         Auth::login($user);
         return redirect(RouteServiceProvider::HOME);
