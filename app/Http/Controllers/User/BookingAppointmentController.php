@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Mail\BookingSuccess;
 use Illuminate\Http\Request;
 use App\Models\Doctor;
 use App\Models\Schedule;
 use App\Models\WorkingTime;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class BookingAppointmentController extends Controller
 {
@@ -68,10 +70,10 @@ class BookingAppointmentController extends Controller
     // Create appointment 
     public function createAppointment(Request $request){   
         $user = auth()->user();
-        if(empty($user->name) || empty($user->name) || empty($user->date_of_birth)) {
+        if(empty($user->first_name) || empty($user->last_name) || empty($user->date_of_birth)) {
             return response(['status' => "error",'message' =>"Thông tin cá nhân còn thiếu"]);
         }
-        try{
+        else {
             [$year,$month,$day,$time] = explode("/",$request->appointment); 
             [$hour,$minute] = explode(":",$time);
             $appointment = Carbon::create($year,$month,$day,$hour,$minute); 
@@ -83,17 +85,15 @@ class BookingAppointmentController extends Controller
             ]);
             $workingTime = WorkingTime::where("doctor_id",$schedule->doctor_id)
             ->where("working_time",$schedule->appointment);
-            $workingTime->update(["is_selected" => true]);
+            $workingTime->update(["is_selected" => true]); 
+            Mail::send(new BookingSuccess( $schedule));
             return response([
                 "status" => "success", 
                 "url" => route('booking-success',$schedule->id),
             ]);
-        }catch (\Exception $e) {
-            return response([
-                "status" => "fail", 
-                
-            ]);
         }
+          
+        
     }
     // Return view booking success
     public function bookingSuccess(string $id){ 
