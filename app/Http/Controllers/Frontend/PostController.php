@@ -10,10 +10,12 @@ class PostController extends Controller
 {
     public function show($postID){ 
         $post = Post::findOrFail($postID); 
-        $creator = $post->user; 
+        $creator = $post->user;  
+        $postsByCreator = Post::where("user_id",$creator->id)->inRandomOrder()->limit(2)->get();
         return view("frontend.pages.news",[
             'post' => $post, 
             'creator' => $creator,
+            'postsByCreator' => $postsByCreator,
         ]); 
     }
 

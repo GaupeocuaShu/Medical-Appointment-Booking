@@ -49,8 +49,15 @@ class DoctorScheduleDataTable extends DataTable
                     return $showBtn.$updateBtn.$deleteBtn;
                 }
                 else {
+                    $currentDateTime = Carbon::now(); 
+                    $startTimeSchedule = Carbon::create($query->appointment);
+                    $endTimeSchedule = Carbon::create($query->appointment)->addMinutes(30);
+                    $processingBtn = "";   
+                    if($currentDateTime->betweenIncluded($startTimeSchedule,$endTimeSchedule)){ 
+                        $processingBtn ="<button class='btn btn-warning'>Processing</button>"; 
+                    }
                     $showBtn = "<a class='btn btn-info' href='".route("doctor.schedule.show",$query->id)."'><i class='fa-solid fa-circle-info'></i> </a> &emsp;"; 
-                    return $showBtn;
+                    return $showBtn.$processingBtn;
                 }
             })
             ->filterColumn("status", function ($query, $keyWord) {
